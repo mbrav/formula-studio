@@ -1,20 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Our books</title>
-    <style media="screen">
-      body {
-        font-family:  Helvetica
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>Our books!</h1>
+
+<head>
+  <meta charset="utf-8">
+  <title>Our books</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css" integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+</head>
+
+<body>
+  <main class="container py-5">
+
+    <h1>Our books!</h1>
+
+    {% for book in data.books %}
+
+    <div class="row" data-masonry='{"percentPosition": true }'>
+      <div class="col-sm-6 col-lg-4 mb-4">
+        <div class="card">
+          <svg class="bd-placeholder-img card-img-top" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>{{ book.title }}</title>
+            <rect width="100%" height="100%" fill="#868e96" /><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
+          </svg>
+
+          <div class="card-body">
+            <h5 class="card-title">{{ book.title }}</h5>
+            <p class="card-text">{{ book.description}}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="card">
+        <h2>{{ book.title }}</h2>
+        <div class="info">
+          <p>{{ book.description}}</p>
+          <b>Price</b>: {{ book.price }} <br>
+          <b>Availability</b>: {{ book.is_available }} <br>
+          <b>Cover</b>: {{ book.cover }} <br>
+          <img src="" alt="">
+        </div>
+      </div> -->
+
+      {% endfor %}
 
       <a href="list">See list of our books here!</a>
-    </main>
+  </main>
 
-  </body>
+</body>
+
 </html>

@@ -5,7 +5,11 @@ from .models import Book
 from django.shortcuts import render
 
 def main(request):
-    return render(request, 'book-main.html')
+    return render(request, 'book-main.html', {
+        'data': {
+            'books': Book.objects.all()
+        }
+    })
 
 class Another(View):
 
