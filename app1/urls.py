@@ -5,5 +5,4 @@ from .views import Another
 urlpatterns = [
     path('list', Another.as_view()),
     path('', views.main),
-    path('reviews', views.reviews),
 ]
