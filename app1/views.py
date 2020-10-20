@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
 from .models import Book
+from django.shortcuts import render
+
+def main(request):
+    return render(request, 'book-main.html')
 
 class Another(View):
 
@@ -14,9 +18,3 @@ class Another(View):
 
     def get(self, request):
         return HttpResponse(self.output)
-
-def main(equest):
-    return HttpResponse('Main book view')
-
-def reviews(request):
-    return HttpResponse('Books Reviews')
