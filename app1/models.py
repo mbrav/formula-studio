@@ -11,6 +11,8 @@ class Book(models.Model):
 
     title = models.CharField(max_length=36, blank=False, unique=True, default='')
 
+    author = models.CharField(max_length=36, blank=False, unique=True, default='')
+
     description = models.TextField(max_length=256, blank=True)
 
     price = models.DecimalField(default=0, decimal_places=2, max_digits=10, blank=True)
