@@ -15,8 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('library/', include('app1.urls')),
     path('admin/', admin.site.urls),
+    path('auth/', obtain_auth_token),
 ]
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES' : (
+#         'rest_framework.permissions.IsAuthenticated'
+#     )
+# }
