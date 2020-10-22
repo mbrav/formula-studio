@@ -1,26 +1,19 @@
 from rest_framework import serializers
-from .models import Book, BookNumber, Character, Author
+from .models import Member, Subscription, SubscriptionType
 
-class BookNumberSerializer(serializers.ModelSerializer):
+class SubscriptionTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = BookNumber
-        fields = ['id', 'sibn_10', 'sibn_13']
+        model = SubscriptionType
+        fields = ['id', 'name', 'price', 'subscription_type']
 
-class CharacterSerializer(serializers.ModelSerializer):
+class SubscriptionSerializer(serializers.ModelSerializer):
+    typeof = SubscriptionTypeSerializer(many = False)
     class Meta:
-        model = Character
-        fields = ['id', 'name']
+        model = Subscription
+        fields = ['id', 'registration_date','typeof', 'fee_status']
 
-class AuthorSerializer(serializers.ModelSerializer):
+class MemberSerializer(serializers.ModelSerializer):
+    subscriptions = SubscriptionSerializer(many = True)
     class Meta:
-        model = Author
-        fields = ['id', 'name', 'surname']
-
-class BookSerializer(serializers.ModelSerializer):
-    number = BookNumberSerializer(many = False)
-    characters = CharacterSerializer(many = True)
-    authors = AuthorSerializer(many = True)
-
-    class Meta:
-        model = Book
-        fields = ['id', 'title', 'description', 'price', 'number', 'characters', 'authors']
+        model = Member
+        fields = ['id', 'first_name', 'last_name', 'mobile_number', 'email', 'subscriptions', 'description', 'registered_on']
