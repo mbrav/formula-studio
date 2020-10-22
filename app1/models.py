@@ -1,39 +1,43 @@
 from django.db import models
+from django import forms
+
+FEE_STATUS = (
+    ('paid', 'Paid'),
+    ('pending', 'Pending'),
+)
 
 # Create your models here.
 
-class BookNumber(models.Model):
-    sibn_10 = models.CharField(max_length=10, blank=True)
-    sibn_13 = models.CharField(max_length=13, blank=True)
+class Member(models.Model):
+    first_name = models.CharField(('First Name'), max_length=50)
+    last_name = models.CharField(('Last Name'), max_length=50)
+    mobile_number = models.CharField(('Mobile Number'), max_length=10, unique=True)
+    email = models.EmailField(null=True, blank=True, unique=True)
+    description = models.CharField(('Description'), max_length=300, blank=True, default='None')
+    registered_on = models.DateField(auto_now_add=True)
 
+    image = models.ImageField(upload_to='img/member_profiles', blank=True)
 
-class Book(models.Model):
-    STATUS = (
-        (0,'Unknown'),
-        (1,'Processed'),
-        (2,'Paid')
-    )
+    def __str__(self):
+        return "%s %s" % (self.first_name, self.last_name)
 
-    title = models.CharField(max_length=36, blank=False, unique=True, default='')
-
-    description = models.TextField(max_length=256, blank=True)
-
+class SubscriptionType(models.Model):
+    name = models.CharField(max_length=30)
     price = models.DecimalField(default=0, decimal_places=2, max_digits=10, blank=True)
-    is_available= models.BooleanField(default=False)
+    description = models.CharField(('Description'), max_length=300, blank=True, default='None')
 
-    published = models.DateField(auto_now=True, blank=True, null=True)
-    is_published = models.BooleanField(default=False)
+    def __str__(self):
+        return "%s" % (self.name)
 
-    number = models.OneToOneField(BookNumber, null=True, blank=True, on_delete=models.CASCADE)
+class Subscription(models.Model):
+    registration_date = forms.DateField()
+    fee_status = forms.ChoiceField(choices=FEE_STATUS)
+    description = models.CharField(('Description'), max_length=300, blank=True, default='None')
 
-    # cover = models.FileField(upload_to='covers/')
-    cover = models.ImageField(upload_to='covers/', blank=True)
+    member = models.ForeignKey(Member, on_delete = models.CASCADE, related_name='subscriptions')
+    subscription_type = models.ManyToManyField(SubscriptionType, related_name='type')
 
-class Character(models.Model):
-    name = models.CharField(max_length=30)
-    book = models.ForeignKey(Book, on_delete = models.CASCADE, related_name='characters')
+    def __str__(self):
+        return "%s" % (self.id)
 
-class Author(models.Model):
-    name = models.CharField(max_length=30)
-    surname = models.CharField(max_length=30)
-    books = models.ManyToManyField(Book, related_name='authors')
+
