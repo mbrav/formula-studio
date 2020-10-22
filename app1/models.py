@@ -6,6 +6,7 @@ class BookNumber(models.Model):
     sibn_10 = models.CharField(max_length=10, blank=True)
     sibn_13 = models.CharField(max_length=13, blank=True)
 
+
 class Book(models.Model):
     STATUS = (
         (0,'Unknown'),
@@ -29,3 +30,7 @@ class Book(models.Model):
 
     # cover = models.FileField(upload_to='covers/')
     cover = models.ImageField(upload_to='covers/', blank=True)
+
+class Character(models.Model):
+    name = models.CharField(max_length=30)
+    book = models.ForeignKey(Book, on_delete = models.CASCADE, related_name='characters')
