@@ -4,17 +4,16 @@ from .models import Member, Subscription, SubscriptionType
 class SubscriptionTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubscriptionType
-        fields = ['id', 'name', 'price', 'description', 'subscription_type']
+        fields = ['id', 'name', 'price', 'description']
 
 class SubscriptionSerializer(serializers.ModelSerializer):
-    subscription_type = SubscriptionTypeSerializer(many = False)
     class Meta:
         model = Subscription
         fields = ['id', 
-                  'member', 
                 #   'registration_date',
-                  'subscription_type', 
-                  'fee_status']
+                  'member', 
+                #   'fee_status',
+                  'subscription_type']
 
 class MemberSerializer(serializers.ModelSerializer):
     subscriptions = SubscriptionSerializer(many = True)
@@ -25,6 +24,6 @@ class MemberSerializer(serializers.ModelSerializer):
                   'last_name', 
                   'mobile_number', 
                   'email',
-                  'subscriptions',
                 #   'registered_on',
+                  'subscriptions',
                   'description']

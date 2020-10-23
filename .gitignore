@@ -61,4 +61,4 @@ env.bak/
 venv.bak/
 
 img/*
-migrations/*
+app1/migrations/*.py
