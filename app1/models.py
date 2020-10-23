@@ -21,23 +21,24 @@ class Member(models.Model):
     def __str__(self):
         return "%s %s" % (self.first_name, self.last_name)
 
-class SubscriptionType(models.Model):
-    name = models.CharField(max_length=30)
-    price = models.DecimalField(default=0, decimal_places=2, max_digits=10, blank=True)
-    description = models.CharField(('Description'), max_length=300, blank=True, default='None')
-
-    def __str__(self):
-        return "%s" % (self.name)
-
 class Subscription(models.Model):
     registration_date = forms.DateField()
     fee_status = forms.ChoiceField(choices=FEE_STATUS)
     description = models.CharField(('Description'), max_length=300, blank=True, default='None')
 
     member = models.ForeignKey(Member, on_delete = models.CASCADE, related_name='subscriptions')
-    subscription_type = models.ManyToManyField(SubscriptionType, related_name='type')
 
     def __str__(self):
         return "%s" % (self.id)
+
+class SubscriptionType(models.Model):
+    name = models.CharField(max_length=30)
+    price = models.DecimalField(default=0, decimal_places=2, max_digits=10, blank=True)
+    description = models.CharField(('Description'), max_length=300, blank=True, default='None')
+
+    subscription = models.ManyToManyField(Subscription, related_name='subscription_type')
+
+    def __str__(self):
+        return "%s" % (self.name)
 
 
