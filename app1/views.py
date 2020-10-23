@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views import View
 from .models import Member, Subscription, SubscriptionType
 from rest_framework import viewsets
-from .serializers import MemberSerializer
+from .serializers import MemberSerializer, SubscriptionSerializer, SubscriptionTypeSerializer
 
 class MemberViewSet(viewsets.ModelViewSet):
     serializer_class = MemberSerializer

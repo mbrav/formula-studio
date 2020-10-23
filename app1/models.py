@@ -21,24 +21,33 @@ class Member(models.Model):
     def __str__(self):
         return "%s %s" % (self.first_name, self.last_name)
 
-class Subscription(models.Model):
-    registration_date = forms.DateField()
-    fee_status = forms.ChoiceField(choices=FEE_STATUS)
-    description = models.CharField(('Description'), max_length=300, blank=True, default='None')
-
-    member = models.ForeignKey(Member, on_delete = models.CASCADE, related_name='subscriptions')
-
-    def __str__(self):
-        return "%s" % (self.id)
-
 class SubscriptionType(models.Model):
     name = models.CharField(max_length=30)
     price = models.DecimalField(default=0, decimal_places=2, max_digits=10, blank=True)
     description = models.CharField(('Description'), max_length=300, blank=True, default='None')
 
-    subscription = models.ManyToManyField(Subscription, related_name='subscription_type')
-
     def __str__(self):
         return "%s" % (self.name)
+
+class Subscription(models.Model):
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular subscription")
+    registration_date = forms.DateField()
+    fee_status = forms.ChoiceField(choices=FEE_STATUS)
+    description = models.CharField(('Description'), max_length=300, blank=True, default='None')
+
+    member = models.ForeignKey('Member', 
+                               on_delete = models.CASCADE, 
+                               related_name='subscriptions',
+                               help_text='Member to which this subscription is assigned')
+
+    subscription_type = models.ForeignKey('SubscriptionType', 
+                                          on_delete=models.CASCADE,
+                                          blank=False,
+                                          related_name='subscription_type',
+                                          help_text='Select a subscription type') 
+
+    def __str__(self):
+        return "%s (%s)" % (self.id, self.registration_date)
+
 
 
