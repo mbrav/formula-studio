@@ -52,9 +52,22 @@ class Payment(models.Model):
     def __str__(self):
         return "#%s – (%s)" % (self.id, self.payment_date)
 
+class SingleVisit(models.Model):
+    name = models.CharField(max_length=30)
+    
+    payment = models.OneToOneField(Payment, null=False, blank=False, on_delete=models.CASCADE)
+
+    member = models.ForeignKey('Member', 
+        on_delete = models.CASCADE,
+        related_name='single_visits',
+        help_text='Member to which this single visit is assigned'
+    )
+
+    def __str__(self):
+        return "%s" % (self.name)
+
 class SubscriptionType(models.Model):
     name = models.CharField(max_length=30)
-    price = models.DecimalField(default=0, decimal_places=2, max_digits=10, blank=True)
     description = models.CharField(('Subscription'), max_length=300, blank=True, default='description...')
 
     def __str__(self):

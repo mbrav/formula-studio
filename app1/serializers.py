@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Member, Payment, Subscription, SubscriptionType
+from .models import Member, Payment, SingleVisit, Subscription, SubscriptionType
 
 class SubscriptionTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,13 +18,22 @@ class PaymentSerializer(serializers.ModelSerializer):
             'member'
         ]
 
+class SingleVisitSerializer(serializers.ModelSerializer):
+    payment = PaymentSerializer(many = False)
+    class Meta:
+        model = SingleVisit
+        fields = ['id',
+            'name',
+            'payment',
+            'member',
+        ]
 
 class SubscriptionSerializer(serializers.ModelSerializer):
     payment = PaymentSerializer(many = False)
     class Meta:
         model = Subscription
         fields = ['id',
-            #   'registration_date',
+            'registration_date',
             'member',
             'subscription_type',
             'payment'
@@ -32,6 +41,7 @@ class SubscriptionSerializer(serializers.ModelSerializer):
 
 class MemberSerializer(serializers.ModelSerializer):
     subscriptions = SubscriptionSerializer(many = True)
+    single_visits = SingleVisitSerializer(many = True)
     class Meta:
         model = Member
         fields = ['id', 
@@ -39,7 +49,8 @@ class MemberSerializer(serializers.ModelSerializer):
             'last_name',
             'mobile_number',
             'email',
-            #   'registered_on',
-            'subscriptions',
+            'registered_on',
             'description',
+            'single_visits',
+            'subscriptions',
         ]
