@@ -1,4 +1,4 @@
-"""first URL Configuration
+"""app URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -18,7 +18,7 @@ from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
-    path('members/', include('app1.urls')),
+    path('api/', include('api.urls')),
     path('admin/', admin.site.urls),
     path('auth/', obtain_auth_token),
 ]
