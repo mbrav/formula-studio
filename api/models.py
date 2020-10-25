@@ -57,6 +57,8 @@ class Payment(models.Model):
         help_text='Payments that member has made'
     )
 
+    # single_visit = models.ForeignKey('SingleVisit', related_name='single_visit', on_delete=models.CASCADE)
+
     class Meta:
         verbose_name = 'Payment'
         verbose_name_plural = 'Payments'
@@ -84,15 +86,8 @@ class SubscriptionType(models.Model):
 class Subscription(Payment):
     registration_date = models.DateField(auto_now_add=True)
     description = models.CharField(('Description'), max_length=300, blank=True, default='description...')
-
+    subscription_type = models.OneToOneField('SubscriptionType', null=False, blank=False, on_delete=models.CASCADE)
     # TODO: ADD SUBSCRIPTION EXTENSION MODEL
-
-    # THIS MUST BE ONE TO ONE
-    subscription_type = models.ForeignKey('SubscriptionType',
-        on_delete=models.CASCADE,
-        blank=False,
-        related_name='subscription_type',
-        help_text='Select a subscription type')
 
     class Meta:
          verbose_name = 'Subscription'
