@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import Member, Payment, SingleVisit, Subscription, SubscriptionType
+from .models import Member, Payment, SingleVisit, Subscription, SubscriptionCategory
 
-class SubscriptionTypeSerializer(serializers.ModelSerializer):
+class SubscriptionCategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = SubscriptionType
+        model = SubscriptionCategory
         fields = ['id', 'name', 'price', 'description']
 
 class PaymentSerializer(serializers.ModelSerializer):
