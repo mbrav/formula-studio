@@ -46,7 +46,9 @@ class SubscriptionSerializer(serializers.ModelSerializer):
             'member',
             'subscription_type',
             'payment',
+            'visits_total',
             'visits_made',
+            'visits_remaining',
             'visits'
         ]
 

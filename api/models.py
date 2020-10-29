@@ -121,8 +121,14 @@ class Subscription(models.Model):
     subscription_type = models.ForeignKey('SubscriptionCategory', related_name='subscriptions', on_delete=models.CASCADE)
     payment = models.ForeignKey('Payment', related_name='subscription', on_delete=models.CASCADE)
 
+    def visits_total(self):
+        return self.subscription_type.number_of_visits
+
     def visits_made(self):
         return self.visits.all().count()
+
+    def visits_remaining(self):
+        return (self.subscription_type.number_of_visits - self.visits.all().count())
 
     member = models.ForeignKey('Member', 
         on_delete = models.CASCADE,
