@@ -183,8 +183,8 @@ class ItemPurchase(models.Model):
     # item_purchse_payment = models.OneToOneField('Payment', null=False, blank=False, on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = 'Visit'
-        verbose_name_plural = 'Visits'
+        verbose_name = 'Item Purchase'
+        verbose_name_plural = 'Item Purchases'
 
     def __str__(self):
         return "%s" % (self.first_name, self.last.name)
