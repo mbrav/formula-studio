@@ -18,9 +18,9 @@ class MemberAdmin(admin.ModelAdmin):
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('member', 'payment_amount', 'payment_type', 'payment_paid', 'payment_date')
-    list_filter = ('payment_type', 'payment_paid')
-    list_editable = ['payment_type', 'payment_paid']
+    list_display = ('member', 'amount', 'method', 'paid', 'date')
+    list_filter = ('method', 'paid')
+    list_editable = ['method', 'paid']
 
 admin.site.register(GroupCategory)
 admin.site.register(Group)

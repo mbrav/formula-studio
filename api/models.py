@@ -32,21 +32,21 @@ class Payment(models.Model):
         ('2', 'Card'),
     )
 
-    payment_date = models.DateField()
+    date = models.DateField()
 
-    payment_amount = models.DecimalField(
+    amount = models.DecimalField(
         default=0, 
         decimal_places=2, 
         max_digits=10, 
         blank=True
     )
 
-    payment_type = models.CharField(
+    method = models.CharField(
         max_length=2,
         choices=PAYMENT_TYPE, 
     )
 
-    payment_paid = models.CharField(
+    paid = models.CharField(
         max_length=2,
         choices=PAYMENT_PAID, 
     )
@@ -60,10 +60,10 @@ class Payment(models.Model):
     class Meta:
         verbose_name = 'Payment'
         verbose_name_plural = 'Payments'
-        ordering = ('-payment_date',)
+        ordering = ('-date',)
 
     def __str__(self):
-        return "#%s – (%s)" % (self.id, self.payment_date)
+        return "#%s – (%s)" % (self.id, self.date)
 
 # TODO: ADD ENCASHMENT MODEL
 
