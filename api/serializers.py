@@ -23,7 +23,7 @@ class SingleVisitSerializer(serializers.ModelSerializer):
     class Meta:
         model = SingleVisit
         fields = ['id',
-            'name',
+            'date',
             'payment',
             'member',
         ]
