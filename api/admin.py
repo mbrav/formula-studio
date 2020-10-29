@@ -8,27 +8,64 @@ admin.site.site_title = "Formula Studio"
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ('last_name', 'first_name',  'mobile_number', 'email')
-    search_fields = ('last_name', 'first_name')
+    list_display = (
+        'last_name', 
+        'first_name', 
+        'mobile_number', 
+        'email'
+    )
+
+    search_fields = (
+        'last_name', 
+        'first_name'
+    )
+
     # list_filter = ('status', 'created', 'publish', 'author')
     # prepopulated_fields = {'slug': ('title',)}
     # raw_id_fields = ('author',)
     # date_hierarchy = 'publish'
-    ordering = ('last_name', 'first_name')
+
+    ordering = (
+        'last_name', 
+        'first_name'
+    )
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('member', 'amount', 'method', 'paid', 'date')
-    list_filter = ('method', 'paid')
-    list_editable = ['method', 'paid']
+    list_display = (
+        'member', 
+        'amount', 
+        'method', 
+        'paid', 
+        'date'
+    )
+
+    list_filter = (
+        'method', 
+        'paid'
+    )
+
+    list_editable = [
+        'method', 
+        'paid'
+    ]
 
 admin.site.register(GroupCategory)
 admin.site.register(Group)
 
 @admin.register(SubscriptionCategory)
 class SubscriptionCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'number_of_visits', 'validity_in_days', 'price')
-    ordering = ('price', 'name')
+    list_display = (
+        'name', 
+        'number_of_visits', 
+        'validity_in_days', 
+        'price'
+    )
+
+    ordering = (
+        'price', 
+        'name'
+    )
 
 admin.site.register(Subscription)
 admin.site.register(SubscriptionVisit)

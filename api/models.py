@@ -4,14 +4,43 @@ from django import forms
 # Create your models here.
 
 class Member(models.Model):
-    first_name = models.CharField(('First Name'), max_length=50)
-    last_name = models.CharField(('Last Name'), max_length=50)
-    mobile_number = models.CharField(('Mobile Number'), max_length=11, unique=True, blank=False)
-    email = models.EmailField(null=True, blank=True, unique=True)
-    description = models.CharField(('Description'), max_length=300, blank=True)
-    registered_on = models.DateField(auto_now_add=True)
+    first_name = models.CharField(
+        ('First Name'), 
+        max_length=50
+    )
 
-    image = models.ImageField(upload_to='img/member_profiles', blank=True)
+    last_name = models.CharField(
+        ('Last Name'), 
+        max_length=50
+    )
+
+    mobile_number = models.CharField(
+        ('Mobile Number'), 
+        max_length=11, 
+        unique=True, 
+        blank=False
+    )
+
+    email = models.EmailField(
+        null=True, 
+        blank=True, 
+        unique=True
+    )
+
+    description = models.CharField(
+        ('Description'), 
+        max_length=300, 
+        blank=True
+    )
+
+    registered_on = models.DateField(
+        auto_now_add=True
+    )
+
+    image = models.ImageField(
+        upload_to='img/member_profiles', 
+        blank=True
+    )
 
     class Meta:
         verbose_name = 'Member'
@@ -71,7 +100,11 @@ class Payment(models.Model):
 
 class GroupCategory(models.Model):
     name = models.CharField(max_length=30)
-    description = models.CharField(('Description'), max_length=300, blank=True)
+    description = models.CharField(
+        ('Description'), 
+        max_length=300, 
+        blank=True
+    )
 
     class Meta:
         verbose_name = 'Group Category'
@@ -83,7 +116,11 @@ class GroupCategory(models.Model):
 class Group(models.Model):
     name = models.CharField(max_length=30)
     date = models.DateTimeField()
-    category = models.ForeignKey('GroupCategory', related_name='group', on_delete=models.CASCADE)
+    category = models.ForeignKey(
+        'GroupCategory', 
+        related_name='group', 
+        on_delete=models.CASCADE
+    )
 
     # TODO: ADD INSTRUCTOR / USER (?) MODEL
 
@@ -96,15 +133,27 @@ class Group(models.Model):
     
 class SubscriptionCategory(models.Model):
     name = models.CharField(max_length=30)
-    description = models.CharField(('Description'), max_length=300, blank=True)
+    description = models.CharField(
+        ('Description'), 
+        max_length=300, 
+        blank=True
+    )
+
     price = models.DecimalField(
         default=0, 
         decimal_places=2, 
         max_digits=10, 
         blank=True
     )
-    number_of_visits = models.PositiveIntegerField(blank=False, null=False)
-    validity_in_days = models.PositiveIntegerField(blank=False, null=False)
+    number_of_visits = models.PositiveIntegerField(
+        blank=False, 
+        null=False
+    )
+
+    validity_in_days = models.PositiveIntegerField(
+        blank=False, 
+        null=False
+    )
 
     class Meta:
         verbose_name = 'Subscription Category'
@@ -117,9 +166,24 @@ class SubscriptionCategory(models.Model):
 
 class Subscription(models.Model):
     registration_date = models.DateField()
-    description = models.CharField(('Description'), max_length=300, blank=True, default='')
-    subscription_type = models.ForeignKey('SubscriptionCategory', related_name='subscriptions', on_delete=models.CASCADE)
-    payment = models.ForeignKey('Payment', related_name='subscription', on_delete=models.CASCADE)
+    description = models.CharField(
+        ('Description'), 
+        max_length=300, 
+        blank=True, 
+        default=''
+    )
+
+    subscription_type = models.ForeignKey(
+        'SubscriptionCategory', 
+        related_name='subscriptions', 
+        on_delete=models.CASCADE
+    )
+
+    payment = models.ForeignKey(
+        'Payment', 
+        related_name='subscription', 
+        on_delete=models.CASCADE
+    )
 
     def visits_total(self):
         return self.subscription_type.number_of_visits
@@ -128,7 +192,10 @@ class Subscription(models.Model):
         return self.visits.all().count()
 
     def visits_remaining(self):
-        return (self.subscription_type.number_of_visits - self.visits.all().count())
+        return (
+            self.subscription_type.number_of_visits 
+            - self.visits.all().count()
+        )
 
     member = models.ForeignKey('Member', 
         on_delete = models.CASCADE,
@@ -146,13 +213,18 @@ class Subscription(models.Model):
 
 class SubscriptionVisit(models.Model):
     date = models.DateField()
-    group = models.ForeignKey('Group', related_name='subscription_visits', on_delete=models.CASCADE)
+    group = models.ForeignKey(
+        'Group', 
+        related_name='subscription_visits', 
+        on_delete=models.CASCADE
+    )
 
     subscription = models.ForeignKey('Subscription',
         on_delete=models.CASCADE,
         blank=False,
         related_name='visits',
-        help_text='A visit based on a subscription')
+        help_text='A visit based on a subscription'
+    )
 
     class Meta:
         verbose_name = 'Subscription Visit'
@@ -163,8 +235,17 @@ class SubscriptionVisit(models.Model):
 
 class SingleVisit(models.Model):
     date = models.DateField()
-    payment = models.ForeignKey('Payment', related_name='single_visit', on_delete=models.CASCADE)
-    group = models.ForeignKey('Group', related_name='single_visits', on_delete=models.CASCADE)
+    payment = models.ForeignKey(
+        'Payment', 
+        related_name='single_visit', 
+        on_delete=models.CASCADE
+    )
+
+    group = models.ForeignKey(
+        'Group', 
+        related_name='single_visits', 
+        on_delete=models.CASCADE
+    )
 
     member = models.ForeignKey('Member', 
         on_delete = models.CASCADE,
@@ -183,7 +264,11 @@ class SingleVisit(models.Model):
 class ItemPurchase(models.Model):
     date = models.DateField()
     name = models.CharField(max_length=30)
-    payment = models.ForeignKey('Payment', related_name='item_purchases', on_delete=models.CASCADE)
+    payment = models.ForeignKey(
+        'Payment', 
+        related_name='item_purchases', 
+        on_delete=models.CASCADE
+    )
 
     member = models.ForeignKey('Member', 
         on_delete = models.CASCADE,
