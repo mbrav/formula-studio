@@ -119,8 +119,32 @@ class Group(models.Model):
     category = models.ForeignKey(
         'GroupCategory', 
         related_name='group', 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        help_text='Category of the group'
     )
+    
+    def revenue_amount(self):
+        money = 0
+        
+        # Get average price of subscription visit by dividing
+        # its price by number of visits to get average 
+        for sub_v in self.subscription_visits.all():
+            money += (sub_v.subscription.payment.amount /
+                sub_v.subscription.subscription_category.number_of_visits)
+
+        for single_v in self.single_visits.all():
+            money += single_v.payment.amount
+        return money 
+    
+    def visits_total(self):
+        vis = 0
+
+        for sub_v in self.subscription_visits.all():
+            vis += 1
+
+        for single_v in self.single_visits.all():
+            vis += 1
+        return vis
 
     # TODO: ADD INSTRUCTOR / USER (?) MODEL
 
@@ -145,6 +169,7 @@ class SubscriptionCategory(models.Model):
         max_digits=10, 
         blank=True
     )
+
     number_of_visits = models.PositiveIntegerField(
         blank=False, 
         null=False
@@ -154,6 +179,9 @@ class SubscriptionCategory(models.Model):
         blank=False, 
         null=False
     )
+
+    def total_count(self):
+        return self.subscriptions.all().count()
 
     class Meta:
         verbose_name = 'Subscription Category'
@@ -173,7 +201,7 @@ class Subscription(models.Model):
         default=''
     )
 
-    subscription_type = models.ForeignKey(
+    subscription_category = models.ForeignKey(
         'SubscriptionCategory', 
         related_name='subscriptions', 
         on_delete=models.CASCADE
@@ -186,15 +214,15 @@ class Subscription(models.Model):
     )
 
     def visits_total(self):
-        return self.subscription_type.number_of_visits
+        return self.subscription_category.number_of_visits
 
     def visits_made(self):
-        return self.visits.all().count()
+        return self.subscription_visits.all().count()
 
     def visits_remaining(self):
         return (
-            self.subscription_type.number_of_visits 
-            - self.visits.all().count()
+            self.subscription_category.number_of_visits 
+            - self.subscription_visits.all().count()
         )
 
     member = models.ForeignKey('Member', 
@@ -222,7 +250,7 @@ class SubscriptionVisit(models.Model):
     subscription = models.ForeignKey('Subscription',
         on_delete=models.CASCADE,
         blank=False,
-        related_name='visits',
+        related_name='subscription_visits',
         help_text='A visit based on a subscription'
     )
 
@@ -238,13 +266,15 @@ class SingleVisit(models.Model):
     payment = models.ForeignKey(
         'Payment', 
         related_name='single_visit', 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        help_text='Group to which a single visit occured'
     )
 
     group = models.ForeignKey(
         'Group', 
         related_name='single_visits', 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        help_text='Single visits that the group has'
     )
 
     member = models.ForeignKey('Member', 
