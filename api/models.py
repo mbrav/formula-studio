@@ -43,12 +43,14 @@ class Payment(models.Model):
 
     method = models.CharField(
         max_length=2,
-        choices=PAYMENT_TYPE, 
+        choices=PAYMENT_TYPE,
+        default="0" 
     )
 
     paid = models.CharField(
         max_length=2,
-        choices=PAYMENT_PAID, 
+        choices=PAYMENT_PAID,
+        default="1"
     )
 
     member = models.ForeignKey('Member', 
@@ -119,6 +121,9 @@ class Subscription(models.Model):
     subscription_type = models.ForeignKey('SubscriptionCategory', related_name='subscriptions', on_delete=models.CASCADE)
     payment = models.ForeignKey('Payment', related_name='subscription', on_delete=models.CASCADE)
 
+    def visits_made(self):
+        return self.visits.all().count()
+
     member = models.ForeignKey('Member', 
         on_delete = models.CASCADE,
         related_name='subscriptions',
@@ -131,7 +136,7 @@ class Subscription(models.Model):
          ordering = ('-registration_date',)
 
     def __str__(self):
-        return "#%s – (%s)" % (self.id, self.registration_date)
+        return "%s – (%s)" % (self.member, self.registration_date)
 
 class SubscriptionVisit(models.Model):
     date = models.DateField()
