@@ -27,9 +27,8 @@ class Member(models.Model):
         unique=True
     )
 
-    description = models.CharField(
+    description = models.TextField(
         ('Description'), 
-        max_length=300, 
         blank=True
     )
 
@@ -42,9 +41,33 @@ class Member(models.Model):
         blank=True
     )
 
+    # Count revenue stats for the member
+    def revenue_amount(self):
+        money = 0
+
+        # Count subs
+        if self.subscriptions.all():
+            for sub_v in self.subscriptions.all():
+                if not sub_v.payment.writen_off:
+                    money += sub_v.payment.amount
+
+        # Count single visits 
+        if self.single_visits.all():
+            for single_v in self.single_visits.all():
+                if not single_v.payment.writen_off:
+                    money += single_v.payment.amount
+            
+        # Count item purchases 
+        if self.item_purchases.all():
+            for item_p in self.item_purchases.all():
+                if not item_p.payment.writen_off:
+                    money += item_p.payment.amount
+        return money 
+
     class Meta:
         verbose_name = 'Member'
         verbose_name_plural = 'Members'
+        ordering = ('first_name','last_name')
 
     def __str__(self):
         return "%s %s" % (self.first_name, self.last_name)
@@ -62,6 +85,11 @@ class Payment(models.Model):
     )
 
     date = models.DateField()
+
+    writen_off = models.BooleanField(
+        default=False,
+        help_text="Set whether the payment should be written off from finances"
+    ) 
 
     amount = models.DecimalField(
         default=0, 
@@ -100,9 +128,8 @@ class Payment(models.Model):
 
 class GroupCategory(models.Model):
     name = models.CharField(max_length=30)
-    description = models.CharField(
+    description = models.TextField(
         ('Description'), 
-        max_length=300, 
         blank=True
     )
 
@@ -156,10 +183,13 @@ class Group(models.Model):
         return "%s" % (self.name)
     
 class SubscriptionCategory(models.Model):
-    name = models.CharField(max_length=30)
-    description = models.CharField(
+    name = models.CharField(
+        max_length=30,
+        unique=True, 
+    )
+
+    description = models.TextField(
         ('Description'), 
-        max_length=300, 
         blank=True
     )
 
@@ -180,12 +210,16 @@ class SubscriptionCategory(models.Model):
         null=False
     )
 
+    def avg_visit_price(self):
+        return int(self.price / self.number_of_visits)
+
     def total_count(self):
         return self.subscriptions.all().count()
 
     class Meta:
         verbose_name = 'Subscription Category'
         verbose_name_plural = 'Subscription Categories'
+        ordering = ('price',)
 
     def __str__(self):
         return "%s" % (self.name)
@@ -194,11 +228,9 @@ class SubscriptionCategory(models.Model):
 
 class Subscription(models.Model):
     registration_date = models.DateField()
-    description = models.CharField(
+    description = models.TextField(
         ('Description'), 
-        max_length=300, 
         blank=True, 
-        default=''
     )
 
     subscription_category = models.ForeignKey(
@@ -221,8 +253,8 @@ class Subscription(models.Model):
 
     def visits_remaining(self):
         return (
-            self.subscription_category.number_of_visits 
-            - self.subscription_visits.all().count()
+            self.subscription_category.number_of_visits - 
+            self.subscription_visits.all().count()
         )
 
     member = models.ForeignKey('Member', 
@@ -257,6 +289,7 @@ class SubscriptionVisit(models.Model):
     class Meta:
         verbose_name = 'Subscription Visit'
         verbose_name_plural = 'subscription Visits'
+        ordering = ('-date',)
 
     def __str__(self):
         return "%s" % (self.group)
@@ -291,9 +324,38 @@ class SingleVisit(models.Model):
     def __str__(self):
         return "%s" % (self.payment)
 
+class ItemCategory(models.Model):
+    name = models.CharField(max_length=30)
+
+    price = models.DecimalField(
+        default=0, 
+        decimal_places=2, 
+        max_digits=10, 
+        blank=True
+    )
+
+    description = models.TextField(
+        ('Description'), 
+        blank=True
+    )
+
+    class Meta:
+        verbose_name = 'Item Category'
+        verbose_name_plural = 'Item Categories'
+        ordering = ('price',)
+
+    def __str__(self):
+        return "%s" % (self.name)
+
 class ItemPurchase(models.Model):
     date = models.DateField()
-    name = models.CharField(max_length=30)
+    
+    item_category = models.ForeignKey(
+        'ItemCategory', 
+        related_name='items', 
+        on_delete=models.CASCADE
+    )
+    
     payment = models.ForeignKey(
         'Payment', 
         related_name='item_purchases', 
@@ -305,8 +367,6 @@ class ItemPurchase(models.Model):
         related_name='item_purchases',
         help_text='Item purchases that the member has made'
     )
-
-    # item_purchse_payment = models.OneToOneField('Payment', null=False, blank=False, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Item Purchase'

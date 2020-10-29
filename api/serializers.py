@@ -15,7 +15,7 @@ class PaymentSerializer(serializers.ModelSerializer):
             'amount', 
             'method', 
             'paid',
-            'member'
+            'writen_off',
         ]
 
 class SingleVisitSerializer(serializers.ModelSerializer):
@@ -25,7 +25,6 @@ class SingleVisitSerializer(serializers.ModelSerializer):
         fields = ['id',
             'date',
             'payment',
-            'member',
         ]
 
 class SubscriptionVisitSerializer(serializers.ModelSerializer):
@@ -43,7 +42,6 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         model = Subscription
         fields = ['id',
             'registration_date',
-            'member',
             'subscription_category',
             'payment',
             'visits_total',
@@ -64,6 +62,7 @@ class MemberSerializer(serializers.ModelSerializer):
             'email',
             'registered_on',
             'description',
+            'revenue_amount',
             'single_visits',
             'subscriptions',
         ]

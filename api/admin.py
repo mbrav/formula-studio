@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import Member, Payment, GroupCategory, Group, SubscriptionCategory, Subscription, SubscriptionVisit, SingleVisit, ItemPurchase
+from .models import Member, Payment, GroupCategory, Group, SubscriptionCategory, Subscription, SubscriptionVisit, SingleVisit, ItemCategory, ItemPurchase
 
 admin.site.site_header = "Formula Studio"
 admin.site.site_title = "Formula Studio"
+admin.site.index_title = "The best CMS ever written!"
 
 # Register your models here.
 
@@ -37,21 +38,36 @@ class PaymentAdmin(admin.ModelAdmin):
         'amount', 
         'method', 
         'paid', 
-        'date'
+        'date',
+        'writen_off',
     )
 
     list_filter = (
         'method', 
-        'paid'
+        'paid',
     )
 
     list_editable = [
         'method', 
-        'paid'
+        'paid',
+        'writen_off',
     ]
 
 admin.site.register(GroupCategory)
-admin.site.register(Group)
+
+@admin.register(Group)
+class GroupAdmin(admin.ModelAdmin):
+    list_display = (
+        'name', 
+        'category', 
+        'visits_total', 
+        'revenue_amount', 
+        'date', 
+    )
+
+    ordering = (
+        '-date', 
+    )
 
 @admin.register(SubscriptionCategory)
 class SubscriptionCategoryAdmin(admin.ModelAdmin):
@@ -59,7 +75,8 @@ class SubscriptionCategoryAdmin(admin.ModelAdmin):
         'name', 
         'number_of_visits', 
         'validity_in_days', 
-        'price'
+        'avg_visit_price',
+        'price',
     )
 
     ordering = (
@@ -70,4 +87,17 @@ class SubscriptionCategoryAdmin(admin.ModelAdmin):
 admin.site.register(Subscription)
 admin.site.register(SubscriptionVisit)
 admin.site.register(SingleVisit)
+
+@admin.register(ItemCategory)
+class ItemCategoryAdmin(admin.ModelAdmin):
+    list_display = (
+        'name', 
+        'price',
+    )
+
+    ordering = (
+        'price', 
+        'name',
+    )
+
 admin.site.register(ItemPurchase)
