@@ -1,11 +1,10 @@
 from django import forms
 from django.db import models
-from django.conf import settings
-from django.contrib.auth.models import User
+# from django.conf import settings
 
 # Create your models here.
 
-class Member(models.Model):
+class UserProfile(models.Model):
     first_name = models.CharField(
         ('First Name'), 
         max_length=50
@@ -43,6 +42,25 @@ class Member(models.Model):
         blank=True
     )
 
+    class Meta:
+        verbose_name = 'User Profile'
+        verbose_name_plural = 'User Profiles'
+        ordering = ('last_name','first_name')
+        indexes = [
+            models.Index(fields=['last_name', 'first_name']),
+            models.Index(fields=['first_name'], name='first_name_idx'),
+        ]
+
+    def __str__(self):
+        return "%s %s" % (self.first_name, self.last_name)
+
+class Instructor(UserProfile):
+    class Meta:
+        verbose_name = 'Instructor'
+        verbose_name_plural = 'Instructors'
+
+class Member(UserProfile):
+
     # Count revenue stats for the member
     def revenue_amount(self):
         money = 0
@@ -70,14 +88,6 @@ class Member(models.Model):
     class Meta:
         verbose_name = 'Member'
         verbose_name_plural = 'Members'
-        ordering = ('last_name','first_name')
-        indexes = [
-            models.Index(fields=['last_name', 'first_name']),
-            models.Index(fields=['first_name'], name='first_name_idx'),
-        ]
-
-    def __str__(self):
-        return "%s %s" % (self.first_name, self.last_name)
 
 class Payment(models.Model):
     PAYMENT_PAID = (
@@ -155,8 +165,10 @@ class Group(models.Model):
     date = models.DateTimeField()
 
     instructor = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        'Instructor', 
+        related_name='groups', 
         on_delete=models.CASCADE,
+        help_text='Groups that the instructor leads',
     )
 
     category = models.ForeignKey(
@@ -247,7 +259,6 @@ class Subscription(models.Model):
     description = models.CharField(
         ('Description'),
         max_length=300,
-        # blank=True, 
     )
 
     subscription_category = models.ForeignKey(
@@ -264,6 +275,12 @@ class Subscription(models.Model):
         # unique=True,
     )
 
+    member = models.ForeignKey('Member', 
+        on_delete = models.CASCADE,
+        related_name='subscriptions',
+        help_text='Subscriptions that the member has'
+    )
+
     def visits_total(self):
         return self.subscription_category.number_of_visits
 
@@ -275,12 +292,6 @@ class Subscription(models.Model):
             self.subscription_category.number_of_visits - 
             self.subscription_visits.all().count()
         )
-
-    member = models.ForeignKey('Member', 
-        on_delete = models.CASCADE,
-        related_name='subscriptions',
-        help_text='Subscriptions that the member has'
-    )
 
     class Meta:
          verbose_name = 'Subscription'

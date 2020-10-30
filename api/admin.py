@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Member, Payment, GroupCategory, Group, SubscriptionCategory, Subscription, SubscriptionVisit, SingleVisit, ItemCategory, ItemPurchase
+from .models import Instructor, Member, Payment, GroupCategory, Group, SubscriptionCategory, Subscription, SubscriptionVisit, SingleVisit, ItemCategory, ItemPurchase
 
 admin.site.site_header = "Formula Studio"
 admin.site.site_title = "Formula Studio"
@@ -23,6 +23,28 @@ class ItemPurchaseInline(admin.TabularInline):
     max_num=3
 
 # Register your models here.
+
+@admin.register(Instructor)
+class Instructor(admin.ModelAdmin):
+    list_per_page = 200
+    list_display = (
+        'last_name', 
+        'first_name', 
+        'mobile_number', 
+        'email',
+    )
+
+    search_fields = (
+        'last_name', 
+        'first_name'
+    )
+
+    ordering = (
+        'last_name', 
+        'first_name'
+    )
+
+    # readonly_fields = ['revenue_amount','visits_total']
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
