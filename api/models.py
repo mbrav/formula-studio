@@ -44,25 +44,26 @@ class Member(models.Model):
     # Count revenue stats for the member
     def revenue_amount(self):
         money = 0
-
         # Count subs
         if self.subscriptions.all():
             for sub_v in self.subscriptions.all():
                 if not sub_v.payment.writen_off:
                     money += sub_v.payment.amount
-
         # Count single visits 
         if self.single_visits.all():
             for single_v in self.single_visits.all():
                 if not single_v.payment.writen_off:
-                    money += single_v.payment.amount
-            
+                    money += single_v.payment.amount   
         # Count item purchases 
         if self.item_purchases.all():
             for item_p in self.item_purchases.all():
                 if not item_p.payment.writen_off:
                     money += item_p.payment.amount
-        return money 
+        return money
+
+    # Count class visit stats for the member
+    def visits_total(self):
+        return self.subscription_visits.all() + self.single_visits.all()
 
     class Meta:
         verbose_name = 'Member'
@@ -159,7 +160,6 @@ class Group(models.Model):
         for sub_v in self.subscription_visits.all():
             money += (sub_v.subscription.payment.amount /
                 sub_v.subscription.subscription_category.number_of_visits)
-
         for single_v in self.single_visits.all():
             money += single_v.payment.amount
         return money 

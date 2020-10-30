@@ -5,10 +5,15 @@ admin.site.site_header = "Formula Studio"
 admin.site.site_title = "Formula Studio"
 admin.site.index_title = "The best CMS ever written!"
 
+
+# For filtering admin dropdown menu 
+# https://books.agiliq.com/projects/django-admin-cookbook/en/latest/filter_fk_dropdown.html
+
 # Register your models here.
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
+    list_per_page = 200
     list_display = (
         'last_name', 
         'first_name', 
@@ -31,6 +36,8 @@ class MemberAdmin(admin.ModelAdmin):
         'first_name'
     )
 
+    readonly_fields = ['revenue_amount','visits_total']
+
 #Inline elements 
 
 # class SingleVisitInline(admin.StackedInline):
@@ -49,6 +56,8 @@ class ItemPurchaseInline(admin.TabularInline):
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
     list_filter = ("member", "paid", "writen_off",)
+    date_hierarchy = 'date'
+    list_per_page = 200
     list_display = (
         'member', 
         'amount', 
@@ -75,6 +84,8 @@ class PaymentAdmin(admin.ModelAdmin):
         ItemPurchaseInline,
     ]
 
+    raw_id_fields = ['member']
+    
 admin.site.register(GroupCategory)
 
 @admin.register(Group)
@@ -90,6 +101,8 @@ class GroupAdmin(admin.ModelAdmin):
     ordering = (
         '-date', 
     )
+
+    readonly_fields = ['visits_total']
 
 @admin.register(SubscriptionCategory)
 class SubscriptionCategoryAdmin(admin.ModelAdmin):
@@ -111,6 +124,8 @@ admin.site.register(SubscriptionVisit)
 
 @admin.register(SingleVisit)
 class SingleVisitAdmin(admin.ModelAdmin):
+    list_per_page = 200
+    date_hierarchy = 'date'
     list_display = (
         'date', 
         'member',
@@ -122,6 +137,7 @@ class SingleVisitAdmin(admin.ModelAdmin):
         'group',
     )
 
+    raw_id_fields = ['member']
 
 @admin.register(ItemCategory)
 class ItemCategoryAdmin(admin.ModelAdmin):
