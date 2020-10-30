@@ -124,6 +124,7 @@ class Payment(models.Model):
     def __str__(self):
         return "#%s – (%s)" % (self.id, self.date)
 
+# TODO: ADD STAFF ENCASHMENT MODEL
 # TODO: ADD ENCASHMENT MODEL
 
 class GroupCategory(models.Model):
@@ -228,8 +229,9 @@ class SubscriptionCategory(models.Model):
 
 class Subscription(models.Model):
     registration_date = models.DateField()
-    description = models.TextField(
-        ('Description'), 
+    description = models.CharField(
+        ('Description'),
+        max_length=300,
         blank=True, 
     )
 

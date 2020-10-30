@@ -31,8 +31,24 @@ class MemberAdmin(admin.ModelAdmin):
         'first_name'
     )
 
+#Inline elements 
+
+# class SingleVisitInline(admin.StackedInline):
+class SingleVisitInline(admin.TabularInline):
+    model = SingleVisit
+    max_num=1
+
+class SubscriptionInline(admin.TabularInline):
+    model = Subscription
+    max_num=1
+    
+class ItemPurchaseInline(admin.TabularInline):
+    model = ItemPurchase
+    max_num=3
+
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
+    list_filter = ("member", "paid", "writen_off",)
     list_display = (
         'member', 
         'amount', 
@@ -51,6 +67,12 @@ class PaymentAdmin(admin.ModelAdmin):
         'method', 
         'paid',
         'writen_off',
+    ]
+
+    inlines = [
+        SingleVisitInline,
+        SubscriptionInline,
+        ItemPurchaseInline,
     ]
 
 admin.site.register(GroupCategory)
@@ -86,7 +108,20 @@ class SubscriptionCategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(Subscription)
 admin.site.register(SubscriptionVisit)
-admin.site.register(SingleVisit)
+
+@admin.register(SingleVisit)
+class SingleVisitAdmin(admin.ModelAdmin):
+    list_display = (
+        'date', 
+        'member',
+        'group',
+    )
+
+    ordering = (
+        'date',
+        'group',
+    )
+
 
 @admin.register(ItemCategory)
 class ItemCategoryAdmin(admin.ModelAdmin):
