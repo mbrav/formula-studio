@@ -5,9 +5,22 @@ admin.site.site_header = "Formula Studio"
 admin.site.site_title = "Formula Studio"
 admin.site.index_title = "The best CMS ever written!"
 
-
 # For filtering admin dropdown menu 
 # https://books.agiliq.com/projects/django-admin-cookbook/en/latest/filter_fk_dropdown.html
+
+#Inline elements 
+# class SingleVisitInline(admin.StackedInline):
+class SingleVisitInline(admin.TabularInline):
+    model = SingleVisit
+    max_num=1
+
+class SubscriptionInline(admin.TabularInline):
+    model = Subscription
+    max_num=1
+    
+class ItemPurchaseInline(admin.TabularInline):
+    model = ItemPurchase
+    max_num=3
 
 # Register your models here.
 
@@ -37,22 +50,7 @@ class MemberAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = ['revenue_amount','visits_total']
-
-#Inline elements 
-
-# class SingleVisitInline(admin.StackedInline):
-class SingleVisitInline(admin.TabularInline):
-    model = SingleVisit
-    max_num=1
-
-class SubscriptionInline(admin.TabularInline):
-    model = Subscription
-    max_num=1
     
-class ItemPurchaseInline(admin.TabularInline):
-    model = ItemPurchase
-    max_num=3
-
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
     list_filter = ("member", "paid", "writen_off",)
@@ -119,8 +117,36 @@ class SubscriptionCategoryAdmin(admin.ModelAdmin):
         'name'
     )
 
-admin.site.register(Subscription)
-admin.site.register(SubscriptionVisit)
+@admin.register(Subscription)
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_per_page = 200
+    date_hierarchy = 'registration_date'
+    list_display = (
+        'member',
+        'registration_date', 
+        'visits_made',
+        'visits_remaining',
+        'visits_total',
+    )
+
+    ordering = (
+        'registration_date',
+    )
+
+    readonly_fields = ['visits_made', 'visits_remaining', 'visits_total',]
+
+@admin.register(SubscriptionVisit)
+class SubscriptionVisitAdmin(admin.ModelAdmin):
+    list_per_page = 200
+    date_hierarchy = 'date'
+    list_display = (
+        'subscription',
+        'date', 
+    )
+
+    ordering = (
+        'date',
+    )
 
 @admin.register(SingleVisit)
 class SingleVisitAdmin(admin.ModelAdmin):

@@ -1,5 +1,7 @@
-from django.db import models
 from django import forms
+from django.db import models
+from django.conf import settings
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -118,7 +120,8 @@ class Payment(models.Model):
     member = models.ForeignKey('Member', 
         on_delete = models.CASCADE,
         related_name='payments',
-        help_text='Payments that member has made'
+        help_text='Payments that member has made',
+        # unique=True,
     )
 
     class Meta:
@@ -150,11 +153,18 @@ class GroupCategory(models.Model):
 class Group(models.Model):
     name = models.CharField(max_length=30)
     date = models.DateTimeField()
+
+    instructor = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
     category = models.ForeignKey(
         'GroupCategory', 
         related_name='group', 
         on_delete=models.CASCADE,
-        help_text='Category of the group'
+        help_text='Category of the group',
+        # unique=True,
     )
     
     def revenue_amount(self):
@@ -237,19 +247,21 @@ class Subscription(models.Model):
     description = models.CharField(
         ('Description'),
         max_length=300,
-        blank=True, 
+        # blank=True, 
     )
 
     subscription_category = models.ForeignKey(
         'SubscriptionCategory', 
         related_name='subscriptions', 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        # unique=True,
     )
 
     payment = models.ForeignKey(
         'Payment', 
         related_name='subscription', 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        # unique=True,
     )
 
     def visits_total(self):
@@ -283,7 +295,8 @@ class SubscriptionVisit(models.Model):
     group = models.ForeignKey(
         'Group', 
         related_name='subscription_visits', 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        # unique=True,
     )
 
     subscription = models.ForeignKey('Subscription',
@@ -307,20 +320,22 @@ class SingleVisit(models.Model):
         'Payment', 
         related_name='single_visit', 
         on_delete=models.CASCADE,
-        help_text='Group to which a single visit occured'
+        help_text='Group to which a single visit occured',
     )
 
     group = models.ForeignKey(
         'Group', 
         related_name='single_visits', 
         on_delete=models.CASCADE,
-        help_text='Single visits that the group has'
+        help_text='Single visits that the group has',
+        # unique=True,
     )
 
     member = models.ForeignKey('Member', 
         on_delete = models.CASCADE,
         related_name='single_visits',
-        help_text='Single visits that the member has made'
+        help_text='Single visits that the member has made',
+        # unique=True,
     )
 
     class Meta:
@@ -360,19 +375,22 @@ class ItemPurchase(models.Model):
     item_category = models.ForeignKey(
         'ItemCategory', 
         related_name='items', 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        # unique=True,
     )
     
     payment = models.ForeignKey(
         'Payment', 
         related_name='item_purchases', 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        # unique=True,
     )
 
     member = models.ForeignKey('Member', 
         on_delete = models.CASCADE,
         related_name='item_purchases',
-        help_text='Item purchases that the member has made'
+        help_text='Item purchases that the member has made',
+        # unique=True,
     )
 
     class Meta:
