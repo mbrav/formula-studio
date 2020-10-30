@@ -18,8 +18,10 @@ class UserProfile(models.Model):
     mobile_number = models.CharField(
         ('Mobile Number'), 
         max_length=11, 
-        unique=True, 
-        blank=False
+        # unique=True, 
+        # blank=false,
+        unique=False, 
+        blank=True,
     )
 
     email = models.EmailField(
@@ -55,13 +57,7 @@ class UserProfile(models.Model):
         return "%s %s" % (self.first_name, self.last_name)
 
 class Instructor(UserProfile):
-    class Meta:
-        verbose_name = 'Instructor'
-        verbose_name_plural = 'Instructors'
 
-class Member(UserProfile):
-
-    # Count revenue stats for the member
     def revenue_amount(self):
         money = 0
         # Count subs
@@ -79,6 +75,28 @@ class Member(UserProfile):
             for item_p in self.item_purchases.all():
                 if not item_p.payment.writen_off:
                     money += item_p.payment.amount
+        return money
+    
+    class Meta:
+        verbose_name = 'Instructor'
+        verbose_name_plural = 'Instructors'
+
+class Member(UserProfile):
+
+    # Count revenue stats for the member
+    def revenue_amount(self):
+        money = 0
+        if self.groups.all():
+            # Count subs
+            for group in self.groups.all():
+                for visit in group.subscription_visits.all():
+                    if not visit.subscription.payment.writen_off:
+                        money += visit.subscription.payment.amount
+            # Count single visits 
+            if self.groups.single_visits.all():
+                for single_v in self.groups.single_visits.all():
+                    if not single_v.payment.writen_off:
+                        money += single_v.payment.amount   
         return money
 
     # Count class visit stats for the member
@@ -409,7 +427,7 @@ class ItemPurchase(models.Model):
         verbose_name_plural = 'Item Purchases'
 
     def __str__(self):
-        return "%s" % (self.first_name, self.last.name)
+        return "%s – (%s)" % (self.item_category, self.date)
 
 
 
