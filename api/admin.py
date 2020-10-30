@@ -18,7 +18,7 @@ class MemberAdmin(admin.ModelAdmin):
         'last_name', 
         'first_name', 
         'mobile_number', 
-        'email'
+        'email',
     )
 
     search_fields = (

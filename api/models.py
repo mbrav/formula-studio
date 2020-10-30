@@ -63,12 +63,13 @@ class Member(models.Model):
 
     # Count class visit stats for the member
     def visits_total(self):
-        return self.subscription_visits.all() + self.single_visits.all()
+        return self.subscription_visits.all().count() + self.single_visits.all().count()
 
     class Meta:
         verbose_name = 'Member'
         verbose_name_plural = 'Members'
         ordering = ('first_name','last_name')
+        unique_together = [['first_name', 'last_name']]
 
     def __str__(self):
         return "%s %s" % (self.first_name, self.last_name)
@@ -121,6 +122,7 @@ class Payment(models.Model):
         verbose_name = 'Payment'
         verbose_name_plural = 'Payments'
         ordering = ('-date',)
+        get_latest_by = 'date'
 
     def __str__(self):
         return "#%s – (%s)" % (self.id, self.date)
