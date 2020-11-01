@@ -224,9 +224,10 @@ class Group(models.Model):
     class Meta:
         verbose_name = 'Group'
         verbose_name_plural = 'Groups'
+        ordering = ('-date',)
 
     def __str__(self):
-        return "%s" % (self.name)
+        return "%s (%s)" % (self.name, self.date)
     
 class SubscriptionCategory(models.Model):
     name = models.CharField(
@@ -277,6 +278,7 @@ class Subscription(models.Model):
     description = models.CharField(
         ('Description'),
         max_length=300,
+        blank=True,
     )
 
     subscription_category = models.ForeignKey(

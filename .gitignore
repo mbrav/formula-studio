@@ -74,6 +74,9 @@ img/*
 models.dot
 models.pdf
 
+# Stuff
+scripts
+
 # Jupyter notebook
 jupyter-notes
 

@@ -9,7 +9,10 @@ admin.site.index_title = "The best CMS ever written!"
 # https://books.agiliq.com/projects/django-admin-cookbook/en/latest/filter_fk_dropdown.html
 
 #Inline elements 
-# class SingleVisitInline(admin.StackedInline):
+# class MemberInline(admin.StackedInline):
+#     model = Member
+#     max_num=1
+
 class SingleVisitInline(admin.TabularInline):
     model = SingleVisit
     max_num=1
@@ -72,7 +75,7 @@ class MemberAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = ['revenue_amount','visits_total']
-    
+
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
     list_filter = ("member", "paid", "writen_off",)
