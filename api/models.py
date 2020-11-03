@@ -18,30 +18,26 @@ class UserProfile(models.Model):
     mobile_number = models.CharField(
         ('Mobile Number'), 
         max_length=11, 
-        # unique=True, 
-        # blank=false,
-        unique=False, 
-        blank=True,
+        unique=True,
     )
 
     email = models.EmailField(
         null=True, 
-        blank=True, 
-        unique=True
+        blank=True,
     )
 
     description = models.TextField(
         ('Description'), 
-        blank=True
+        blank=True,
     )
 
     registered_on = models.DateField(
-        auto_now_add=True
+        auto_now_add=True,
     )
 
     image = models.ImageField(
         upload_to='img/member_profiles', 
-        blank=True
+        blank=True,
     )
 
     class Meta:
@@ -80,6 +76,7 @@ class Instructor(UserProfile):
     class Meta:
         verbose_name = 'Instructor'
         verbose_name_plural = 'Instructors'
+        ordering = ('last_name','first_name')
 
 class Member(UserProfile):
 
@@ -106,6 +103,7 @@ class Member(UserProfile):
     class Meta:
         verbose_name = 'Member'
         verbose_name_plural = 'Members'
+        ordering = ('last_name','first_name')
 
 class Payment(models.Model):
     PAYMENT_PAID = (
@@ -130,19 +128,19 @@ class Payment(models.Model):
         default=0, 
         decimal_places=2, 
         max_digits=10, 
-        blank=True
+        blank=True,
     )
 
     method = models.CharField(
         max_length=2,
         choices=PAYMENT_TYPE,
-        default="0" 
+        default="0",
     )
 
     paid = models.CharField(
         max_length=2,
         choices=PAYMENT_PAID,
-        default="1"
+        default="1",
     )
 
     member = models.ForeignKey('Member', 
@@ -168,12 +166,16 @@ class GroupCategory(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField(
         ('Description'), 
-        blank=True
+        blank=True,
     )
 
     class Meta:
         verbose_name = 'Group Category'
         verbose_name_plural = 'Group Categories'
+        ordering = ('name',)
+
+    def number_of_groups(self):
+        return self.group.all().count()
 
     def __str__(self):
         return "%s" % (self.name)
@@ -181,6 +183,13 @@ class GroupCategory(models.Model):
 class Group(models.Model):
     name = models.CharField(max_length=30)
     date = models.DateTimeField()
+
+    google_cal_id = models.CharField(
+        max_length=30, 
+        default="",
+        blank=True,
+        null=True,
+        )
 
     instructor = models.ForeignKey(
         'Instructor', 
@@ -237,24 +246,24 @@ class SubscriptionCategory(models.Model):
 
     description = models.TextField(
         ('Description'), 
-        blank=True
+        blank=True,
     )
 
     price = models.DecimalField(
         default=0, 
         decimal_places=2, 
         max_digits=10, 
-        blank=True
+        blank=True,
     )
 
     number_of_visits = models.PositiveIntegerField(
         blank=False, 
-        null=False
+        null=False,
     )
 
     validity_in_days = models.PositiveIntegerField(
         blank=False, 
-        null=False
+        null=False,
     )
 
     def avg_visit_price(self):
@@ -298,7 +307,7 @@ class Subscription(models.Model):
     member = models.ForeignKey('Member', 
         on_delete = models.CASCADE,
         related_name='subscriptions',
-        help_text='Subscriptions that the member has'
+        help_text='Subscriptions that the member has',
     )
 
     def visits_total(self):
@@ -334,7 +343,7 @@ class SubscriptionVisit(models.Model):
         on_delete=models.CASCADE,
         blank=False,
         related_name='subscription_visits',
-        help_text='A visit based on a subscription'
+        help_text='A visit based on a subscription',
     )
 
     class Meta:
@@ -384,12 +393,12 @@ class ItemCategory(models.Model):
         default=0, 
         decimal_places=2, 
         max_digits=10, 
-        blank=True
+        blank=True,
     )
 
     description = models.TextField(
         ('Description'), 
-        blank=True
+        blank=True,
     )
 
     class Meta:

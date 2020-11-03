@@ -29,12 +29,13 @@ class ItemPurchaseInline(admin.TabularInline):
 
 @admin.register(Instructor)
 class Instructor(admin.ModelAdmin):
-    list_per_page = 200
+    list_per_page = 100
     list_display = (
         'last_name', 
         'first_name', 
         'mobile_number', 
         'email',
+        'id'
     )
 
     search_fields = (
@@ -51,12 +52,13 @@ class Instructor(admin.ModelAdmin):
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    list_per_page = 200
+    list_per_page = 100
     list_display = (
         'last_name', 
         'first_name', 
         'mobile_number', 
         'email',
+        'id'
     )
 
     search_fields = (
@@ -80,7 +82,7 @@ class MemberAdmin(admin.ModelAdmin):
 class PaymentAdmin(admin.ModelAdmin):
     list_filter = ("member", "paid", "writen_off",)
     date_hierarchy = 'date'
-    list_per_page = 200
+    list_per_page = 100
     list_display = (
         'member', 
         'amount', 
@@ -88,6 +90,7 @@ class PaymentAdmin(admin.ModelAdmin):
         'paid', 
         'date',
         'writen_off',
+        'id',
     )
 
     list_filter = (
@@ -108,18 +111,42 @@ class PaymentAdmin(admin.ModelAdmin):
     ]
 
     raw_id_fields = ['member']
-    
-admin.site.register(GroupCategory)
+
+@admin.register(GroupCategory)
+class GroupCategoryAdmin(admin.ModelAdmin):
+    list_per_page = 50
+    list_display = (
+        'name', 
+        'number_of_groups', 
+    )
+
+    search_fields = (
+        'name', 
+    )
+
+    ordering = (
+        'name', 
+    )
+
+    readonly_fields = ['number_of_groups']
 
 @admin.register(Group)
 class GroupAdmin(admin.ModelAdmin):
+    list_per_page = 50
     list_display = (
+        'date',
         'name', 
-        'category', 
+        'category',
+        'instructor', 
         'visits_total', 
         'revenue_amount', 
-        'date', 
+        'id',
     )
+
+    list_editable = [
+        'category', 
+        'instructor',
+    ]
 
     ordering = (
         '-date', 
@@ -135,16 +162,17 @@ class SubscriptionCategoryAdmin(admin.ModelAdmin):
         'validity_in_days', 
         'avg_visit_price',
         'price',
+        'id',
     )
 
     ordering = (
         'price', 
-        'name'
+        'name',
     )
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_per_page = 200
+    list_per_page = 50
     date_hierarchy = 'registration_date'
     list_display = (
         'member',
@@ -152,6 +180,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
         'visits_made',
         'visits_remaining',
         'visits_total',
+        'id',
     )
 
     ordering = (
@@ -162,11 +191,12 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
 @admin.register(SubscriptionVisit)
 class SubscriptionVisitAdmin(admin.ModelAdmin):
-    list_per_page = 200
+    list_per_page = 100
     date_hierarchy = 'date'
     list_display = (
         'subscription',
-        'date', 
+        'date',
+        'id',
     )
 
     ordering = (
@@ -175,12 +205,13 @@ class SubscriptionVisitAdmin(admin.ModelAdmin):
 
 @admin.register(SingleVisit)
 class SingleVisitAdmin(admin.ModelAdmin):
-    list_per_page = 200
+    list_per_page = 100
     date_hierarchy = 'date'
     list_display = (
         'date', 
         'member',
         'group',
+        'id',
     )
 
     ordering = (
@@ -192,9 +223,11 @@ class SingleVisitAdmin(admin.ModelAdmin):
 
 @admin.register(ItemCategory)
 class ItemCategoryAdmin(admin.ModelAdmin):
+    list_per_page = 100
     list_display = (
         'name', 
         'price',
+        'id',
     )
 
     ordering = (
