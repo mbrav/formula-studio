@@ -25,6 +25,7 @@ class ItemPurchaseInline(admin.TabularInline):
     model = ItemPurchase
     max_num=3
 
+
 # Register your models here.
 
 @admin.register(Instructor)
@@ -48,7 +49,7 @@ class Instructor(admin.ModelAdmin):
         'first_name'
     )
 
-    # readonly_fields = ['revenue_amount','visits_total']
+    readonly_fields = ['revenue']
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
@@ -58,6 +59,7 @@ class MemberAdmin(admin.ModelAdmin):
         'first_name', 
         'mobile_number', 
         'email',
+        'visits_total',
         'id'
     )
 
@@ -75,8 +77,6 @@ class MemberAdmin(admin.ModelAdmin):
         'last_name', 
         'first_name'
     )
-
-    readonly_fields = ['revenue_amount','visits_total']
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
@@ -104,13 +104,15 @@ class PaymentAdmin(admin.ModelAdmin):
         'writen_off',
     ]
 
+    ordering = (
+        '-date',
+    )
+
     inlines = [
         SingleVisitInline,
         SubscriptionInline,
         ItemPurchaseInline,
     ]
-
-    raw_id_fields = ['member']
 
 @admin.register(GroupCategory)
 class GroupCategoryAdmin(admin.ModelAdmin):
@@ -135,11 +137,11 @@ class GroupAdmin(admin.ModelAdmin):
     list_per_page = 50
     list_display = (
         'date',
-        'name', 
+        'name',     
         'category',
         'instructor', 
         'visits_total', 
-        'revenue_amount', 
+        'revenue', 
         'id',
     )
 
@@ -184,6 +186,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
     )
 
     ordering = (
+        '-id',
         'registration_date',
     )
 
@@ -192,38 +195,38 @@ class SubscriptionAdmin(admin.ModelAdmin):
 @admin.register(SubscriptionVisit)
 class SubscriptionVisitAdmin(admin.ModelAdmin):
     list_per_page = 100
-    date_hierarchy = 'date'
     list_display = (
         'subscription',
-        'date',
         'id',
     )
 
     ordering = (
-        'date',
+        '-id',
+        'group',
     )
 
 @admin.register(SingleVisit)
 class SingleVisitAdmin(admin.ModelAdmin):
     list_per_page = 100
-    date_hierarchy = 'date'
     list_display = (
-        'date', 
         'member',
+        'date',
         'group',
         'id',
     )
 
     ordering = (
-        'date',
+        '-id',
         'group',
     )
 
+    readonly_fields = ['member', 'date']
     raw_id_fields = ['member']
 
 @admin.register(ItemCategory)
 class ItemCategoryAdmin(admin.ModelAdmin):
     list_per_page = 100
+
     list_display = (
         'name', 
         'price',
@@ -235,4 +238,15 @@ class ItemCategoryAdmin(admin.ModelAdmin):
         'name',
     )
 
-admin.site.register(ItemPurchase)
+@admin.register(ItemPurchase)
+class ItemPurchaseAdmin(admin.ModelAdmin):
+    list_per_page = 100
+    list_display = (
+        'item_category', 
+        'id',
+    )
+
+    ordering = (
+        '-id',
+        'item_category',
+    )

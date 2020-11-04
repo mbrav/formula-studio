@@ -62,7 +62,6 @@ class MemberSerializer(serializers.ModelSerializer):
             'email',
             'registered_on',
             'description',
-            'revenue_amount',
             'single_visits',
             'subscriptions',
         ]
@@ -73,6 +72,6 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = ['id', 
             'category',
             'name',
-            'revenue_amount',
+            'revenue',
             'visits_total',
         ]

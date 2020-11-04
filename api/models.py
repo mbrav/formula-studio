@@ -1,6 +1,5 @@
 from django import forms
 from django.db import models
-# from django.conf import settings
 
 # Create your models here.
 
@@ -49,12 +48,10 @@ class UserProfile(models.Model):
             models.Index(fields=['first_name'], name='first_name_idx'),
         ]
 
-    def __str__(self):
-        return "%s %s" % (self.first_name, self.last_name)
 
 class Instructor(UserProfile):
 
-    def revenue_amount(self):
+    def revenue(self):
         money = 0
         # Count subs
         if self.subscriptions.all():
@@ -78,32 +75,28 @@ class Instructor(UserProfile):
         verbose_name_plural = 'Instructors'
         ordering = ('last_name','first_name')
 
-class Member(UserProfile):
+    def __str__(self):
+        return "%s %s" % (self.last_name, self.first_name, )
 
-    # Count revenue stats for the member
-    def revenue_amount(self):
-        money = 0
-        if self.groups.all():
-            # Count subs
-            for group in self.groups.all():
-                for visit in group.subscription_visits.all():
-                    if not visit.subscription.payment.writen_off:
-                        money += visit.subscription.payment.amount
-            # Count single visits 
-            if self.groups.single_visits.all():
-                for single_v in self.groups.single_visits.all():
-                    if not single_v.payment.writen_off:
-                        money += single_v.payment.amount   
-        return money
+class Member(UserProfile):
 
     # Count class visit stats for the member
     def visits_total(self):
-        return self.subscription_visits.all().count() + self.single_visits.all().count()
+        vis = 0
+        if self.subscriptions.all():
+            for sub in self.subscriptions.all():
+                vis += sub.subscription_visits.all().count()
+        if self.single_visits.all():
+            vis += self.single_visits.all().count()
+        return vis
 
     class Meta:
         verbose_name = 'Member'
         verbose_name_plural = 'Members'
         ordering = ('last_name','first_name')
+
+    def __str__(self):
+        return "%s %s - #%s" % (self.last_name, self.first_name, self.id)
 
 class Payment(models.Model):
     PAYMENT_PAID = (
@@ -206,7 +199,7 @@ class Group(models.Model):
         # unique=True,
     )
     
-    def revenue_amount(self):
+    def revenue(self):
         money = 0
         
         # Get average price of subscription visit by dividing
@@ -228,15 +221,13 @@ class Group(models.Model):
             vis += 1
         return vis
 
-    # TODO: ADD INSTRUCTOR / USER (?) MODEL
-
     class Meta:
         verbose_name = 'Group'
         verbose_name_plural = 'Groups'
         ordering = ('-date',)
 
     def __str__(self):
-        return "%s (%s)" % (self.name, self.date)
+        return "%s - %s" % (self.name, self.date.strftime("%b %d %Y, %H:%M"))
     
 class SubscriptionCategory(models.Model):
     name = models.CharField(
@@ -331,7 +322,9 @@ class Subscription(models.Model):
         return "%s – (%s)" % (self.member, self.registration_date)
 
 class SubscriptionVisit(models.Model):
-    date = models.DateField()
+    def date(self):
+        return self.group.date
+
     group = models.ForeignKey(
         'Group', 
         related_name='subscription_visits', 
@@ -349,13 +342,15 @@ class SubscriptionVisit(models.Model):
     class Meta:
         verbose_name = 'Subscription Visit'
         verbose_name_plural = 'subscription Visits'
-        ordering = ('-date',)
+        ordering = ('-group__date',)
 
     def __str__(self):
         return "%s" % (self.group)
 
 class SingleVisit(models.Model):
-    date = models.DateField()
+    def date(self):
+        return self.group.date
+        
     payment = models.ForeignKey(
         'Payment', 
         related_name='single_visit', 
@@ -381,7 +376,7 @@ class SingleVisit(models.Model):
     class Meta:
         verbose_name = 'Single Visit'
         verbose_name_plural = 'Single Visits'
-        ordering = ('-date',)
+        ordering = ('-group__date',)
 
     def __str__(self):
         return "%s" % (self.payment)
@@ -410,7 +405,8 @@ class ItemCategory(models.Model):
         return "%s" % (self.name)
 
 class ItemPurchase(models.Model):
-    date = models.DateField()
+    def date(self):
+        return self.payment.date
     
     item_category = models.ForeignKey(
         'ItemCategory', 
@@ -438,7 +434,7 @@ class ItemPurchase(models.Model):
         verbose_name_plural = 'Item Purchases'
 
     def __str__(self):
-        return "%s – (%s)" % (self.item_category, self.date)
+        return "%s" % (self.item_category)
 
 
 
