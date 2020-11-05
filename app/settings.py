@@ -136,3 +136,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# USER SETTINGS (modify at your own wish)
+
+USER_SETTINGS = {
+    'CURRENCY_SYMBOL': '₽'
+}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Instructor, Member, Payment, GroupCategory, Group, SubscriptionCategory, Subscription, SubscriptionVisit, SingleVisit, ItemCategory, ItemPurchase
+from .models import Instructor, Member, Payment, GroupCategory, Group, SubscriptionCategory, Subscription, SubscriptionExtension, SubscriptionVisit, SingleVisit, ItemCategory, ItemPurchase
 
 admin.site.site_header = "Formula Studio"
 admin.site.site_title = "Formula Studio"
@@ -138,10 +138,10 @@ class GroupAdmin(admin.ModelAdmin):
     list_display = (
         'date',
         'name',     
-        'category',
-        'instructor', 
         'visits_total', 
         'revenue', 
+        'category',
+        'instructor', 
         'id',
     )
 
@@ -179,6 +179,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
     list_display = (
         'member',
         'registration_date', 
+        'has_extension', 
         'visits_made',
         'visits_remaining',
         'visits_total',
@@ -190,7 +191,29 @@ class SubscriptionAdmin(admin.ModelAdmin):
         'registration_date',
     )
 
-    readonly_fields = ['visits_made', 'visits_remaining', 'visits_total',]
+    readonly_fields = [
+        'visits_made', 
+        'visits_remaining', 
+        'visits_total',
+        'expiration_date'
+    ]
+
+    readonly_fields = ['has_extension']
+
+@admin.register(SubscriptionExtension)
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_per_page = 50
+    # date_hierarchy = 'date'
+    list_display = (
+        'date', 
+        'subscription',
+        'days',
+    )
+
+    ordering = (
+        '-id',
+        'date',
+    )
 
 @admin.register(SubscriptionVisit)
 class SubscriptionVisitAdmin(admin.ModelAdmin):

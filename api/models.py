@@ -200,10 +200,9 @@ class Group(models.Model):
     )
     
     def revenue(self):
-        money = 0
-        
         # Get average price of subscription visit by dividing
         # its price by number of visits to get average 
+        money = 0
         for sub_v in self.subscription_visits.all():
             money += (sub_v.subscription.payment.amount /
                 sub_v.subscription.subscription_category.number_of_visits)
@@ -227,7 +226,7 @@ class Group(models.Model):
         ordering = ('-date',)
 
     def __str__(self):
-        return "%s - %s" % (self.name, self.date.strftime("%b %d %Y, %H:%M"))
+        return "%s - %s" % (self.date.strftime("%b %d %Y"), self.name)
     
 class SubscriptionCategory(models.Model):
     name = models.CharField(
@@ -271,10 +270,23 @@ class SubscriptionCategory(models.Model):
     def __str__(self):
         return "%s" % (self.name)
 
-# TODO: ADD SUBSCRIPTION EXTENSION MODEL
-
 class Subscription(models.Model):
     registration_date = models.DateField()
+
+    def expiration_date(self):
+        from datetime import datetime, timedelta
+        days = self.subscription_category.validity_in_days
+        if self.subscription_extensions.all():
+            for ext in self.subscription_extensions.all():
+                days += ext.days
+        return self.registration_date + timedelta(days=days)
+
+    def has_extension(self):
+        if self.subscription_extensions.all():
+            return True
+        else:
+            return False
+
     description = models.CharField(
         ('Description'),
         max_length=300,
@@ -321,9 +333,35 @@ class Subscription(models.Model):
     def __str__(self):
         return "%s – (%s)" % (self.member, self.registration_date)
 
+class SubscriptionExtension(models.Model):
+    date = models.DateField()
+
+    days = models.PositiveIntegerField(
+        blank=False, 
+        null=False,
+    )
+
+    description = models.TextField(
+        ('Description'), 
+        blank=True,
+    )
+
+    subscription = models.ForeignKey(
+        'Subscription', 
+        related_name='subscription_extensions', 
+        on_delete=models.CASCADE,
+        # unique=True,
+    )
+
+    class Meta:
+         verbose_name = 'Subscription Extension'
+         verbose_name_plural = 'Subscription Extensions'
+         ordering = ('-date',)
+
+    def __str__(self):
+        return "%s – (%s)" % (self.id, self.date)
+
 class SubscriptionVisit(models.Model):
-    def date(self):
-        return self.group.date
 
     group = models.ForeignKey(
         'Group', 
@@ -344,13 +382,13 @@ class SubscriptionVisit(models.Model):
         verbose_name_plural = 'subscription Visits'
         ordering = ('-group__date',)
 
+    def date(self):
+        return self.group.date
+
     def __str__(self):
         return "%s" % (self.group)
 
 class SingleVisit(models.Model):
-    def date(self):
-        return self.group.date
-        
     payment = models.ForeignKey(
         'Payment', 
         related_name='single_visit', 
@@ -372,6 +410,9 @@ class SingleVisit(models.Model):
         help_text='Single visits that the member has made',
         # unique=True,
     )
+
+    def date(self):
+        return self.group.date
 
     class Meta:
         verbose_name = 'Single Visit'
