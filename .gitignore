@@ -76,6 +76,7 @@ models.pdf
 
 # Stuff
 scripts
+*.backup
 
 # Jupyter notebook
 jupyter-notes
