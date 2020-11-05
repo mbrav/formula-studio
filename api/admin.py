@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Instructor, Member, Payment, GroupCategory, Group, SubscriptionCategory, Subscription, SubscriptionExtension, SubscriptionVisit, SingleVisit, ItemCategory, ItemPurchase
+from .models import Instructor, Member, Signup, Payment, GroupCategory, Group, SubscriptionCategory, Subscription, SubscriptionExtension, SubscriptionVisit, SingleVisit, ItemCategory, ItemPurchase
 
 admin.site.site_header = "Formula Studio"
 admin.site.site_title = "Formula Studio"
@@ -77,6 +77,33 @@ class MemberAdmin(admin.ModelAdmin):
         'last_name', 
         'first_name'
     )
+
+@admin.register(Signup)
+class SignupAdmin(admin.ModelAdmin):
+    list_per_page = 100
+    list_display = (
+        'last_name', 
+        'first_name',
+        'group',
+        'mobile_number', 
+        'email',
+        'id'
+    )
+
+    search_fields = (
+        'last_name', 
+        'first_name'
+    )
+
+    # list_filter = ('status', 'created', 'publish', 'author')
+    # prepopulated_fields = {'slug': ('title',)}
+    # raw_id_fields = ('author',)
+    # date_hierarchy = 'publish'
+
+    ordering = (
+        '-date', 
+    )
+
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):

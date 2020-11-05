@@ -1,17 +1,18 @@
 from django import forms
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 
 class UserProfile(models.Model):
     first_name = models.CharField(
         ('First Name'), 
-        max_length=50
+        max_length=50,
     )
 
     last_name = models.CharField(
         ('Last Name'), 
-        max_length=50
+        max_length=50,
     )
 
     mobile_number = models.CharField(
@@ -48,9 +49,7 @@ class UserProfile(models.Model):
             models.Index(fields=['first_name'], name='first_name_idx'),
         ]
 
-
 class Instructor(UserProfile):
-
     def revenue(self):
         money = 0
         # Count subs
@@ -79,7 +78,6 @@ class Instructor(UserProfile):
         return "%s %s" % (self.last_name, self.first_name, )
 
 class Member(UserProfile):
-
     # Count class visit stats for the member
     def visits_total(self):
         vis = 0
@@ -97,6 +95,64 @@ class Member(UserProfile):
 
     def __str__(self):
         return "%s %s - #%s" % (self.last_name, self.first_name, self.id)
+
+# A lose version for keep track of signups 
+# Best for integrating with an externa form field 
+# that submits new signups throguth an API call 
+class Signup(models.Model):
+    date = models.DateTimeField(editable=False)
+
+    # Best way to ass autosave 
+    # https://stackoverflow.com/questions/1737017/django-auto-now-and-auto-now-add
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        if not self.id:
+            self.date = timezone.now()
+        # self.modified = timezone.now()
+        return super(Signup, self).save(*args, **kwargs)
+
+    first_name = models.CharField(
+        ('First Name'), 
+        max_length=50,
+        blank=True,
+    )
+
+    last_name = models.CharField(
+        ('Last Name'), 
+        max_length=50,
+        blank=True,
+    )
+
+    mobile_number = models.CharField(
+        ('Mobile Number'), 
+        max_length=11,
+        blank=True,
+    )
+
+    email = models.EmailField(
+        ('email'), 
+        blank=True,
+    )
+
+    group = models.CharField(
+        ('Group'), 
+        max_length=50,
+        blank=True,
+    )
+
+    member = models.ForeignKey('Member', 
+        on_delete = models.CASCADE,
+        related_name='signups',
+        help_text='Payments that member has made',
+        blank=True,
+        null=True,
+        # unique=True,
+    )
+
+    class Meta:
+        verbose_name = 'Signup'
+        verbose_name_plural = 'Singups'
+        # ordering = ('id')
 
 class Payment(models.Model):
     PAYMENT_PAID = (

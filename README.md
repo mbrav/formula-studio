@@ -56,7 +56,7 @@ Go to [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
 This project is in still in alpha phase of development and goals will be fully established before the beta release.
 
 Django admin interface in [alpha version](https://github.com/mbrav/formula-studio/releases/tag/alpha):
-![](https://i.imgur.com/PBsBs1c.png) 
+![](https://i.imgur.com/9w7qojU.png) 
 
 Database Model structure in [alpha version](https://github.com/mbrav/formula-studio/releases/tag/alpha):
 ![](https://i.imgur.com/r57wa1O.png) 
@@ -65,8 +65,7 @@ Database Model structure in [alpha version](https://github.com/mbrav/formula-stu
 
 #### *αιρha*
 - [x] Basic database back-end polished, suitable for limited practical usage
-- [ ] Add settings/configuration page to admin
-- [ ] A model with to-register user who signed up for a class
+- [x] A model with to-register user who signed up for a class
 - [x] Hacked together scripts for importing data
 	- [ ] Publish as `jupyter` notebooks) 
 
