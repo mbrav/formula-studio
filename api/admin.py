@@ -80,14 +80,14 @@ class MemberAdmin(admin.ModelAdmin):
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_filter = ("member", "paid", "writen_off",)
+    list_filter = ("member", "status", "writen_off",)
     date_hierarchy = 'date'
     list_per_page = 100
     list_display = (
         'member', 
         'amount', 
         'method', 
-        'paid', 
+        'status', 
         'date',
         'writen_off',
         'id',
@@ -95,12 +95,11 @@ class PaymentAdmin(admin.ModelAdmin):
 
     list_filter = (
         'method', 
-        'paid',
+        'status',
     )
 
     list_editable = [
-        'method', 
-        'paid',
+        'status',
         'writen_off',
     ]
 

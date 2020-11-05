@@ -130,10 +130,11 @@ class Payment(models.Model):
         default="0",
     )
 
-    paid = models.CharField(
+    status = models.CharField(
         max_length=2,
         choices=PAYMENT_PAID,
         default="1",
+        help_text='Payment status',
     )
 
     member = models.ForeignKey('Member', 
