@@ -1,12 +1,12 @@
 <p align="center">
     <a href="https://github.com/mbrav/formula-studio" target="_blank" rel="noopener noreferrer">
-        <img width="100" src="static/admin/img/logo.png" title="djangoschool">
+        <img width="100" src="static/admin/img/logo.png" title="formula-studio">
     </a>
 </p>
 
 <h1 align="center">formula-studio</h2>
 
-A CMS for yoga and fitness studios written in Django.
+<p align="center"> A CMS for yoga and fitness studios written in Django. </p>
 
 The aim of this project is to create a CMS for managing subscriptions, single visits and purchases for gyms, yoga studios. This project is a result of frustration with available expensive CMS services, while open source variants seem to be very complex with functionality that I did not need anyways. It is largely a learn-as-you go along process, given that this is my fist Django app. But this software is already being actively used as the main accounting tool at one studio in Russia, [Formula Yoga](https://www.formulayoga.com/).   
 
@@ -77,6 +77,7 @@ Database Model structure in [alpha version](https://github.com/mbrav/formula-stu
 	- [ ] Publish as `jupyter` notebooks) 
 
 #### *βετα*
+- [ ] Create a singup interface that can be embed on other sites and uses API to create records
 - [ ] Integration with Google Calendar
     - [ ] Poling events 
     - [ ] Custom variables for integration 
@@ -92,7 +93,11 @@ Database Model structure in [alpha version](https://github.com/mbrav/formula-stu
 #### *0.1*
 - [ ] Front-end for class registration 
 - [ ] Deployment setup
-
+	- [ ] Nginx
+	- [ ] PostgresSQL
+	- [ ] Docker?
+	- [ ] Gunicorn
+ 
 ### Contributing
 
 If you've found a bug, add a feature or improve formula-studio and think it is useful then please consider contributing. Patches, pull requests or just suggestions are always welcome!

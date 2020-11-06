@@ -5,6 +5,7 @@
 
 {% block branding %}
 <h1 id="site-name">
+<img width="46" src="/static/admin/img/logo.png" title="formula-studio">
     <a href="{% url 'admin:index' %}">
         {{ site_header|default:_('Django administration') }}
         {% comment %} <img src="{% static 'logo.png' %}" height="40px" /> {% endcomment %}
