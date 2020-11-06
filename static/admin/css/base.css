@@ -497,7 +497,7 @@ input[type=button][disabled].default {
     font-weight: 400;
     font-size: 13px;
     text-align: left;
-    background: #cbdb7e;
+    background: #b2bf73;
     color: #fff;
 }
 
@@ -698,7 +698,7 @@ a.deletelink:focus, a.deletelink:hover {
 }
 
 .object-tools a:focus, .object-tools a:hover {
-    background-color: #cbdb7e;
+    background-color: #b2bf73;
 }
 
 .object-tools a:focus{
@@ -814,7 +814,7 @@ table#change-history tbody th {
     align-items: center;
     padding: 10px 40px;
     background: #2d2d2d;
-    color: #cbdb7e;
+    color: #b2bf73;
     overflow: hidden;
 }
 
