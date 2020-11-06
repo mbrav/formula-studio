@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Member, Payment, SingleVisit, Subscription, SubscriptionVisit, SubscriptionCategory, Group
+from .models import Member, Signup, Payment, SingleVisit, Subscription, SubscriptionVisit, SubscriptionCategory, Group
 
 class SubscriptionCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,7 +22,8 @@ class SingleVisitSerializer(serializers.ModelSerializer):
     payment = PaymentSerializer(many = False)
     class Meta:
         model = SingleVisit
-        fields = ['id',
+        fields = [
+            'id',
             'date',
             'payment',
         ]
@@ -30,7 +31,8 @@ class SingleVisitSerializer(serializers.ModelSerializer):
 class SubscriptionVisitSerializer(serializers.ModelSerializer):
     class Meta:
         model = SingleVisit
-        fields = ['id',
+        fields = [
+            'id',
             'date',
             'group'
         ]
@@ -40,7 +42,8 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     subscription_visits = SubscriptionVisitSerializer(many = True)
     class Meta:
         model = Subscription
-        fields = ['id',
+        fields = [
+            'id',
             'registration_date',
             'subscription_category',
             'payment',
@@ -55,7 +58,8 @@ class MemberSerializer(serializers.ModelSerializer):
     single_visits = SingleVisitSerializer(many = True)
     class Meta:
         model = Member
-        fields = ['id', 
+        fields = [
+            'id', 
             'first_name',
             'last_name',
             'mobile_number',
@@ -69,9 +73,24 @@ class MemberSerializer(serializers.ModelSerializer):
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ['id', 
+        fields = [
+            'id', 
             'category',
             'name',
             'revenue',
             'visits_total',
+        ]
+
+class SignupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Signup
+        fields = [
+            'id', 
+            'date', 
+            'first_name', 
+            'last_name', 
+            'mobile_number',
+            'email',
+            'group',
+            'member',
         ]

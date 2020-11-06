@@ -94,6 +94,18 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'mydb',
+#         'USER': 'admin',
+#         'PASSWORD': 'admin',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
+
+
 REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework.authentication.TokenAuthentication',
