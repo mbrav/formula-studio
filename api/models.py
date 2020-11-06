@@ -143,7 +143,7 @@ class Signup(models.Model):
     member = models.ForeignKey('Member', 
         on_delete = models.CASCADE,
         related_name='signups',
-        help_text='Payments that member has made',
+        help_text='Member to which to assign this signup',
         blank=True,
         null=True,
         # unique=True,
@@ -151,7 +151,7 @@ class Signup(models.Model):
 
     class Meta:
         verbose_name = 'Signup'
-        verbose_name_plural = 'Singups'
+        verbose_name_plural = 'Signups'
         # ordering = ('id')
 
 class Payment(models.Model):

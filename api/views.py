@@ -2,14 +2,10 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import DjangoModelPermissions
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
-from .models import Member, Group, Signup
-from .serializers import MemberSerializer, GroupSerializer, SignupSerializer
-
-class MemberViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    serializer_class = MemberSerializer
-    queryset = Member.objects.all()
+from .models import Group, Signup
+from .serializers import GroupSerializer, SignupSerializer
 
 class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -26,5 +22,7 @@ class SignupViewSet(viewsets.ModelViewSet):
         response = {
             'message' : 'its working'
         }
-        return Response(response, status=status.HTTP_201_CREATED) 
+        return Response(response, status=status.HTTP_201_CREATED)  
+
+
 
