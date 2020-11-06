@@ -1,4 +1,11 @@
-# formula-studio
+<p align="center">
+    <a href="https://github.com/mbrav/formula-studio" target="_blank" rel="noopener noreferrer">
+        <img width="100" src="static/admin/img/logo.png" title="djangoschool">
+    </a>
+</p>
+
+<h1 align="center">formula-studio</h2>
+
 A CMS for yoga and fitness studios written in Django.
 
 The aim of this project is to create a CMS for managing subscriptions, single visits and purchases for gyms, yoga studios. This project is a result of frustration with available expensive CMS services, while open source variants seem to be very complex with functionality that I did not need anyways. It is largely a learn-as-you go along process, given that this is my fist Django app. But this software is already being actively used as the main accounting tool at one studio in Russia, [Formula Yoga](https://www.formulayoga.com/).   
