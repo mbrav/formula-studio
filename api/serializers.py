@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Signup, Group
+from .models import *
         
         # fields = [
         #     'id', 
