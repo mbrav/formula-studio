@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/mbrav/formula-studio" target="_blank" rel="noopener noreferrer">
-        <img width="100" src="static/admin/img/logo.png" title="formula-studio">
+        <img width="100" src="backend/static/admin/img/logo.png" title="formula-studio">
     </a>
 </p>
 
@@ -10,95 +10,20 @@
 
 The aim of this project is to create a CMS for managing subscriptions, single visits and purchases for gyms, yoga studios. This project is a result of frustration with available expensive CMS services, while open source variants seem to be very complex with functionality that I did not need anyways. It is largely a learn-as-you go along process, given that this is my fist Django app. But this software is already being actively used as the main accounting tool at one studio in Russia, [Formula Yoga](https://www.formulayoga.com/).   
 
-It seeks to have minimal dependencies and preferably based on Django, specifically around its already integrated admin interface, for easy deployment. Some front-end elements could eventually be written in React. 
+It seeks to have minimal dependencies and preferably based on Django, specifically around its already integrated admin interface, for easy deployment. Some front-end elements could eventually be written in Vue.js. 
+
+## Backend 
+
+Uses Django and its admin interface for now.
+
+- Installation [instructions can be found here](backend/).
+
+## Frontend
+
+*in development*
 
 
-## Installation 
- 
-### On Linux and macOS
-
-For installation, make sure yoy have `python3` and `pip3` installed. Clone repo
-
-```
-$ git clone https://github.com/mbrav/formula-studio
-cd formula-studio
-```
-
-Setup a local python environment:
-
-```
-$ python3 -m venv venv
-source venv/bin/activate
-```
-
-Install dependencies:
-
-```
-$ pip3 install -r requirements.txt
-```
-
-Setup Django database and migrations:
-
-```
-$ python3 manage.py makemigrations
-$ python3 manage.py migrate
-```
-
-Setup an admin user:
-
-```
-$ python3 manage.py createsuperuser
-```
-
-Run server
-
-```
-$ python3 manage.py runserver
-```
-
-Go to [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
-
-## Development
-
-This project is in still in alpha phase of development and goals will be fully established before the beta release.
-
-Django admin interface in [alpha version](https://github.com/mbrav/formula-studio/releases/tag/alpha):
-![](https://i.imgur.com/9w7qojU.png) 
-
-Database Model structure in [alpha version](https://github.com/mbrav/formula-studio/releases/tag/alpha):
-![](https://i.imgur.com/r57wa1O.png) 
-
-### Development Roadmap
-
-#### *αιρha*
-- [x] Basic database back-end polished, suitable for limited practical usage
-- [x] A model with to-register user who signed up for a class
-- [x] Hacked together scripts for importing data
-	- [ ] Publish as `jupyter` notebooks) 
-
-#### *βετα*
-- [ ] Create a singup interface that can be embed on other sites and uses API to create records
-- [ ] Integration with Google Calendar
-    - [ ] Poling events 
-    - [ ] Custom variables for integration 
-- [ ] Tie Django's authentication models to user models
-- [ ] Finance
-	- [ ] Polished reports
-	- [ ] Wage calculation tools 
-	- [ ] Expenses, revenue
-	- [ ] Graphs using [`django-admin-charts`](https://github.com/PetrDlouhy/django-admin-charts)
-	- [ ] More efficient generation of statistics using [`Celery`](https://docs.celeryproject.org/en/stable/)
-- [ ] Integrate all scripts into actual functionality  
-
-#### *0.1*
-- [ ] Front-end for class registration 
-- [ ] Deployment setup
-	- [ ] Nginx
-	- [ ] PostgresSQL
-	- [ ] Docker?
-	- [ ] Gunicorn
- 
-### Contributing
+## Contributing
 
 If you've found a bug, add a feature or improve formula-studio and think it is useful then please consider contributing. Patches, pull requests or just suggestions are always welcome!
 
