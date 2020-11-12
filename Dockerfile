@@ -8,7 +8,7 @@ RUN pip install -r /requirements.txt
 
 RUN mkdir /App
 WORKDIR /App
-COPY ./backend/App /App
+COPY ./backend /App
 
 RUN adduser -D user
 USER user
