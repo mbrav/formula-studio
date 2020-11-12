@@ -80,8 +80,8 @@ Database Model structure in [alpha version](https://github.com/mbrav/formula-stu
 - [ ] Front-end for class registration 
 - [ ] Deployment setup
 	- [ ] Nginx
-	- [ ] PostgresSQL
-	- [ ] Docker?
+	- [x] PostgresSQL
+	- [x] Docker
 	- [ ] Gunicorn
  
 ### Contributing

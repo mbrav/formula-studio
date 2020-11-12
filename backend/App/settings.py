@@ -26,11 +26,8 @@ SECRET_KEY = '8&r*!u@u1lfru!lj*dj3j*=na(scr%uw&qlivkars1_vck@q$h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# For local dev
-ALLOWED_HOSTS = []
-
-# For Docker 
-ALLOWED_HOSTS = ["0.0.0.0"]
+# For Docker and local dev 
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
 
 # Application definition
 
@@ -41,14 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_extensions',
-
-    # Third-party
-    'rest_framework',
-    'rest_framework.authtoken',
 
     # Apps
     'api',
+
+    # Third-party
+    'django_extensions',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -91,23 +88,27 @@ WSGI_APPLICATION = 'App.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# Basic db.sqlite3 file database 
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'mydb',
-#         'USER': 'admin',
-#         'PASSWORD': 'admin',
-#         'HOST': 'localhost',
-#         'PORT': '',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+# Docker database with postgres 
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME'),
+        'HOST': os.environ.get('DB_HOST'),
+        "PORT": os.environ.get('DB_PORT'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASS'),
+    }
+}
 
 
 REST_FRAMEWORK = {
