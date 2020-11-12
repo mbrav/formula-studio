@@ -35,10 +35,10 @@ class UserProfile(models.Model):
         auto_now_add=True,
     )
 
-    image = models.ImageField(
-        upload_to='img/member_profiles', 
-        blank=True,
-    )
+    # image = models.ImageField(
+    #     upload_to='img/member_profiles', 
+    #     blank=True,
+    # )
 
     class Meta:
         verbose_name = 'User Profile'

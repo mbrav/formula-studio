@@ -26,7 +26,11 @@ SECRET_KEY = '8&r*!u@u1lfru!lj*dj3j*=na(scr%uw&qlivkars1_vck@q$h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# For local dev
 ALLOWED_HOSTS = []
+
+# For Docker 
+ALLOWED_HOSTS = ["0.0.0.0"]
 
 # Application definition
 

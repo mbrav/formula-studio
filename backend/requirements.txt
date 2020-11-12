@@ -1,7 +1,9 @@
-asgiref==3.3.0
-Django==3.1.3
-django-extensions==3.0.9
-djangorestframework==3.12.1
-Pillow==8.0.1
-pytz==2020.4
-sqlparse==0.4.1
+pip>=20.1.1,<21.0.0
+asgiref>=3.3.0,<3.4.0
+Django>=3.1.3,<3.2.0
+django-extensions>=3.0.9,<3.1.0
+djangorestframework>=3.12.1,<3.13.0
+flake8>=3.8.4,<3.9.0
+# Pillow>=8.0.1
+pytz>=2020.4,<2021.0
+sqlparse>=0.4.1,<0.5.0
