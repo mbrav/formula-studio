@@ -58,7 +58,7 @@
                   <td>Web Development</td>
                   <td>May 10 2018</td>
                   <td>
-                    <a href="details.html" class="btn btn-secondary">
+                    <a href="/class-details" class="btn btn-secondary">
                       <i class="fas fa-angle-double-right" /> Details
                     </a>
                   </td>
@@ -69,7 +69,7 @@
                   <td>Tech Gadgets</td>
                   <td>May 11 2018</td>
                   <td>
-                    <a href="details.html" class="btn btn-secondary">
+                    <a href="/class-details" class="btn btn-secondary">
                       <i class="fas fa-angle-double-right" /> Details
                     </a>
                   </td>
@@ -80,7 +80,7 @@
                   <td>Web Development</td>
                   <td>May 13 2018</td>
                   <td>
-                    <a href="details.html" class="btn btn-secondary">
+                    <a href="/class-details" class="btn btn-secondary">
                       <i class="fas fa-angle-double-right" /> Details
                     </a>
                   </td>
@@ -91,7 +91,7 @@
                   <td>Business</td>
                   <td>May 15 2018</td>
                   <td>
-                    <a href="details.html" class="btn btn-secondary">
+                    <a href="/class-details" class="btn btn-secondary">
                       <i class="fas fa-angle-double-right" /> Details
                     </a>
                   </td>
@@ -102,7 +102,7 @@
                   <td>Web Development</td>
                   <td>May 17 2018</td>
                   <td>
-                    <a href="details.html" class="btn btn-secondary">
+                    <a href="/class-details" class="btn btn-secondary">
                       <i class="fas fa-angle-double-right" /> Details
                     </a>
                   </td>
@@ -113,7 +113,7 @@
                   <td>Health & Wellness</td>
                   <td>May 20 2018</td>
                   <td>
-                    <a href="details.html" class="btn btn-secondary">
+                    <a href="/class-details" class="btn btn-secondary">
                       <i class="fas fa-angle-double-right" /> Details
                     </a>
                   </td>
@@ -149,17 +149,17 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
   name: "ClassesView",
   props: {
     msg: String
-  },
-  mounted() {
-    axios.get("http://localhost:8000/api/v1/groups/").then(response => {
-      console.log(response.data);
-    });
   }
+  // mounted() {
+  //   axios.get("http://localhost:8000/api/v1/groups/").then(response => {
+  //     console.log(response.data);
+  //   });
+  // }
 };
 </script>
 

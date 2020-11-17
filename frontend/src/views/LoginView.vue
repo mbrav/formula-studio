@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <h1><i class="fas fa-user" /> {{ msg }}</h1>
+          <h1><i class="fas fa-user" /> Login</h1>
         </div>
       </div>
     </div>

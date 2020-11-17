@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <h1><i class="fas fa-cog" /> {{ msg }}</h1>
+          <h1><i class="fas fa-cog" /> Dashboard</h1>
         </div>
       </div>
     </div>
@@ -90,7 +90,7 @@
               <h4 class="display-4">
                 <i class="fas fa-pencil-alt" /> {{ groupData.length }}
               </h4>
-              <a href="classes.html" class="btn btn-outline-light btn-sm"
+              <a href="/classes" class="btn btn-outline-light btn-sm"
                 >View</a
               >
             </div>
@@ -100,7 +100,7 @@
             <div class="card-body">
               <h3>Categories</h3>
               <h4 class="display-4"><i class="fas fa-folder" /> 4</h4>
-              <a href="categories.html" class="btn btn-outline-light btn-sm"
+              <a href="/categories" class="btn btn-outline-light btn-sm"
                 >View</a
               >
             </div>
@@ -110,7 +110,7 @@
             <div class="card-body">
               <h3>Users</h3>
               <h4 class="display-4"><i class="fas fa-users" /> 4</h4>
-              <a href="users.html" class="btn btn-outline-light btn-sm">View</a>
+              <a href="/users" class="btn btn-outline-light btn-sm">View</a>
             </div>
           </div>
         </div>
@@ -250,7 +250,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
   name: "DashboardView",
   props: {
@@ -260,16 +260,15 @@ export default {
     return {
       groupData: []
     };
-  },
-  mounted() {
-    axios.get("http://localhost:8000/api/v1/groups/").then(response => {
-      this.groupData = response.data;
-      console.log("DATA:", this.groupData);
-      console.log(this.groupData[1].id);
-    });
   }
+  // mounted() {
+  //   axios.get("http://localhost:8000/api/v1/groups/").then(response => {
+  //     this.groupData = response.data;
+  //     console.log("DATA:", this.groupData);
+  //     console.log(this.groupData[1].id);
+  //   });
+  // };
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped lang="scss"></style>

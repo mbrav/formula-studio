@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-md-6">
           <h1>
-            {{ msg }}
+            Class Details
           </h1>
         </div>
       </div>
@@ -17,17 +17,17 @@
     <div class="container">
       <div class="row">
         <div class="col-md-3">
-          <a href="index.html" class="btn btn-light btn-block">
+          <a href="#" class="btn btn-light btn-block">
             <i class="fas fa-arrow-left" /> Back To Dashboard
           </a>
         </div>
         <div class="col-md-3">
-          <a href="index.html" class="btn btn-success btn-block">
+          <a href="#" class="btn btn-success btn-block">
             <i class="fas fa-check" /> Save Changes
           </a>
         </div>
         <div class="col-md-3">
-          <a href="index.html" class="btn btn-danger btn-block">
+          <a href="#" class="btn btn-danger btn-block">
             <i class="fas fa-trash" /> Delete Post
           </a>
         </div>
