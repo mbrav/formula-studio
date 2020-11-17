@@ -1,4 +1,39 @@
-<template>
+<template lang="html">
+  <!-- HEADER -->
+  <header id="main-header" class="py-2 bg-primary text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1><i class="fas fa-user" /> {{ msg }}</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ACTIONS -->
+  <section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <a href="index.html" class="btn btn-light btn-block">
+            <i class="fas fa-arrow-left" /> Back To Dashboard
+          </a>
+        </div>
+        <div class="col-md-3">
+          <a href="#" class="btn btn-success btn-block">
+            <i class="fas fa-lock" /> Change Password
+          </a>
+        </div>
+        <div class="col-md-3">
+          <a href="#" class="btn btn-danger btn-block">
+            <i class="fas fa-trash" /> Delete Account
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
   <section id="profile">
     <div class="container">
       <div class="row">
@@ -52,27 +87,11 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid unde at fugiat 
 
 <script>
 export default {
-  name: "HelloWorld",
+  name: "UserProfileView",
   props: {
     msg: String
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+<style lang="css" scoped></style>
