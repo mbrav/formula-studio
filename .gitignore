@@ -27,7 +27,7 @@ sdist/
 var/
 wheels/
 *.egg-info/
-.installed.cfg 
+.installed.cfg
 *.egg
 *.manifest
 *.spec
@@ -48,13 +48,13 @@ coverage.xml
 *.cover
 .hypothesis/
 
-# Visual Studio Code # 
-.vscode/ 
-.vscode/* 
-!.vscode/settings.json 
-!.vscode/tasks.json 
-!.vscode/launch.json 
-!.vscode/extensions.json 
+# Visual Studio Code #
+.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 .history
 
 # pyenv
@@ -81,3 +81,7 @@ scripts
 # Jupyter notebook
 jupyter-notes
 
+node_modules/
+package-lock.json
+
+temp/
