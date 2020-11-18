@@ -248,7 +248,7 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 export default {
   name: "DashboardView",
   props: {
@@ -258,14 +258,14 @@ export default {
     return {
       groupData: []
     };
+  },
+  mounted() {
+    axios.get("http://localhost:8000/api/v1/groups/").then(response => {
+      this.groupData = response.data;
+      console.log("DATA:", this.groupData);
+      console.log(this.groupData[1].id);
+    });
   }
-  // mounted() {
-  //   axios.get("http://localhost:8000/api/v1/groups/").then(response => {
-  //     this.groupData = response.data;
-  //     console.log("DATA:", this.groupData);
-  //     console.log(this.groupData[1].id);
-  //   });
-  // };
 };
 </script>
 
