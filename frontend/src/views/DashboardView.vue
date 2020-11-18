@@ -72,7 +72,7 @@
                   <td>{{ group.id }}</td>
                   <td>{{ group.name }}</td>
                   <td>{{ group.category }}</td>
-                  <td>{{ group.date }}</td>
+                  <td>{{ ClassDate(group.date) }}</td>
                   <td>
                     <a href="details.html" class="btn btn-secondary">
                       <i class="fas fa-angle-double-right" /> Details
@@ -249,6 +249,7 @@
 
 <script>
 import axios from "axios";
+var moment = require("moment");
 export default {
   name: "DashboardView",
   props: {
@@ -258,6 +259,11 @@ export default {
     return {
       groupData: []
     };
+  },
+  methods: {
+    ClassDate(date) {
+      return moment(date).format("MMM Do YYYY");
+    }
   },
   mounted() {
     axios.get("http://localhost:8000/api/v1/groups/").then(response => {
