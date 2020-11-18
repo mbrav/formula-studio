@@ -59,7 +59,32 @@
       </div>
     </div>
   </nav>
-  <router-view />
+
+  <!-- VIEWS CONTROLED BY ROUTER -->
+  <main role="main">
+    <div class="container-fluid mx-0 px-0">
+      <router-view />
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="main-footer" class="footer bg-dark text-white mt-3 mb-0 py-3">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="lead text-center m-0">
+            Copyright &copy;
+            <span id="year" />
+            Formula Studio
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+main {
+  height:100vh;
+}
+</style>
