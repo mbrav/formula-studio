@@ -7,11 +7,11 @@ import store from "./store";
 // See https://github.com/bootstrap-vue/bootstrap-vue/issues/5196
 
 // import BootstrapVue from 'bootstrap-vue'
-import "bootstrap/dist/css/bootstrap.css";
 // import 'bootstrap-vue/dist/bootstrap-vue.css'
+import "bootstrap/dist/css/bootstrap.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 // TEMP, until BootstrapVue support for Vue3 is ready
-
 import "bootstrap/dist/js/bootstrap.bundle.js";
 
 const app = createApp(App);

@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark p-0">
     <div class="container">
       <router-link to="/" class="navbar-brand">
         <img
@@ -12,7 +12,6 @@
           loading="lazy"
         />
       </router-link>
-      <router-link to="/" class="navbar-brand">Formula Studio</router-link>
       <button
         class="navbar-toggler"
         data-toggle="collapse"

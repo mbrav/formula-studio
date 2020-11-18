@@ -90,9 +90,7 @@
               <h4 class="display-4">
                 <i class="fas fa-pencil-alt" /> {{ groupData.length }}
               </h4>
-              <a href="/classes" class="btn btn-outline-light btn-sm"
-                >View</a
-              >
+              <a href="/classes" class="btn btn-outline-light btn-sm">View</a>
             </div>
           </div>
 
