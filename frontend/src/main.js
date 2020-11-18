@@ -17,9 +17,17 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 // TEMP, until BootstrapVue support for Vue3 is ready
 import "bootstrap/dist/js/bootstrap.bundle.js";
 
+// COMPONENTS
+import Footer from "./components/Footer.vue";
+import Navbar from "./components/Navbar.vue";
+
 const app = createApp(App);
 app.use(moment);
 app.use(store);
 app.use(router);
-// app.use(BootstrapVue)
+// app.use(BootstrapVue);
+
+app.component("footer-comp", Footer);
+app.component("navbar-comp", Navbar);
+
 app.mount("#app");
