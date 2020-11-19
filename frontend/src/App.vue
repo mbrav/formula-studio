@@ -1,5 +1,4 @@
 <template>
-
   <navbar-comp />
 
   <!-- VIEWS CONTROLED BY ROUTER -->
@@ -10,7 +9,6 @@
   </main>
 
   <footer-comp />
-
 </template>
 
 <script>

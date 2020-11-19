@@ -18,13 +18,13 @@
 <script>
 var moment = require("moment");
 export default {
-    name: "Footer",
-    methods: {
-      YearNow() {
-        return moment().format('YYYY');
-      }
+  name: "Footer",
+  methods: {
+    YearNow() {
+      return moment().format("YYYY");
     }
-  };
+  }
+};
 </script>
 
 <style lang="scss" scoped></style>
