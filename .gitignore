@@ -85,3 +85,7 @@ node_modules/
 package-lock.json
 
 temp/
+
+# Static files
+
+backend/staticfiles
