@@ -22,9 +22,7 @@
               placeholder="Search Categories..."
             />
             <div class="input-group-append">
-              <button class="btn btn-success">
-                Search
-              </button>
+              <button class="btn btn-success">Search</button>
             </div>
           </div>
         </div>
@@ -104,8 +102,8 @@
 export default {
   name: "CategoriesView",
   props: {
-    msg: String
-  }
+    msg: String,
+  },
 };
 </script>
 

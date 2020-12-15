@@ -73,12 +73,8 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid unde at fugiat 
         <div class="col-md-3">
           <h3>Your Avatar</h3>
           <img src="img/avatar.png" alt="" class="d-block img-fluid mb-3" />
-          <button class="btn btn-primary btn-block">
-            Edit Image
-          </button>
-          <button class="btn btn-danger btn-block">
-            Delete Image
-          </button>
+          <button class="btn btn-primary btn-block">Edit Image</button>
+          <button class="btn btn-danger btn-block">Delete Image</button>
         </div>
       </div>
     </div>
@@ -89,8 +85,8 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid unde at fugiat 
 export default {
   name: "UserProfileView",
   props: {
-    msg: String
-  }
+    msg: String,
+  },
 };
 </script>
 

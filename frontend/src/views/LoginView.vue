@@ -54,8 +54,8 @@
 export default {
   name: "LoginView",
   props: {
-    msg: String
-  }
+    msg: String,
+  },
 };
 </script>
 

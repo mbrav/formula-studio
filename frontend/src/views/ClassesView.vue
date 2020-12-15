@@ -22,9 +22,7 @@
               placeholder="Search Classes..."
             />
             <div class="input-group-append">
-              <button class="btn btn-primary">
-                Search
-              </button>
+              <button class="btn btn-primary">Search</button>
             </div>
           </div>
         </div>
@@ -153,8 +151,8 @@
 export default {
   name: "ClassesView",
   props: {
-    msg: String
-  }
+    msg: String,
+  },
   // mounted() {
   //   axios.get("http://localhost:8000/api/v1/groups/").then(response => {
   //     console.log(response.data);

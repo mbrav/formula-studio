@@ -123,9 +123,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title">
-            Signup for class
-          </h5>
+          <h5 class="modal-title">Signup for class</h5>
           <button class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
@@ -139,15 +137,9 @@
             <div class="form-group">
               <label for="category">Category</label>
               <select class="form-control">
-                <option value="">
-                  Yoga
-                </option>
-                <option value="">
-                  Hot Yoga
-                </option>
-                <option value="">
-                  Health & Wellness
-                </option>
+                <option value="">Yoga</option>
+                <option value="">Hot Yoga</option>
+                <option value="">Health & Wellness</option>
               </select>
             </div>
             <div class="form-group">
@@ -170,9 +162,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-success text-white">
-          <h5 class="modal-title">
-            Add Category
-          </h5>
+          <h5 class="modal-title">Add Category</h5>
           <button class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
@@ -199,9 +189,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-warning text-white">
-          <h5 class="modal-title">
-            Add User
-          </h5>
+          <h5 class="modal-title">Add User</h5>
           <button class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
@@ -242,25 +230,25 @@ var moment = require("moment");
 export default {
   name: "DashboardView",
   props: {
-    msg: String
+    msg: String,
   },
   data() {
     return {
-      groupData: []
+      groupData: [],
     };
   },
   methods: {
     ClassDate(date) {
       return moment(date).format("MMM Do YYYY");
-    }
+    },
   },
   mounted() {
-    axios.get("http://localhost:8000/api/v1/groups/").then(response => {
+    axios.get("http://localhost:8000/api/v1/groups/").then((response) => {
       this.groupData = response.data;
       console.log("DATA:", this.groupData);
       console.log(this.groupData[1].id);
     });
-  }
+  },
 };
 </script>
 

@@ -92,8 +92,8 @@
 export default {
   name: "UsersView",
   props: {
-    msg: String
-  }
+    msg: String,
+  },
 };
 </script>
 

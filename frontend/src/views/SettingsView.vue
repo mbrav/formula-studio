@@ -99,9 +99,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title">
-            Add Post
-          </h5>
+          <h5 class="modal-title">Add Post</h5>
           <button class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
@@ -115,18 +113,10 @@
             <div class="form-group">
               <label for="category">Category</label>
               <select class="form-control">
-                <option value="">
-                  Web Development
-                </option>
-                <option value="">
-                  Tech Gadgets
-                </option>
-                <option value="">
-                  Business
-                </option>
-                <option value="">
-                  Health & Wellness
-                </option>
+                <option value="">Web Development</option>
+                <option value="">Tech Gadgets</option>
+                <option value="">Business</option>
+                <option value="">Health & Wellness</option>
               </select>
             </div>
             <div class="form-group">
@@ -157,9 +147,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-success text-white">
-          <h5 class="modal-title">
-            Add Category
-          </h5>
+          <h5 class="modal-title">Add Category</h5>
           <button class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
@@ -186,9 +174,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-warning text-white">
-          <h5 class="modal-title">
-            Add User
-          </h5>
+          <h5 class="modal-title">Add User</h5>
           <button class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
@@ -227,8 +213,8 @@
 export default {
   name: "SettingsView",
   props: {
-    msg: String
-  }
+    msg: String,
+  },
 };
 </script>
 

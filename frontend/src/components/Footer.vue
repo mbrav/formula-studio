@@ -22,8 +22,8 @@ export default {
   methods: {
     YearNow() {
       return moment().format("YYYY");
-    }
-  }
+    },
+  },
 };
 </script>
 

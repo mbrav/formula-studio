@@ -4,9 +4,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <h1>
-            Class Details
-          </h1>
+          <h1>Class Details</h1>
         </div>
       </div>
     </div>
@@ -53,18 +51,10 @@
                 <div class="form-group">
                   <label for="category">Category</label>
                   <select class="form-control">
-                    <option value="" selected>
-                      Web Development
-                    </option>
-                    <option value="">
-                      Tech Gadgets
-                    </option>
-                    <option value="">
-                      Business
-                    </option>
-                    <option value="">
-                      Health & Wellness
-                    </option>
+                    <option value="" selected>Web Development</option>
+                    <option value="">Tech Gadgets</option>
+                    <option value="">Business</option>
+                    <option value="">Health & Wellness</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -96,9 +86,7 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat culpa nam cumq
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title">
-            Add Post
-          </h5>
+          <h5 class="modal-title">Add Post</h5>
           <button class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
@@ -112,18 +100,10 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat culpa nam cumq
             <div class="form-group">
               <label for="category">Category</label>
               <select class="form-control">
-                <option value="">
-                  Web Development
-                </option>
-                <option value="">
-                  Tech Gadgets
-                </option>
-                <option value="">
-                  Business
-                </option>
-                <option value="">
-                  Health & Wellness
-                </option>
+                <option value="">Web Development</option>
+                <option value="">Tech Gadgets</option>
+                <option value="">Business</option>
+                <option value="">Health & Wellness</option>
               </select>
             </div>
             <div class="form-group">
@@ -154,9 +134,7 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat culpa nam cumq
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-success text-white">
-          <h5 class="modal-title">
-            Add Category
-          </h5>
+          <h5 class="modal-title">Add Category</h5>
           <button class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
@@ -183,9 +161,7 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat culpa nam cumq
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-warning text-white">
-          <h5 class="modal-title">
-            Add User
-          </h5>
+          <h5 class="modal-title">Add User</h5>
           <button class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
@@ -224,8 +200,8 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat culpa nam cumq
 export default {
   name: "ClassDetailView",
   props: {
-    msg: String
-  }
+    msg: String,
+  },
 };
 </script>
 
