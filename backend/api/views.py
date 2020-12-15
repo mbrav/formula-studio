@@ -7,6 +7,11 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthentic
 from .models import *
 from .serializers import *
 
+class InstructorViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = InstructorSerializer
+    queryset = Instructor.objects.all()
+
 class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = GroupSerializer
@@ -22,7 +27,4 @@ class SignupViewSet(viewsets.ModelViewSet):
         response = {
             'message' : 'its working'
         }
-        return Response(response, status=status.HTTP_201_CREATED)  
-
-
-
+        return Response(response, status=status.HTTP_201_CREATED)

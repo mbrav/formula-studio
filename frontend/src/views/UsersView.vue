@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <h1><i class="fas fa-users"></i> Users</h1>
+          <h1><i class="fas fa-users"></i> Instructors</h1>
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@
         <div class="col">
           <div class="card">
             <div class="card-header">
-              <h4>Latest Users</h4>
+              <h4>Instructors</h4>
             </div>
             <table class="table table-striped">
               <thead class="thead-dark">
@@ -49,30 +49,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>John Doe</td>
-                  <td>jdoe@gmail.com</td>
-                  <td>
-                    <a href="/profile" class="btn btn-secondary">
-                      <i class="fas fa-angle-double-right"></i> Details
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Harry White</td>
-                  <td>harry@yahoo.com</td>
-                  <td>
-                    <a href="/profile" class="btn btn-secondary">
-                      <i class="fas fa-angle-double-right"></i> Details
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Mary Johnson</td>
-                  <td>mary@gmail.com</td>
+                <tr v-for="instructor in instructorData" :key="instructor">
+                  <td>{{ instructor.id }}</td>
+                  <td>{{ instructor.first_name + " " +  instructor.last_name}}</td>
+                  <td>{{ instructor.email}}</td>
                   <td>
                     <a href="/profile" class="btn btn-secondary">
                       <i class="fas fa-angle-double-right"></i> Details
@@ -89,10 +69,23 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "UsersView",
   props: {
     msg: String,
+  },
+  data() {
+    return {
+      instructorData: [],
+    };
+  },
+  mounted() {
+    axios.get("http://localhost:8000/api/v1/instructors/").then((response) => {
+      this.instructorData = response.data;
+      console.log("DATA:", this.instructorData);
+      console.log(this.instructorData[1].id);
+    });
   },
 };
 </script>

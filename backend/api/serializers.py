@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from .models import *
-        
+
         # fields = [
-        #     'id', 
-        #     'name', 
-        #     'price', 
+        #     'id',
+        #     'name',
+        #     'price',
         #     'description'
         # ]
 
@@ -14,12 +14,23 @@ from .models import *
 
 class GroupSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(
-        slug_field="name", 
+        slug_field="name",
         read_only=True
     )
 
     class Meta:
         model = Group
+        exclude = [
+        ]
+
+class InstructorSerializer(serializers.ModelSerializer):
+    category = serializers.SlugRelatedField(
+        slug_field="last_name",
+        read_only=True
+    )
+
+    class Meta:
+        model = Instructor
         exclude = [
         ]
 

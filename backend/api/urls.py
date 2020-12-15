@@ -7,6 +7,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('groups', GroupViewSet)
 router.register('signups', SignupViewSet)
+router.register('instructors', InstructorViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
