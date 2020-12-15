@@ -18,8 +18,8 @@
           <a
             href="#"
             class="btn btn-primary btn-block"
-            data-toggle="modal"
-            data-target="#addPostModal"
+            data-bs-toggle="modal"
+            data-bs-target="#addClassModal"
           >
             <i class="fas fa-plus" /> Class Signup
           </a>
@@ -28,8 +28,8 @@
           <a
             href="#"
             class="btn btn-success btn-block"
-            data-toggle="modal"
-            data-target="#addCategoryModal"
+            data-bs-toggle="modal"
+            data-bs-target="#addCategoryModal"
           >
             <i class="fas fa-plus" /> Add Category
           </a>
@@ -38,8 +38,8 @@
           <a
             href="#"
             class="btn btn-warning btn-block"
-            data-toggle="modal"
-            data-target="#addUserModal"
+            data-bs-toggle="modal"
+            data-bs-target="#addUserModal"
           >
             <i class="fas fa-plus" /> Add User
           </a>
@@ -119,12 +119,12 @@
   <!-- MODALS -->
 
   <!-- SIGNUP FOR CLASS MODAL -->
-  <div class="modal fade" id="addPostModal">
+  <div class="modal fade" id="addClassModal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-white">
           <h5 class="modal-title">Signup for class</h5>
-          <button class="close" data-dismiss="modal">
+          <button class="close" data-bs-dismiss="modal">
             <span>&times;</span>
           </button>
         </div>
@@ -149,7 +149,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary" data-dismiss="modal">
+          <button class="btn btn-primary" data-bs-dismiss="modal">
             Save Changes
           </button>
         </div>
@@ -163,7 +163,7 @@
       <div class="modal-content">
         <div class="modal-header bg-success text-white">
           <h5 class="modal-title">Add Category</h5>
-          <button class="close" data-dismiss="modal">
+          <button class="close" data-bs-dismiss="modal">
             <span>&times;</span>
           </button>
         </div>
@@ -176,7 +176,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-success" data-dismiss="modal">
+          <button class="btn btn-success" data-bs-dismiss="modal">
             Save Changes
           </button>
         </div>
@@ -190,7 +190,7 @@
       <div class="modal-content">
         <div class="modal-header bg-warning text-white">
           <h5 class="modal-title">Add User</h5>
-          <button class="close" data-dismiss="modal">
+          <button class="close" data-bs-dismiss="modal">
             <span>&times;</span>
           </button>
         </div>
@@ -215,7 +215,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-warning" data-dismiss="modal">
+          <button class="btn btn-warning" data-bs-dismiss="modal">
             Save Changes
           </button>
         </div>
