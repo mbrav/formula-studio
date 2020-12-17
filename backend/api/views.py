@@ -12,19 +12,36 @@ class InstructorViewSet(viewsets.ModelViewSet):
     serializer_class = InstructorSerializer
     queryset = Instructor.objects.all()
 
+    @action(detail=False, methods=['GET'])
+    def info(self, request):
+        count_total = Instructor.objects.all().count()
+        response = {
+            'countTotal' : count_total
+        }
+        return Response(response, status=status.HTTP_200_OK)
+
 class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = GroupSerializer
     queryset = Group.objects.all()
 
+    @action(detail=False, methods=['GET'])
+    def info(self, request):
+        count_total = Group.objects.all().count()
+        response = {
+            'countTotal' : count_total
+        }
+        return Response(response, status=status.HTTP_200_OK)
+
 class SignupViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = SignupSerializer
     queryset = Signup.objects.all()
 
-    @action(detail=True, methods=['GET'])
-    def add(self, request, pk=None):
+    @action(detail=False, methods=['GET'])
+    def info(self, request):
+        count_total = Signup.objects.all().count()
         response = {
-            'message' : 'its working'
+            'countTotal' : count_total
         }
-        return Response(response, status=status.HTTP_201_CREATED)
+        return Response(response, status=status.HTTP_200_OK)

@@ -88,7 +88,7 @@
             <div class="card-body">
               <h3>Classes</h3>
               <h4 class="display-4">
-                <i class="fas fa-pencil-alt" /> {{ groupData.length }}
+                <i class="fas fa-pencil-alt" /> {{ modelStats.groups }}
               </h4>
               <a href="/classes" class="btn btn-outline-light btn-sm">View</a>
             </div>
@@ -96,8 +96,10 @@
 
           <div class="card text-center bg-success text-white mb-3">
             <div class="card-body">
-              <h3>Categories</h3>
-              <h4 class="display-4"><i class="fas fa-folder" /> 4</h4>
+              <h3>Signups</h3>
+              <h4 class="display-4">
+                <i class="fas fa-folder" /> {{ modelStats.signups }}
+              </h4>
               <a href="/categories" class="btn btn-outline-light btn-sm"
                 >View</a
               >
@@ -106,8 +108,10 @@
 
           <div class="card text-center bg-warning text-white mb-3">
             <div class="card-body">
-              <h3>Users</h3>
-              <h4 class="display-4"><i class="fas fa-users" /> 4</h4>
+              <h3>Instructors</h3>
+              <h4 class="display-4">
+                <i class="fas fa-users" /> {{ modelStats.instructors }}
+              </h4>
               <a href="/users" class="btn btn-outline-light btn-sm">View</a>
             </div>
           </div>
@@ -235,6 +239,7 @@ export default {
   data() {
     return {
       groupData: [],
+      modelStats: {},
     };
   },
   methods: {
@@ -246,8 +251,22 @@ export default {
     axios.get("http://localhost:8000/api/v1/groups/").then((response) => {
       this.groupData = response.data;
       console.log("DATA:", this.groupData);
-      console.log(this.groupData[1].id);
     });
+
+    axios.get("http://localhost:8000/api/v1/groups/info/").then((response) => {
+      this.modelStats.groups = response.data;
+    });
+
+    axios.get("http://localhost:8000/api/v1/signups/info/").then((response) => {
+      this.modelStats.signups = response.data;
+    });
+
+    axios
+      .get("http://localhost:8000/api/v1/instructors/info/")
+      .then((response) => {
+        this.modelStats.instructors = response.data;
+        console.log("DATA:", this.modelStats);
+      });
   },
 };
 </script>

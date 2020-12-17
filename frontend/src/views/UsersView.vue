@@ -51,8 +51,10 @@
               <tbody>
                 <tr v-for="instructor in instructorData" :key="instructor">
                   <td>{{ instructor.id }}</td>
-                  <td>{{ instructor.first_name + " " +  instructor.last_name}}</td>
-                  <td>{{ instructor.email}}</td>
+                  <td>
+                    {{ instructor.first_name + " " + instructor.last_name }}
+                  </td>
+                  <td>{{ instructor.email }}</td>
                   <td>
                     <a href="/profile" class="btn btn-secondary">
                       <i class="fas fa-angle-double-right"></i> Details
