@@ -6,28 +6,28 @@ from django.utils import timezone
 
 class UserProfile(models.Model):
     first_name = models.CharField(
-        ('First Name'), 
+        ('First Name'),
         max_length=50,
     )
 
     last_name = models.CharField(
-        ('Last Name'), 
+        ('Last Name'),
         max_length=50,
     )
 
     mobile_number = models.CharField(
-        ('Mobile Number'), 
-        max_length=11, 
+        ('Mobile Number'),
+        max_length=11,
         unique=True,
     )
 
     email = models.EmailField(
-        null=True, 
+        null=True,
         blank=True,
     )
 
     description = models.TextField(
-        ('Description'), 
+        ('Description'),
         blank=True,
     )
 
@@ -36,7 +36,7 @@ class UserProfile(models.Model):
     )
 
     # image = models.ImageField(
-    #     upload_to='img/member_profiles', 
+    #     upload_to='img/member_profiles',
     #     blank=True,
     # )
 
@@ -57,18 +57,18 @@ class Instructor(UserProfile):
             for sub_v in self.subscriptions.all():
                 if not sub_v.payment.writen_off:
                     money += sub_v.payment.amount
-        # Count single visits 
+        # Count single visits
         if self.single_visits.all():
             for single_v in self.single_visits.all():
                 if not single_v.payment.writen_off:
-                    money += single_v.payment.amount   
-        # Count item purchases 
+                    money += single_v.payment.amount
+        # Count item purchases
         if self.item_purchases.all():
             for item_p in self.item_purchases.all():
                 if not item_p.payment.writen_off:
                     money += item_p.payment.amount
         return money
-    
+
     class Meta:
         verbose_name = 'Instructor'
         verbose_name_plural = 'Instructors'
@@ -96,13 +96,13 @@ class Member(UserProfile):
     def __str__(self):
         return "%s %s - #%s" % (self.last_name, self.first_name, self.id)
 
-# A lose version for keep track of signups 
-# Best for integrating with an externa form field 
-# that submits new signups throguth an API call 
+# A lose version for keep track of signups
+# Best for integrating with an externa form field
+# that submits new signups throguth an API call
 class Signup(models.Model):
     date = models.DateTimeField(editable=False)
 
-    # Best way to ass autosave 
+    # Best way to ass autosave
     # https://stackoverflow.com/questions/1737017/django-auto-now-and-auto-now-add
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
@@ -112,35 +112,35 @@ class Signup(models.Model):
         return super(Signup, self).save(*args, **kwargs)
 
     first_name = models.CharField(
-        ('First Name'), 
+        ('First Name'),
         max_length=50,
         blank=True,
     )
 
     last_name = models.CharField(
-        ('Last Name'), 
+        ('Last Name'),
         max_length=50,
         blank=True,
     )
 
     mobile_number = models.CharField(
-        ('Mobile Number'), 
+        ('Mobile Number'),
         max_length=11,
         blank=True,
     )
 
     email = models.EmailField(
-        ('email'), 
+        ('email'),
         blank=True,
     )
 
     group = models.CharField(
-        ('Group'), 
+        ('Group'),
         max_length=50,
         blank=True,
     )
 
-    member = models.ForeignKey('Member', 
+    member = models.ForeignKey('Member',
         on_delete = models.CASCADE,
         related_name='signups',
         help_text='Member to which to assign this signup',
@@ -171,12 +171,12 @@ class Payment(models.Model):
     writen_off = models.BooleanField(
         default=False,
         help_text="Set whether the payment should be written off from finances"
-    ) 
+    )
 
     amount = models.DecimalField(
-        default=0, 
-        decimal_places=2, 
-        max_digits=10, 
+        default=0,
+        decimal_places=2,
+        max_digits=10,
         blank=True,
     )
 
@@ -193,7 +193,7 @@ class Payment(models.Model):
         help_text='Payment status',
     )
 
-    member = models.ForeignKey('Member', 
+    member = models.ForeignKey('Member',
         on_delete = models.CASCADE,
         related_name='payments',
         help_text='Payments that member has made',
@@ -215,7 +215,7 @@ class Payment(models.Model):
 class GroupCategory(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField(
-        ('Description'), 
+        ('Description'),
         blank=True,
     )
 
@@ -235,38 +235,38 @@ class Group(models.Model):
     date = models.DateTimeField()
 
     google_cal_id = models.CharField(
-        max_length=30, 
+        max_length=30,
         default="",
         blank=True,
         null=True,
-        )
+    )
 
     instructor = models.ForeignKey(
-        'Instructor', 
-        related_name='groups', 
+        'Instructor',
+        related_name='groups',
         on_delete=models.CASCADE,
         help_text='Groups that the instructor leads',
     )
 
     category = models.ForeignKey(
-        'GroupCategory', 
-        related_name='group', 
+        'GroupCategory',
+        related_name='group',
         on_delete=models.CASCADE,
         help_text='Category of the group',
         # unique=True,
     )
-    
+
     def revenue(self):
         # Get average price of subscription visit by dividing
-        # its price by number of visits to get average 
+        # its price by number of visits to get average
         money = 0
         for sub_v in self.subscription_visits.all():
             money += (sub_v.subscription.payment.amount /
                 sub_v.subscription.subscription_category.number_of_visits)
         for single_v in self.single_visits.all():
             money += single_v.payment.amount
-        return money 
-    
+        return money
+
     def visits_total(self):
         vis = 0
 
@@ -284,32 +284,32 @@ class Group(models.Model):
 
     def __str__(self):
         return "%s - %s" % (self.date.strftime("%b %d %Y"), self.name)
-    
+
 class SubscriptionCategory(models.Model):
     name = models.CharField(
         max_length=30,
-        unique=True, 
+        unique=True,
     )
 
     description = models.TextField(
-        ('Description'), 
+        ('Description'),
         blank=True,
     )
 
     price = models.DecimalField(
-        default=0, 
-        decimal_places=2, 
-        max_digits=10, 
+        default=0,
+        decimal_places=2,
+        max_digits=10,
         blank=True,
     )
 
     number_of_visits = models.PositiveIntegerField(
-        blank=False, 
+        blank=False,
         null=False,
     )
 
     validity_in_days = models.PositiveIntegerField(
-        blank=False, 
+        blank=False,
         null=False,
     )
 
@@ -351,20 +351,20 @@ class Subscription(models.Model):
     )
 
     subscription_category = models.ForeignKey(
-        'SubscriptionCategory', 
-        related_name='subscriptions', 
+        'SubscriptionCategory',
+        related_name='subscriptions',
         on_delete=models.CASCADE,
         # unique=True,
     )
 
     payment = models.ForeignKey(
-        'Payment', 
-        related_name='subscription', 
+        'Payment',
+        related_name='subscription',
         on_delete=models.CASCADE,
         # unique=True,
     )
 
-    member = models.ForeignKey('Member', 
+    member = models.ForeignKey('Member',
         on_delete = models.CASCADE,
         related_name='subscriptions',
         help_text='Subscriptions that the member has',
@@ -378,7 +378,7 @@ class Subscription(models.Model):
 
     def visits_remaining(self):
         return (
-            self.subscription_category.number_of_visits - 
+            self.subscription_category.number_of_visits -
             self.subscription_visits.all().count()
         )
 
@@ -394,18 +394,18 @@ class SubscriptionExtension(models.Model):
     date = models.DateField()
 
     days = models.PositiveIntegerField(
-        blank=False, 
+        blank=False,
         null=False,
     )
 
     description = models.TextField(
-        ('Description'), 
+        ('Description'),
         blank=True,
     )
 
     subscription = models.ForeignKey(
-        'Subscription', 
-        related_name='subscription_extensions', 
+        'Subscription',
+        related_name='subscription_extensions',
         on_delete=models.CASCADE,
         # unique=True,
     )
@@ -421,8 +421,8 @@ class SubscriptionExtension(models.Model):
 class SubscriptionVisit(models.Model):
 
     group = models.ForeignKey(
-        'Group', 
-        related_name='subscription_visits', 
+        'Group',
+        related_name='subscription_visits',
         on_delete=models.CASCADE,
         # unique=True,
     )
@@ -447,21 +447,21 @@ class SubscriptionVisit(models.Model):
 
 class SingleVisit(models.Model):
     payment = models.ForeignKey(
-        'Payment', 
-        related_name='single_visit', 
+        'Payment',
+        related_name='single_visit',
         on_delete=models.CASCADE,
         help_text='Group to which a single visit occured',
     )
 
     group = models.ForeignKey(
-        'Group', 
-        related_name='single_visits', 
+        'Group',
+        related_name='single_visits',
         on_delete=models.CASCADE,
         help_text='Single visits that the group has',
         # unique=True,
     )
 
-    member = models.ForeignKey('Member', 
+    member = models.ForeignKey('Member',
         on_delete = models.CASCADE,
         related_name='single_visits',
         help_text='Single visits that the member has made',
@@ -483,14 +483,14 @@ class ItemCategory(models.Model):
     name = models.CharField(max_length=30)
 
     price = models.DecimalField(
-        default=0, 
-        decimal_places=2, 
-        max_digits=10, 
+        default=0,
+        decimal_places=2,
+        max_digits=10,
         blank=True,
     )
 
     description = models.TextField(
-        ('Description'), 
+        ('Description'),
         blank=True,
     )
 
@@ -505,22 +505,22 @@ class ItemCategory(models.Model):
 class ItemPurchase(models.Model):
     def date(self):
         return self.payment.date
-    
+
     item_category = models.ForeignKey(
-        'ItemCategory', 
-        related_name='items', 
-        on_delete=models.CASCADE,
-        # unique=True,
-    )
-    
-    payment = models.ForeignKey(
-        'Payment', 
-        related_name='item_purchases', 
+        'ItemCategory',
+        related_name='items',
         on_delete=models.CASCADE,
         # unique=True,
     )
 
-    member = models.ForeignKey('Member', 
+    payment = models.ForeignKey(
+        'Payment',
+        related_name='item_purchases',
+        on_delete=models.CASCADE,
+        # unique=True,
+    )
+
+    member = models.ForeignKey('Member',
         on_delete = models.CASCADE,
         related_name='item_purchases',
         help_text='Item purchases that the member has made',
@@ -533,8 +533,3 @@ class ItemPurchase(models.Model):
 
     def __str__(self):
         return "%s" % (self.item_category)
-
-
-
-
-
