@@ -22,6 +22,10 @@ Uses Django and its admin interface for now.
 
 *in development*
 
+Uses Vue.js 3, currently experimental as the community is transitioning from the 2nd version to the new one.
+
+- Installation [instructions can be found here](frontend/).
+
 
 ## Contributing
 
