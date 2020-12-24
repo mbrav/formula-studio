@@ -83,12 +83,13 @@
             </table>
           </div>
         </div>
+
         <div class="col-md-3">
           <div class="card text-center bg-primary text-white mb-3">
             <div class="card-body">
               <h3>Classes</h3>
               <h4 class="display-4">
-                <i class="fas fa-pencil-alt" /> {{ modelStats.groups }}
+                <i class="fas fa-pencil-alt" /> {{ groupData.length }}
               </h4>
               <a href="/classes" class="btn btn-outline-light btn-sm">View</a>
             </div>
@@ -103,16 +104,6 @@
               <a href="/categories" class="btn btn-outline-light btn-sm"
                 >View</a
               >
-            </div>
-          </div>
-
-          <div class="card text-center bg-warning text-white mb-3">
-            <div class="card-body">
-              <h3>Instructors</h3>
-              <h4 class="display-4">
-                <i class="fas fa-users" /> {{ modelStats.instructors }}
-              </h4>
-              <a href="/users" class="btn btn-outline-light btn-sm">View</a>
             </div>
           </div>
         </div>
@@ -239,7 +230,6 @@ export default {
   data() {
     return {
       groupData: [],
-      modelStats: {},
     };
   },
   methods: {
@@ -252,21 +242,6 @@ export default {
       this.groupData = response.data;
       console.log("DATA:", this.groupData);
     });
-
-    axios.get("http://localhost:8000/api/v1/groups/info/").then((response) => {
-      this.modelStats.groups = response.data;
-    });
-
-    axios.get("http://localhost:8000/api/v1/signups/info/").then((response) => {
-      this.modelStats.signups = response.data;
-    });
-
-    axios
-      .get("http://localhost:8000/api/v1/instructors/info/")
-      .then((response) => {
-        this.modelStats.instructors = response.data;
-        console.log("DATA:", this.modelStats);
-      });
   },
 };
 </script>
