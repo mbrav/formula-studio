@@ -68,7 +68,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="group in groupData" :key="group">
+                <tr v-for="group in groups" :key="group">
                   <td>{{ group.id }}</td>
                   <td>{{ group.name }}</td>
                   <td>{{ group.category }}</td>
@@ -89,7 +89,7 @@
             <div class="card-body">
               <h3>Classes</h3>
               <h4 class="display-4">
-                <i class="fas fa-pencil-alt" /> {{ groupData.length }}
+                <i class="fas fa-pencil-alt" /> {{ groups.length }}
               </h4>
               <a href="/classes" class="btn btn-outline-light btn-sm">View</a>
             </div>
@@ -99,7 +99,7 @@
             <div class="card-body">
               <h3>Signups</h3>
               <h4 class="display-4">
-                <i class="fas fa-folder" /> {{ modelStats.signups }}
+                <i class="fas fa-folder" /> {{ groups.length }}
               </h4>
               <a href="/categories" class="btn btn-outline-light btn-sm"
                 >View</a
@@ -220,17 +220,20 @@
 </template>
 
 <script>
-import axios from "axios";
 var moment = require("moment");
+
 export default {
   name: "DashboardView",
-  props: {
-    msg: String,
-  },
+  components: {},
+  props: {},
   data() {
     return {
-      groupData: [],
     };
+  },
+  computed: {
+    groups() {
+      return this.$store.state.groupData;
+    },
   },
   methods: {
     ClassDate(date) {
@@ -238,10 +241,7 @@ export default {
     },
   },
   mounted() {
-    axios.get("http://localhost:8000/api/v1/groups/").then((response) => {
-      this.groupData = response.data;
-      console.log("DATA:", this.groupData);
-    });
+    this.$store.dispatch("getGroups");
   },
 };
 </script>

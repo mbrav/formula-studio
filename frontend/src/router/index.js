@@ -1,62 +1,53 @@
 import { createRouter, createWebHistory } from "vue-router";
-// import DashboardView from "../views/DashboardView.vue";
 
 const routes = [
-  // {
-  //   path: "/home",
-  //   name: "Home",
-  //   component: About
-  // },
   {
     path: "/",
     name: "Dashboard",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/DashboardView.vue"),
+      import("../views/DashboardView.vue"),
   },
   {
     path: "/classes",
     name: "Classes",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/ClassesView.vue"),
+      import("../views/ClassesView.vue"),
   },
   {
     path: "/class-details",
     name: "Class Detail",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/ClassDetailView.vue"),
+      import("../views/ClassDetailView.vue"),
   },
   {
     path: "/Categories",
     name: "Categories",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/CategoriesView.vue"),
+      import("../views/CategoriesView.vue"),
   },
   {
     path: "/Users",
     name: "Users",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/UsersView.vue"),
+      import("../views/UsersView.vue"),
   },
   {
     path: "/profile",
     name: "User Profile",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/UserProfileView.vue"),
+      import("../views/UserProfileView.vue"),
   },
   {
     path: "/settings",
     name: "Settings",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/SettingsView.vue"),
+      import("../views/SettingsView.vue"),
   },
   {
     path: "/login",
     name: "Login",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/LoginView.vue"),
+      import("../views/LoginView.vue"),
   },
 ];
 

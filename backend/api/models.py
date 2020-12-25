@@ -31,8 +31,12 @@ class UserProfile(models.Model):
         blank=True,
     )
 
-    registered_on = models.DateField(
+    created_at = models.DateField(
         auto_now_add=True,
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
     )
 
     # image = models.ImageField(
@@ -149,6 +153,9 @@ class Signup(models.Model):
         # unique=True,
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         verbose_name = 'Signup'
         verbose_name_plural = 'Signups'
@@ -200,6 +207,9 @@ class Payment(models.Model):
         # unique=True,
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         verbose_name = 'Payment'
         verbose_name_plural = 'Payments'
@@ -218,6 +228,9 @@ class GroupCategory(models.Model):
         ('Description'),
         blank=True,
     )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Group Category'
@@ -255,6 +268,9 @@ class Group(models.Model):
         help_text='Category of the group',
         # unique=True,
     )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def revenue(self):
         # Get average price of subscription visit by dividing
@@ -313,6 +329,9 @@ class SubscriptionCategory(models.Model):
         null=False,
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def avg_visit_price(self):
         return int(self.price / self.number_of_visits)
 
@@ -370,6 +389,9 @@ class Subscription(models.Model):
         help_text='Subscriptions that the member has',
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def visits_total(self):
         return self.subscription_category.number_of_visits
 
@@ -410,6 +432,9 @@ class SubscriptionExtension(models.Model):
         # unique=True,
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
          verbose_name = 'Subscription Extension'
          verbose_name_plural = 'Subscription Extensions'
@@ -434,6 +459,9 @@ class SubscriptionVisit(models.Model):
         help_text='A visit based on a subscription',
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         verbose_name = 'Subscription Visit'
         verbose_name_plural = 'subscription Visits'
@@ -452,6 +480,9 @@ class SingleVisit(models.Model):
         on_delete=models.CASCADE,
         help_text='Group to which a single visit occured',
     )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     group = models.ForeignKey(
         'Group',
@@ -494,6 +525,9 @@ class ItemCategory(models.Model):
         blank=True,
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         verbose_name = 'Item Category'
         verbose_name_plural = 'Item Categories'
@@ -526,6 +560,9 @@ class ItemPurchase(models.Model):
         help_text='Item purchases that the member has made',
         # unique=True,
     )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Item Purchase'

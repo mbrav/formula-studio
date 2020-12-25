@@ -147,17 +147,11 @@
 </template>
 
 <script>
-// import axios from "axios";
 export default {
   name: "ClassesView",
   props: {
     msg: String,
   },
-  // mounted() {
-  //   axios.get("http://localhost:8000/api/v1/groups/").then(response => {
-  //     console.log(response.data);
-  //   });
-  // }
 };
 </script>
 

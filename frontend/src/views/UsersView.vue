@@ -77,30 +77,16 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "UsersView",
   props: {
     msg: String,
-  },
-  data() {
-    return {
-      instructorData: [],
-    };
-  },
-  mounted() {
-    axios.get("http://localhost:8000/api/v1/instructors/").then((response) => {
-      this.instructorData = response.data;
-      console.log("DATA:", this.instructorData);
-      console.log(this.instructorData[1].id);
-    });
   },
 };
 </script>

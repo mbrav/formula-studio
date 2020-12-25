@@ -36,6 +36,13 @@ class SignupSerializer(serializers.ModelSerializer):
         exclude = [
         ]
 
+class PaymentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Payment
+        exclude = [
+        ]
+
 class SubscriptionSerializer(serializers.ModelSerializer):
 
     class Meta:

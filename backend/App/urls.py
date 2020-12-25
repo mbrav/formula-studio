@@ -19,7 +19,6 @@ from rest_framework.authtoken import views
 
 urlpatterns = [
     path('api/v1/', include('api.urls')),
-    path('grappelli/', include('grappelli.urls')), # grappelli URLS
     path('admin/', admin.site.urls),
     path('api/v1/auth', views.obtain_auth_token),
 ]

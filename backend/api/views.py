@@ -55,6 +55,18 @@ class SignupViewSet(viewsets.ModelViewSet):
     queryset = Signup.objects.all()
     serializer_class = SignupSerializer
 
+class PaymentViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    search_fields = [
+        'id',
+        'member',
+    ]
+
+    filter_backends = (filters.SearchFilter,)
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+
 class SubscriptionViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
