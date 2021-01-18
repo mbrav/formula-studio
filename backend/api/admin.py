@@ -5,10 +5,10 @@ admin.site.site_header = "Formula Studio"
 admin.site.site_title = "Formula Studio"
 admin.site.index_title = "The best CMS ever written!"
 
-# For filtering admin dropdown menu 
+# For filtering admin dropdown menu
 # https://books.agiliq.com/projects/django-admin-cookbook/en/latest/filter_fk_dropdown.html
 
-#Inline elements 
+#Inline elements
 # class MemberInline(admin.StackedInline):
 #     model = Member
 #     max_num=1
@@ -20,7 +20,7 @@ class SingleVisitInline(admin.TabularInline):
 class SubscriptionInline(admin.TabularInline):
     model = Subscription
     max_num=1
-    
+
 class ItemPurchaseInline(admin.TabularInline):
     model = ItemPurchase
     max_num=3
@@ -32,20 +32,20 @@ class ItemPurchaseInline(admin.TabularInline):
 class Instructor(admin.ModelAdmin):
     list_per_page = 100
     list_display = (
-        'last_name', 
-        'first_name', 
-        'mobile_number', 
+        'last_name',
+        'first_name',
+        'mobile_number',
         'email',
         'id'
     )
 
     search_fields = (
-        'last_name', 
+        'last_name',
         'first_name'
     )
 
     ordering = (
-        'last_name', 
+        'last_name',
         'first_name'
     )
 
@@ -55,16 +55,16 @@ class Instructor(admin.ModelAdmin):
 class MemberAdmin(admin.ModelAdmin):
     list_per_page = 100
     list_display = (
-        'last_name', 
-        'first_name', 
-        'mobile_number', 
+        'last_name',
+        'first_name',
+        'mobile_number',
         'email',
         'visits_total',
         'id'
     )
 
     search_fields = (
-        'last_name', 
+        'last_name',
         'first_name'
     )
 
@@ -74,7 +74,7 @@ class MemberAdmin(admin.ModelAdmin):
     # date_hierarchy = 'publish'
 
     ordering = (
-        'last_name', 
+        'last_name',
         'first_name'
     )
 
@@ -82,16 +82,16 @@ class MemberAdmin(admin.ModelAdmin):
 class SignupAdmin(admin.ModelAdmin):
     list_per_page = 100
     list_display = (
-        'last_name', 
+        'last_name',
         'first_name',
         'group',
-        'mobile_number', 
+        'mobile_number',
         'email',
         'id'
     )
 
     search_fields = (
-        'last_name', 
+        'last_name',
         'first_name'
     )
 
@@ -101,7 +101,7 @@ class SignupAdmin(admin.ModelAdmin):
     # date_hierarchy = 'publish'
 
     ordering = (
-        '-date', 
+        '-date',
     )
 
 
@@ -111,17 +111,17 @@ class PaymentAdmin(admin.ModelAdmin):
     date_hierarchy = 'date'
     list_per_page = 100
     list_display = (
-        'member', 
-        'amount', 
-        'method', 
-        'status', 
+        'member',
+        'amount',
+        'method',
+        'status',
         'date',
         'writen_off',
         'id',
     )
 
     list_filter = (
-        'method', 
+        'method',
         'status',
     )
 
@@ -144,16 +144,16 @@ class PaymentAdmin(admin.ModelAdmin):
 class GroupCategoryAdmin(admin.ModelAdmin):
     list_per_page = 50
     list_display = (
-        'name', 
-        'number_of_groups', 
+        'name',
+        'number_of_groups',
     )
 
     search_fields = (
-        'name', 
+        'name',
     )
 
     ordering = (
-        'name', 
+        'name',
     )
 
     readonly_fields = ['number_of_groups']
@@ -163,21 +163,21 @@ class GroupAdmin(admin.ModelAdmin):
     list_per_page = 50
     list_display = (
         'date',
-        'name',     
-        'visits_total', 
-        'revenue', 
+        'name',
+        'visits_total',
+        'revenue',
         'category',
-        'instructor', 
+        'instructor',
         'id',
     )
 
     list_editable = [
-        'category', 
+        'category',
         'instructor',
     ]
 
     ordering = (
-        '-date', 
+        '-date',
     )
 
     readonly_fields = ['visits_total']
@@ -185,16 +185,16 @@ class GroupAdmin(admin.ModelAdmin):
 @admin.register(SubscriptionCategory)
 class SubscriptionCategoryAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 
-        'number_of_visits', 
-        'validity_in_days', 
+        'name',
+        'number_of_visits',
+        'validity_in_days',
         'avg_visit_price',
         'price',
         'id',
     )
 
     ordering = (
-        'price', 
+        'price',
         'name',
     )
 
@@ -204,8 +204,8 @@ class SubscriptionAdmin(admin.ModelAdmin):
     date_hierarchy = 'registration_date'
     list_display = (
         'member',
-        'registration_date', 
-        'has_extension', 
+        'registration_date',
+        'has_extension',
         'visits_made',
         'visits_remaining',
         'visits_total',
@@ -218,8 +218,8 @@ class SubscriptionAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = [
-        'visits_made', 
-        'visits_remaining', 
+        'visits_made',
+        'visits_remaining',
         'visits_total',
         'expiration_date'
     ]
@@ -231,7 +231,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
     list_per_page = 50
     # date_hierarchy = 'date'
     list_display = (
-        'date', 
+        'date',
         'subscription',
         'days',
     )
@@ -277,13 +277,13 @@ class ItemCategoryAdmin(admin.ModelAdmin):
     list_per_page = 100
 
     list_display = (
-        'name', 
+        'name',
         'price',
         'id',
     )
 
     ordering = (
-        'price', 
+        'price',
         'name',
     )
 
@@ -291,7 +291,7 @@ class ItemCategoryAdmin(admin.ModelAdmin):
 class ItemPurchaseAdmin(admin.ModelAdmin):
     list_per_page = 100
     list_display = (
-        'item_category', 
+        'item_category',
         'id',
     )
 

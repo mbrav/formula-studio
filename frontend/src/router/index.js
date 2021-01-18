@@ -4,50 +4,42 @@ const routes = [
   {
     path: "/",
     name: "Dashboard",
-    component: () =>
-      import("../views/DashboardView.vue"),
+    component: () => import("../views/DashboardView.vue"),
   },
   {
     path: "/classes",
     name: "Classes",
-    component: () =>
-      import("../views/ClassesView.vue"),
+    component: () => import("../views/ClassesView.vue"),
   },
   {
     path: "/class-details",
     name: "Class Detail",
-    component: () =>
-      import("../views/ClassDetailView.vue"),
+    component: () => import("../views/ClassDetailView.vue"),
   },
   {
     path: "/Categories",
     name: "Categories",
-    component: () =>
-      import("../views/CategoriesView.vue"),
+    component: () => import("../views/CategoriesView.vue"),
   },
   {
     path: "/Users",
     name: "Users",
-    component: () =>
-      import("../views/UsersView.vue"),
+    component: () => import("../views/UsersView.vue"),
   },
   {
     path: "/profile",
     name: "User Profile",
-    component: () =>
-      import("../views/UserProfileView.vue"),
+    component: () => import("../views/UserProfileView.vue"),
   },
   {
     path: "/settings",
     name: "Settings",
-    component: () =>
-      import("../views/SettingsView.vue"),
+    component: () => import("../views/SettingsView.vue"),
   },
   {
     path: "/login",
     name: "Login",
-    component: () =>
-      import("../views/LoginView.vue"),
+    component: () => import("../views/LoginView.vue"),
   },
 ];
 

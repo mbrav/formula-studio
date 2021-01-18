@@ -65,7 +65,7 @@ export default createStore({
         commit("SET_STATE_SIGNUPS", response.data);
       });
     },
-    getSignups({ commit }) {
+    getPayments({ commit }) {
       axios.get(APIroot + "payments/").then((response) => {
         commit("SET_STATE_PAYMENTS", response.data);
       });

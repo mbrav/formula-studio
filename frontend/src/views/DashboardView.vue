@@ -227,8 +227,7 @@ export default {
   components: {},
   props: {},
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     groups() {
