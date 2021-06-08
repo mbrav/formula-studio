@@ -2,7 +2,7 @@ version: "3"
 
 services:
   web:
-    container_name: django-web
+    container_name: formula-studio-django
     build:
       context: ./backend/
     ports:
@@ -23,7 +23,7 @@ services:
       - db
 
   db:
-    container_name: postgres
+    container_name: formula-studio-postgres
     image: postgres:13-alpine
     restart: always
     ports:
@@ -32,4 +32,20 @@ services:
       - POSTGRES_DB=app
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
-    
+
+  rabbitmq:
+    container_name: formula-studio-rabbitmq
+    image: rabbitmq:3-management-alpine
+    restart: always
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ./rabbitmq/data/:/var/lib/rabbitmq/
+        - ./rabbitmq/log/:/var/log/rabbitmq
+    networks:
+        - rabbitmq_net
+
+networks:
+  rabbitmq_net:
+    driver: bridge

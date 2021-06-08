@@ -3,7 +3,7 @@ Django #
 *.pot
 *.pyc
 __pycache__
-db.sqlite3
+*db.sqlite3
 media
 
 # Backup files #
@@ -75,8 +75,9 @@ models.dot
 models.pdf
 
 # Stuff
-scripts
+scripts/
 *.backup
+*/rabbitmq/
 
 # Jupyter notebook
 jupyter-notes

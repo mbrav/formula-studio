@@ -13,6 +13,11 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 
+# Enviorment config
+import environ
+env = environ.Env()
+environ.Env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8&r*!u@u1lfru!lj*dj3j*=na(scr%uw&qlivkars1_vck@q$h'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -102,8 +107,17 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'TEST': {
+            'NAME': 'db.test.sqlite3',
+        },
     }
 }
+
+FIXTURE_DIRS = [
+    os.path.join(BASE_DIR, 'App', 'fixtures'),
+]
+
+CELERY_BROKER_URL = "pyamqp://guest@localhost//"
 
 # Docker database with postgres
 
@@ -173,3 +187,5 @@ USE_TZ = True
 USER_SETTINGS = {
     'CURRENCY_SYMBOL': '₽'
 }
+
+GOOGLE_CALENDAR_ID = env('GOOGLE_CALENDAR_ID')

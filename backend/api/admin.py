@@ -180,7 +180,7 @@ class GroupAdmin(admin.ModelAdmin):
         '-date',
     )
 
-    readonly_fields = ['visits_total']
+    readonly_fields = ['visits_total', 'google_cal_id']
 
 @admin.register(SubscriptionCategory)
 class SubscriptionCategoryAdmin(admin.ModelAdmin):
