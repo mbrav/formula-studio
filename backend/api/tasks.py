@@ -4,6 +4,7 @@ from celery import shared_task
 
 from .calendar import *
 
+
 @shared_task
 def get_cal_events():
     """
@@ -12,6 +13,7 @@ def get_cal_events():
     print("Getting Events")
     return get_events()
 
+
 @shared_task
 def create_cal_events():
     """
@@ -19,6 +21,7 @@ def create_cal_events():
     """
     print("Saving Events")
     return create_events()
+
 
 @shared_task
 def update_cal_events():

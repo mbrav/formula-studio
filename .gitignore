@@ -1,9 +1,8 @@
-Django #
+# Django #
 *.log
 *.pot
 *.pyc
 __pycache__
-*db.sqlite3
 media
 
 # Backup files #
@@ -13,7 +12,7 @@ media
 *.py[cod]
 *$py.class
 
-# Distribution / packaging
+# Distribution / packaging #
 .Python build/
 develop-eggs/
 dist/
@@ -32,11 +31,11 @@ wheels/
 *.manifest
 *.spec
 
-# Installer logs
+# Installer logs #
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+# Unit test / coverage reports #
 htmlcov/
 .tox/
 .coverage
@@ -57,10 +56,10 @@ coverage.xml
 !.vscode/extensions.json
 .history
 
-# pyenv
+# pyenv #
 .python-version
 
-# Environments
+# Environments #
 .env
 .venv
 env/
@@ -69,24 +68,29 @@ ENV/
 env.bak/
 venv.bak/
 
-#Various media
+# Various media #
 img/*
 models.dot
 models.pdf
 
-# Stuff
-scripts/
+# Stuff #
 *.backup
-*/rabbitmq/
+rabbitmq/
+*.sqlite3
 
-# Jupyter notebook
-jupyter-notes
+# Jupyter notebook, scripts and tests #
+jupyter-notes/
+backend/api/tests/credentials.json
+backend/api/tests/token.json
+backend/api/tests/event-list.txt
 
+# Node #
 node_modules/
 package-lock.json
-
 temp/
 
-# Static files
-
+# Static files #
 backend/staticfiles
+os.path
+pytz
+datetime

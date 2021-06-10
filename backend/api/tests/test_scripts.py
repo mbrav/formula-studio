@@ -4,15 +4,20 @@ from django.test import TestCase
 # docker-compose run app sh -c "python manage.py test"
 
 # Test functions
+
+
 def add(x, y):
     """Add two numbers"""
     return x + y
+
 
 def subtract(x, y):
     """Subtract two numbers"""
     return y - x
 
 # Run tests
+
+
 class CalcTestCase(TestCase):
 
     def test_num(self):

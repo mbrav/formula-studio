@@ -10,7 +10,8 @@ router.register('members', MemberViewSet, basename='members')
 router.register('signups', SignupViewSet, basename='signups')
 router.register('payments', PaymentViewSet, basename='payments')
 router.register('subscriptions', SubscriptionViewSet, basename='subscriptions')
-router.register('subscription-visits', SubscriptionVisitViewSet, basename='subscription-visits')
+router.register('subscription-visits', SubscriptionVisitViewSet,
+                basename='subscription-visits')
 router.register('single-visits', SingleVisitViewSet, basename='single-visits')
 router.register('purchases', ItemPurchaseViewSet, basename='purchases')
 

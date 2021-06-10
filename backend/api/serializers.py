@@ -1,12 +1,14 @@
 from rest_framework import serializers
 from .models import *
 
+
 class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Group
         exclude = [
         ]
+
 
 class InstructorSerializer(serializers.ModelSerializer):
 
@@ -15,12 +17,14 @@ class InstructorSerializer(serializers.ModelSerializer):
         exclude = [
         ]
 
+
 class MemberSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Member
         exclude = [
         ]
+
 
 class SignupSerializer(serializers.ModelSerializer):
 
@@ -29,12 +33,14 @@ class SignupSerializer(serializers.ModelSerializer):
         exclude = [
         ]
 
+
 class PaymentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payment
         exclude = [
         ]
+
 
 class SubscriptionSerializer(serializers.ModelSerializer):
 
@@ -43,6 +49,7 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         exclude = [
         ]
 
+
 class SubscriptionVisitSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -50,12 +57,14 @@ class SubscriptionVisitSerializer(serializers.ModelSerializer):
         exclude = [
         ]
 
+
 class SingleVisitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SingleVisit
         exclude = [
         ]
+
 
 class ItemPurchaseSerializer(serializers.ModelSerializer):
 

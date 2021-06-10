@@ -8,22 +8,25 @@ admin.site.index_title = "The best CMS ever written!"
 # For filtering admin dropdown menu
 # https://books.agiliq.com/projects/django-admin-cookbook/en/latest/filter_fk_dropdown.html
 
-#Inline elements
+# Inline elements
 # class MemberInline(admin.StackedInline):
 #     model = Member
 #     max_num=1
 
+
 class SingleVisitInline(admin.TabularInline):
     model = SingleVisit
-    max_num=1
+    max_num = 1
+
 
 class SubscriptionInline(admin.TabularInline):
     model = Subscription
-    max_num=1
+    max_num = 1
+
 
 class ItemPurchaseInline(admin.TabularInline):
     model = ItemPurchase
-    max_num=3
+    max_num = 3
 
 
 # Register your models here.
@@ -51,6 +54,7 @@ class Instructor(admin.ModelAdmin):
 
     readonly_fields = ['revenue']
 
+
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
     list_per_page = 100
@@ -77,6 +81,7 @@ class MemberAdmin(admin.ModelAdmin):
         'last_name',
         'first_name'
     )
+
 
 @admin.register(Signup)
 class SignupAdmin(admin.ModelAdmin):
@@ -140,12 +145,14 @@ class PaymentAdmin(admin.ModelAdmin):
         ItemPurchaseInline,
     ]
 
+
 @admin.register(GroupCategory)
 class GroupCategoryAdmin(admin.ModelAdmin):
     list_per_page = 50
     list_display = (
         'name',
         'number_of_groups',
+        'id',
     )
 
     search_fields = (
@@ -157,6 +164,7 @@ class GroupCategoryAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = ['number_of_groups']
+
 
 @admin.register(Group)
 class GroupAdmin(admin.ModelAdmin):
@@ -182,6 +190,7 @@ class GroupAdmin(admin.ModelAdmin):
 
     readonly_fields = ['visits_total', 'google_cal_id']
 
+
 @admin.register(SubscriptionCategory)
 class SubscriptionCategoryAdmin(admin.ModelAdmin):
     list_display = (
@@ -197,6 +206,7 @@ class SubscriptionCategoryAdmin(admin.ModelAdmin):
         'price',
         'name',
     )
+
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
@@ -226,20 +236,23 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
     readonly_fields = ['has_extension']
 
+
 @admin.register(SubscriptionExtension)
-class SubscriptionAdmin(admin.ModelAdmin):
+class SubscriptionExtensionAdmin(admin.ModelAdmin):
     list_per_page = 50
     # date_hierarchy = 'date'
     list_display = (
         'date',
         'subscription',
         'days',
+        'id',
     )
 
     ordering = (
         '-id',
         'date',
     )
+
 
 @admin.register(SubscriptionVisit)
 class SubscriptionVisitAdmin(admin.ModelAdmin):
@@ -253,6 +266,7 @@ class SubscriptionVisitAdmin(admin.ModelAdmin):
         '-id',
         'group',
     )
+
 
 @admin.register(SingleVisit)
 class SingleVisitAdmin(admin.ModelAdmin):
@@ -269,8 +283,8 @@ class SingleVisitAdmin(admin.ModelAdmin):
         'group',
     )
 
-    readonly_fields = ['member', 'date']
-    raw_id_fields = ['member']
+    readonly_fields = ['date']
+
 
 @admin.register(ItemCategory)
 class ItemCategoryAdmin(admin.ModelAdmin):
@@ -286,6 +300,7 @@ class ItemCategoryAdmin(admin.ModelAdmin):
         'price',
         'name',
     )
+
 
 @admin.register(ItemPurchase)
 class ItemPurchaseAdmin(admin.ModelAdmin):
