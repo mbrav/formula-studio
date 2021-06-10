@@ -111,7 +111,7 @@ class Member(UserProfile):
 class Signup(models.Model):
     date = models.DateTimeField(editable=False)
 
-    # Best way to ass autosave
+    # Best way to add autosave
     # https://stackoverflow.com/questions/1737017/django-auto-now-and-auto-now-add
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
