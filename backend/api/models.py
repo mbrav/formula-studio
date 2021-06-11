@@ -109,7 +109,6 @@ class Member(UserProfile):
 
 
 class Signup(models.Model):
-    date = models.DateTimeField(editable=False)
 
     # Best way to add autosave
     # https://stackoverflow.com/questions/1737017/django-auto-now-and-auto-now-add
@@ -141,6 +140,34 @@ class Signup(models.Model):
         blank=True,
     )
 
+    member = models.ForeignKey(
+        Member,
+        on_delete=models.CASCADE,
+        related_name='signups',
+        help_text='Member to which to assign this signup',
+        blank=True,
+        null=True,
+        # unique=True,
+    )
+
+    single_visit = models.ForeignKey(
+        'SingleVisit',
+        on_delete=models.CASCADE,
+        related_name='signups',
+        help_text='Single visit to which this signup is assigned',
+        blank=True,
+        null=True,
+    )
+
+    subscription_visit = models.ForeignKey(
+        'SubscriptionVisit',
+        on_delete=models.CASCADE,
+        related_name='signups',
+        help_text='Subscription visit to which this signup is assigned',
+        blank=True,
+        null=True,
+    )
+
     group = models.ForeignKey(
         'Group',
         on_delete=models.CASCADE,
@@ -155,16 +182,6 @@ class Signup(models.Model):
         ('Group Google Calendar ID'),
         max_length=50,
         blank=True,
-    )
-
-    member = models.ForeignKey(
-        Member,
-        on_delete=models.CASCADE,
-        related_name='signups',
-        help_text='Member to which to assign this signup',
-        blank=True,
-        null=True,
-        # unique=True,
     )
 
     created_at = models.DateTimeField(auto_now_add=True)

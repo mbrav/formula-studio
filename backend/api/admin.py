@@ -79,7 +79,7 @@ class MemberAdmin(admin.ModelAdmin):
 
     ordering = (
         'last_name',
-        'first_name'
+        'first_name',
     )
 
 
@@ -87,18 +87,25 @@ class MemberAdmin(admin.ModelAdmin):
 class SignupAdmin(admin.ModelAdmin):
     list_per_page = 100
     list_display = (
+        'created_at',
         'last_name',
         'first_name',
         'group',
-        'mobile_number',
-        'email',
+        'single_visit',
+        'subscription_visit',
         'id'
     )
 
     search_fields = (
         'last_name',
-        'first_name'
+        'first_name',
+        'group',
     )
+
+    list_editable = [
+        'single_visit',
+        'subscription_visit'
+    ]
 
     # list_filter = ('status', 'created', 'publish', 'author')
     # prepopulated_fields = {'slug': ('title',)}
@@ -106,8 +113,11 @@ class SignupAdmin(admin.ModelAdmin):
     # date_hierarchy = 'publish'
 
     ordering = (
-        '-date',
+        '-created_at',
     )
+
+    readonly_fields = ['last_name', 'first_name',
+                       'mobile_number', 'email', 'group_google_cal_id']
 
 
 @admin.register(Payment)
@@ -183,6 +193,17 @@ class GroupAdmin(admin.ModelAdmin):
         'category',
         'instructor',
     ]
+
+    search_fields = (
+        'name',
+        'category',
+        'instructor',
+    )
+
+    list_filter = (
+        'instructor',
+        'category',
+    )
 
     ordering = (
         '-date',
@@ -282,6 +303,14 @@ class SingleVisitAdmin(admin.ModelAdmin):
         '-id',
         'group',
     )
+
+    search_fields = (
+        'group',
+    )
+
+    list_editable = [
+        'group',
+    ]
 
     readonly_fields = ['date']
 
