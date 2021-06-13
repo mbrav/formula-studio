@@ -68,6 +68,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# Docker Storage #
+docker/*
+
 # Various media #
 img/*
 models.dot

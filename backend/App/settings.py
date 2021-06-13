@@ -29,7 +29,7 @@ environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = env.bool('DEBUG')
 
 # For Docker and local dev
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split()
@@ -105,27 +105,27 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 # Basic db.sqlite3 file database
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'TEST': {
-            'NAME': 'db.test.sqlite3',
-        },
-    }
-}
-
-# # Docker database with postgres
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': env('DB_NAME'),
-#         'HOST': env('DB_HOST'),
-#         "PORT": env('DB_PORT'),
-#         'USER': env('DB_USER'),
-#         'PASSWORD': env('DB_PASS'),
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'TEST': {
+#             'NAME': 'db.test.sqlite3',
+#         },
 #     }
 # }
+
+# Docker database with postgres
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('POSTGRES_DB'),
+        'HOST': env('POSTGRES_HOST'),
+        "PORT": env('POSTGRES_PORT'),
+        'USER': env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+    }
+}
 
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'App', 'fixtures'),

@@ -1,51 +1,104 @@
 version: "3"
 
 services:
-  web:
-    container_name: formula-studio-django
-    build:
-      context: ./backend/
-    ports:
-      - 8000:8000
-    volumes:
-      - ./backend:/App
-    command: >
-      sh -c "python manage.py wait_for_db &&
-             python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
-    environment:
-      - DB_HOST=db
-      - DB_NAME=app
-      - DB_USER=admin
-      - DB_PASS=admin
-      - DB_PORT=5432
-    depends_on:
-      - db
+    rabbitmq:
+        container_name: formula-studio-rabbitmq
+        image: rabbitmq:3-management-alpine
+        restart: on-failure
+        ports:
+            - "${BROKER_PORT}:5672"
+            - "15672:15672"
+        volumes:
+            - ./docker/rabbitmq/data/:/var/lib/rabbitmq/
+            - ./docker/rabbitmq/log/:/var/log/rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=${BROKER_USER}
+            - RABBITMQ_DEFAULT_PASS=${BROKER_PASSWORD}
+        networks:
+            - main
 
-  db:
-    container_name: formula-studio-postgres
-    image: postgres:13-alpine
-    restart: always
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_DB=app
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
+    postgres:
+        container_name: formula-studio-postgres
+        image: postgres:latest
+        restart: on-failure
+        ports:
+            - "${POSTGRES_PORT}:5432"
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        volumes:
+            - postgresql-data:/var/lib/postgresql/data
+        networks:
+            - main
 
-  rabbitmq:
-    container_name: formula-studio-rabbitmq
-    image: rabbitmq:3-management-alpine
-    restart: always
-    ports:
-        - 5672:5672
-        - 15672:15672
-    volumes:
-        - ./rabbitmq/data/:/var/lib/rabbitmq/
-        - ./rabbitmq/log/:/var/log/rabbitmq
-    networks:
-        - rabbitmq_net
+    app:
+        container_name: formula-studio-django
+        build:
+            context: ./backend/
+        ports:
+            - "${DJANGO_PORT}:8000"
+        expose:
+            - 8000
+        volumes:
+            - ./backend:/App
+        command: >
+            sh -c  "python manage.py wait_for_db &&
+                    python manage.py makemigrations --no-input &&
+                    python manage.py migrate --no-input &&
+                    python manage.py runserver 0.0.0.0:8000"
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_HOST=${POSTGRES_HOST}
+            - POSTGRES_PORT=${POSTGRES_PORT}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        image: app-image
+        depends_on:
+            - postgres
+        networks:
+            - main
+
+    celery_worker:
+        command: sh -c "celery -A App worker"
+        container_name: formula-studio-celery_worker
+        depends_on:
+            - app
+            - postgres
+            - rabbitmq
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: on-failure
+            resources:
+                limits:
+                    cpus: "1.0"
+                    memory: 500M
+                reservations:
+                    cpus: "0.5"
+                    memory: 40M
+        hostname: celery_worker
+        image: app-image
+        networks:
+            - main
+        restart: on-failure
+
+    celery_beat:
+        command: sh -c "celery -A App beat --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+        container_name: formula-studio-celery_beat
+        depends_on:
+            - app
+            - postgres
+            - rabbitmq
+        hostname: celery_beat
+        image: app-image
+        networks:
+            - main
+        restart: on-failure
 
 networks:
-  rabbitmq_net:
-    driver: bridge
+    main:
+        driver: bridge
+
+volumes:
+    postgresql-data:
