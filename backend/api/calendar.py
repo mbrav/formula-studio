@@ -57,7 +57,7 @@ def get_events():
     return events
 
 
-def save_events():
+def save_events_to_file():
     events = get_events()
     file = open(base_test_dir + 'event-list.csv', 'w')
     for event in events:
@@ -72,6 +72,8 @@ def create_events():
     events = get_events()
     instruct = Instructor.objects.get(pk=1)
     group_category = GroupCategory.objects.get(pk=1)
+
+    created_events = 0
     for event in events:
         id = event['id']
         if not Group.objects.filter(google_cal_id=id):
@@ -86,10 +88,14 @@ def create_events():
                 instructor=instruct
             )
             new_group.save()
+            created_events += 1
+    msg = 'Created' + str(create_events) + 'events.'
+    return(msg)
 
 
 def update_events():
     events = get_events()
+    updated_events = 0
     for event in events:
         id = event['id']
         group_db = Group.objects.get(google_cal_id=id)
@@ -113,3 +119,5 @@ def update_events():
                   group_db.name, "to", event['summary'])
             group_db.name = event['summary']
             group_db.save()
+    msg = 'Updated ' + str(updated_events) + ' events.'
+    return(msg)

@@ -10,17 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import environ
 from pathlib import Path
 import os
-
-# Enviorment config
-import environ
-env = environ.Env()
-environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Enviorment config
+env = environ.Env()
+environ.Env.read_env()
+# environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 # For Docker and local dev
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split()
@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'api',
 
     # Third-party
+    'django_celery_beat',
+    'django_celery_results',
     'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',
@@ -113,14 +115,7 @@ DATABASES = {
     }
 }
 
-FIXTURE_DIRS = [
-    os.path.join(BASE_DIR, 'App', 'fixtures'),
-]
-
-CELERY_BROKER_URL = "pyamqp://guest@localhost//"
-
-# Docker database with postgres
-
+# # Docker database with postgres
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -132,6 +127,24 @@ CELERY_BROKER_URL = "pyamqp://guest@localhost//"
 #     }
 # }
 
+FIXTURE_DIRS = [
+    os.path.join(BASE_DIR, 'App', 'fixtures'),
+]
+
+# Celery settings
+
+BROKER_USER = env('BROKER_USER')
+BROKER_PASSWORD = env('BROKER_PASSWORD')
+BROKER_HOST = env('BROKER_HOST')
+BROKER_PORT = env('BROKER_PORT')
+
+CELERY_BROKER_URL = f'amqp://{BROKER_USER}:{BROKER_PASSWORD}@{BROKER_HOST}:{BROKER_PORT}//'
+CELERY_TIMEZONE = env('TIME_ZONE')
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_RESULT_BACKEND = 'django-db'
+
+# REST config
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

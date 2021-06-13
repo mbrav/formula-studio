@@ -1,17 +1,9 @@
-from __future__ import print_function
-from django.conf import settings
+from __future__ import absolute_import, unicode_literals
+
 from celery import shared_task
+from celery.decorators import task
 
 from .calendar import *
-
-
-@shared_task
-def get_cal_events():
-    """
-    Get events from Google Calendar up from a month ago
-    """
-    print("Getting Events")
-    return get_events()
 
 
 @shared_task
@@ -28,5 +20,5 @@ def update_cal_events():
     """
     Update times events in database
     """
-    print("Saving Events")
+    print("Updating Events")
     return update_events()
