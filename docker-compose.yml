@@ -61,6 +61,7 @@ services:
             - main
 
     nginx:
+        container_name: formula-studio-django
         image: nginx:alpine
         restart: "on-failure"
         ports:

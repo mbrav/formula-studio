@@ -257,7 +257,7 @@ class Payment(models.Model):
 
 
 class GroupCategory(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=60)
     description = models.TextField(
         ('Description'),
         blank=True,
@@ -279,11 +279,11 @@ class GroupCategory(models.Model):
 
 
 class Group(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=100)
     date = models.DateTimeField()
 
     google_cal_id = models.CharField(
-        max_length=30,
+        max_length=40,
         default="",
         blank=True,
         null=True,
@@ -555,7 +555,7 @@ class SingleVisit(models.Model):
 
 
 class ItemCategory(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=60)
 
     price = models.DecimalField(
         default=0,
