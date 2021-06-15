@@ -2,27 +2,35 @@
 FROM python:3.9-alpine
 MAINTAINER Formula Studio
 
+# ENV
+ENV WORK_DIR="/usr/src/app"
+ENV USER_NAME=user
+# Make sure we use the virtualenv:
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
 # Make a new directory to put our code in.
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir $WORK_DIR
+WORKDIR $WORK_DIR
 COPY . .
 
 # Install dependencies
-COPY ./requirements.txt /usr/src/app/requirements.txt
-RUN apk add --update --no-cache postgresql-client
-RUN apk add --update --no-cache --virtual .tmp-build-deps \
-    postgresql-dev gcc python3-dev musl-dev
-RUN pip install --no-cache-dir -r requirements.txt
-RUN apk del .tmp-build-deps
+RUN apk add --update --no-cache postgresql-client && \
+    apk add --update --no-cache --virtual .tmp-build-deps \
+    postgresql-dev gcc python3-dev musl-dev && \
+    pip install --no-cache-dir -r requirements.txt && \
+    apk del .tmp-build-deps
 
 # These two environment variables prevent __pycache__/ files.
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
 # Create user and give permissions
-RUN adduser -D user
-RUN chown -R user:user .
-RUN chown -R user:user /usr/local/lib/python3.9
-USER user
+RUN adduser -D $USER_NAME
+RUN chown -R $USER_NAME:$USER_NAME $WORK_DIR && \
+    chmod -R 755 $WORK_DIR && \
+    chown -R $USER_NAME:$USER_NAME /opt/venv/ && \
+    chmod -R 755 /opt/venv/
+USER $USER_NAME
 
 EXPOSE 8000

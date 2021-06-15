@@ -10,7 +10,7 @@ services:
             - "15672:15672"
         volumes:
             - ./docker/data/rabbitmq/:/var/lib/rabbitmq/
-            - ./docker/log/rabbitmq/:/var/log/rabbitmq
+            - ./docker/log/rabbitmq/:/var/log/rabbitmq/
         environment:
             - RABBITMQ_DEFAULT_USER=${BROKER_USER}
             - RABBITMQ_DEFAULT_PASS=${BROKER_PASSWORD}
@@ -28,7 +28,7 @@ services:
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
         volumes:
-            - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+            - ./docker/postgres/:/docker-entrypoint-initdb.d/
             - postgresql-data:/var/lib/postgresql/data
         networks:
             - main
@@ -67,7 +67,7 @@ services:
             - "80:80"
         volumes:
             - ./docker/nginx/:/etc/nginx/conf.d
-            - ./backend/staticfiles/:/static/
+            - ./backend/staticfiles/:/usr/src/static/
             - ./docker/log/nginx/:/var/log/nginx/
         depends_on:
             - app
