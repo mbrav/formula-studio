@@ -1,15 +1,33 @@
 [
 	{
+		"model": "auth.user",
+		"pk": 1,
+		"fields": {
+			"password": "pbkdf2_sha256$260000$Fi1j5OoajFcEkIQvu8A6yg$7UswCep6ojN2dEVqN2UaI0HolXhVUyIvGfzLYVY8Nqk=",
+			"last_login": "2021-01-01T14:55:07.637Z",
+			"is_superuser": true,
+			"username": "admin",
+			"first_name": "",
+			"last_name": "",
+			"email": "",
+			"is_staff": true,
+			"is_active": true,
+			"date_joined": "2021-01-01T14:49:09.114Z",
+			"groups": [],
+			"user_permissions": []
+		}
+	},
+	{
 		"model": "api.userprofile",
 		"pk": 1,
 		"fields": {
 			"first_name": "default",
 			"last_name": "default",
-			"mobile_number": "0000000001",
+			"mobile_number": "0000000000",
 			"email": null,
 			"description": "",
-			"created_at": "2000-01-01",
-			"updated_at": "2000-01-01T14:37:39.855Z"
+			"created_at": "2021-01-01",
+			"updated_at": "2021-01-01T14:57:52.276Z"
 		}
 	},
 	{
@@ -18,52 +36,23 @@
 		"fields": {
 			"first_name": "default",
 			"last_name": "default",
-			"mobile_number": "0000000000",
+			"mobile_number": "0000000001",
 			"email": null,
-			"description": "",
-			"created_at": "2000-01-01",
-			"updated_at": "2000-01-01T14:39:06.425Z"
+			"description": "Defualt Member",
+			"created_at": "2021-01-01",
+			"updated_at": "2021-01-01T14:59:24.462Z"
 		}
 	},
 	{ "model": "api.instructor", "pk": 1, "fields": {} },
 	{ "model": "api.member", "pk": 2, "fields": {} },
-	{
-		"model": "api.signup",
-		"pk": 1,
-		"fields": {
-			"first_name": "default",
-			"last_name": "default",
-			"mobile_number": "",
-			"email": "",
-			"group": 1,
-			"group_google_cal_id": "",
-			"member": 2,
-			"created_at": "2000-01-01T14:40:14.551Z",
-			"updated_at": "2000-01-01T14:40:14.551Z"
-		}
-	},
-	{
-		"model": "api.payment",
-		"pk": 1,
-		"fields": {
-			"date": "2000-01-01",
-			"writen_off": true,
-			"amount": "0.00",
-			"method": "0",
-			"status": "1",
-			"member": 2,
-			"created_at": "2000-01-01T14:39:11.474Z",
-			"updated_at": "2000-01-01T14:39:11.475Z"
-		}
-	},
 	{
 		"model": "api.groupcategory",
 		"pk": 1,
 		"fields": {
 			"name": "default",
 			"description": "Default GroupCategory",
-			"created_at": "2000-01-01T14:33:56.529Z",
-			"updated_at": "2000-01-01T14:33:56.529Z"
+			"created_at": "2021-01-01T14:55:27.212Z",
+			"updated_at": "2021-01-01T14:55:27.212Z"
 		}
 	},
 	{
@@ -71,71 +60,12 @@
 		"pk": 1,
 		"fields": {
 			"name": "default",
-			"date": "1999-12-31T21:00:00Z",
+			"date": "2021-01-01T21:00:00Z",
 			"google_cal_id": "",
 			"instructor": 1,
 			"category": 1,
-			"created_at": "2000-01-01T14:37:47.123Z",
-			"updated_at": "2000-01-01T14:37:47.123Z"
-		}
-	},
-	{
-		"model": "api.subscriptioncategory",
-		"pk": 1,
-		"fields": {
-			"name": "default",
-			"description": "Default Subscription Category",
-			"price": "0.00",
-			"number_of_visits": 10,
-			"validity_in_days": 30,
-			"created_at": "2000-01-01T14:40:52.048Z",
-			"updated_at": "2000-01-01T14:40:52.048Z"
-		}
-	},
-	{
-		"model": "api.subscription",
-		"pk": 1,
-		"fields": {
-			"registration_date": "2000-01-01",
-			"description": "Default Subscription",
-			"subscription_category": 1,
-			"payment": 1,
-			"member": 2,
-			"created_at": "2000-01-01T14:41:37.011Z",
-			"updated_at": "2000-01-01T14:41:37.011Z"
-		}
-	},
-	{
-		"model": "api.subscriptionextension",
-		"pk": 1,
-		"fields": {
-			"date": "2000-01-01",
-			"days": 7,
-			"description": "Default Subscription Extension",
-			"subscription": 1,
-			"created_at": "2000-01-01T14:41:38.845Z",
-			"updated_at": "2000-01-01T14:41:38.845Z"
-		}
-	},
-	{
-		"model": "api.subscriptionvisit",
-		"pk": 1,
-		"fields": {
-			"group": 1,
-			"subscription": 1,
-			"created_at": "2000-01-01T14:41:46.559Z",
-			"updated_at": "2000-01-01T14:41:46.560Z"
-		}
-	},
-	{
-		"model": "api.singlevisit",
-		"pk": 1,
-		"fields": {
-			"payment": 1,
-			"created_at": "2000-01-01T14:40:25.189Z",
-			"updated_at": "2000-01-01T14:40:25.189Z",
-			"group": 1,
-			"member": 2
+			"created_at": "2021-01-01T14:58:15.447Z",
+			"updated_at": "2021-01-01T14:58:15.448Z"
 		}
 	},
 	{
@@ -145,19 +75,79 @@
 			"name": "default",
 			"price": "0.00",
 			"description": "Default Item Category",
-			"created_at": "2000-01-01T14:38:20.474Z",
-			"updated_at": "2000-01-01T14:38:20.474Z"
+			"created_at": "2021-01-01T14:58:39.481Z",
+			"updated_at": "2021-01-01T14:58:39.481Z"
 		}
 	},
 	{
-		"model": "api.itempurchase",
+		"model": "django_celery_beat.intervalschedule",
+		"pk": 1,
+		"fields": { "every": 5, "period": "minutes" }
+	},
+	{
+		"model": "django_celery_beat.intervalschedule",
+		"pk": 2,
+		"fields": { "every": 30, "period": "minutes" }
+	},
+	{
+		"model": "django_celery_beat.periodictasks",
+		"pk": 1,
+		"fields": { "last_update": "2021-01-01T15:02:03.301Z" }
+	},
+	{
+		"model": "django_celery_beat.periodictask",
 		"pk": 1,
 		"fields": {
-			"item_category": 1,
-			"payment": 1,
-			"member": 2,
-			"created_at": "2000-01-01T14:39:20.960Z",
-			"updated_at": "2000-01-01T14:39:20.960Z"
+			"name": "Update Calendar Events",
+			"task": "api.tasks.update_cal_events",
+			"interval": 1,
+			"crontab": null,
+			"solar": null,
+			"clocked": null,
+			"args": "[]",
+			"kwargs": "{}",
+			"queue": null,
+			"exchange": null,
+			"routing_key": null,
+			"headers": "{}",
+			"priority": null,
+			"expires": null,
+			"expire_seconds": null,
+			"one_off": false,
+			"start_time": "2021-01-01T21:00:00Z",
+			"enabled": true,
+			"last_run_at": null,
+			"total_run_count": 0,
+			"date_changed": "2021-01-01T15:01:20.888Z",
+			"description": ""
+		}
+	},
+	{
+		"model": "django_celery_beat.periodictask",
+		"pk": 2,
+		"fields": {
+			"name": "Get New Calendar Events",
+			"task": "api.tasks.create_cal_events",
+			"interval": 2,
+			"crontab": null,
+			"solar": null,
+			"clocked": null,
+			"args": "[]",
+			"kwargs": "{}",
+			"queue": null,
+			"exchange": null,
+			"routing_key": null,
+			"headers": "{}",
+			"priority": null,
+			"expires": null,
+			"expire_seconds": null,
+			"one_off": false,
+			"start_time": "2021-01-01T21:00:00Z",
+			"enabled": true,
+			"last_run_at": null,
+			"total_run_count": 0,
+			"date_changed": "2021-01-01T15:02:03.305Z",
+			"description": ""
 		}
 	}
 ]
