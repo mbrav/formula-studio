@@ -1,4 +1,5 @@
 venv
 node-modules
 jupyter-notes
-docker
+docker/data
+docker/log

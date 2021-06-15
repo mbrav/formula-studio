@@ -3,14 +3,14 @@ version: "3"
 services:
     rabbitmq:
         container_name: formula-studio-rabbitmq
-        image: rabbitmq:3-management-alpine
-        restart: on-failure
+        image: rabbitmq:management-alpine
+        restart: "on-failure"
         ports:
             - "${BROKER_PORT}:5672"
             - "15672:15672"
         volumes:
-            - ./docker/rabbitmq/data/:/var/lib/rabbitmq/
-            - ./docker/rabbitmq/log/:/var/log/rabbitmq
+            - ./docker/data/rabbitmq/:/var/lib/rabbitmq/
+            - ./docker/log/rabbitmq/:/var/log/rabbitmq
         environment:
             - RABBITMQ_DEFAULT_USER=${BROKER_USER}
             - RABBITMQ_DEFAULT_PASS=${BROKER_PASSWORD}
@@ -19,8 +19,8 @@ services:
 
     postgres:
         container_name: formula-studio-postgres
-        image: postgres:latest
-        restart: on-failure
+        image: postgres:alpine
+        restart: "on-failure"
         ports:
             - "${POSTGRES_PORT}:5432"
         environment:
@@ -28,25 +28,26 @@ services:
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
         volumes:
+            - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
             - postgresql-data:/var/lib/postgresql/data
         networks:
             - main
 
     app:
         container_name: formula-studio-django
+        restart: "on-failure"
         build:
             context: ./backend/
         ports:
             - "${DJANGO_PORT}:8000"
-        expose:
-            - 8000
         volumes:
             - ./backend:/App
         command: >
             sh -c  "python manage.py wait_for_db &&
                     python manage.py makemigrations --no-input &&
                     python manage.py migrate --no-input &&
-                    python manage.py runserver 0.0.0.0:8000"
+                    python manage.py collectstatic --no-input &&
+                    exec gunicorn App.wsgi:application -b 0.0.0.0:8000 --reload"
         environment:
             - POSTGRES_DB=${POSTGRES_DB}
             - POSTGRES_HOST=${POSTGRES_HOST}
@@ -59,9 +60,25 @@ services:
         networks:
             - main
 
+    nginx:
+        image: nginx:alpine
+        restart: "on-failure"
+        ports:
+            - "80:80"
+        volumes:
+            - ./docker/nginx/:/etc/nginx/conf.d
+            - ./backend/staticfiles/:/static/
+            - ./docker/log/nginx/:/var/log/nginx/
+        depends_on:
+            - app
+            - postgres
+        networks:
+            - main
+
     celery_worker:
-        command: sh -c "celery -A App worker"
+        command: sh -c "celery -A App worker --concurrency=2"
         container_name: formula-studio-celery_worker
+        restart: "on-failure"
         depends_on:
             - app
             - postgres
@@ -70,22 +87,15 @@ services:
             replicas: 1
             restart_policy:
                 condition: on-failure
-            resources:
-                limits:
-                    cpus: "1.0"
-                    memory: 500M
-                reservations:
-                    cpus: "0.5"
-                    memory: 40M
         hostname: celery_worker
         image: app-image
         networks:
             - main
-        restart: on-failure
 
     celery_beat:
         command: sh -c "celery -A App beat --scheduler django_celery_beat.schedulers:DatabaseScheduler"
         container_name: formula-studio-celery_beat
+        restart: "on-failure"
         depends_on:
             - app
             - postgres
@@ -94,7 +104,6 @@ services:
         image: app-image
         networks:
             - main
-        restart: on-failure
 
 networks:
     main:

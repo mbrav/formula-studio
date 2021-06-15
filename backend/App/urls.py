@@ -22,9 +22,3 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/auth', views.obtain_auth_token),
 ]
-
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES' : (
-#         'rest_framework.permissions.IsAuthenticated'
-#     )
-# }

@@ -69,7 +69,8 @@ env.bak/
 venv.bak/
 
 # Docker Storage #
-docker/*
+docker/data/*
+docker/log/*
 
 # Various media #
 img/*
