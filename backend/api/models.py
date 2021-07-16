@@ -1,44 +1,21 @@
 from django import forms
 from django.db import models
 from django.utils import timezone
+from datetime import datetime, timedelta
+
+# My own import
+from functools import reduce
 
 # Create your models here.
-
-
 class UserProfile(models.Model):
-    first_name = models.CharField(
-        ('First Name'),
-        max_length=50,
-    )
+    first_name = models.CharField(('First Name'),max_length=50)
+    last_name = models.CharField(('Last Name'),max_length=50,)
+    mobile_number = models.CharField(('Mobile Number'),max_length=11,unique=True)
+    email = models.EmailField(null=True,blank=True)
+    description = models.TextField(('Description'),blank=True)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-    last_name = models.CharField(
-        ('Last Name'),
-        max_length=50,
-    )
-
-    mobile_number = models.CharField(
-        ('Mobile Number'),
-        max_length=11,
-        unique=True,
-    )
-
-    email = models.EmailField(
-        null=True,
-        blank=True,
-    )
-
-    description = models.TextField(
-        ('Description'),
-        blank=True,
-    )
-
-    created_at = models.DateField(
-        auto_now_add=True,
-    )
-
-    updated_at = models.DateTimeField(
-        auto_now=True
-    )
 
     # image = models.ImageField(
     #     upload_to='img/member_profiles',
@@ -53,27 +30,38 @@ class UserProfile(models.Model):
             models.Index(fields=['last_name', 'first_name']),
             models.Index(fields=['first_name'], name='first_name_idx'),
         ]
+    
 
 
 class Instructor(UserProfile):
+    # counts the money generated from payments..
+    def moneyCount(sub_v):
+        if not sub_v.payment.writen_off:
+            return (sub_v.payment.amount)
+        else:
+            return 0
+    
+    # I've swapped out the for loops for maps, since I found that the map functions are much faster
+    # 
     def revenue(self):
         money = 0
         # Count subs
         if self.subscriptions.all():
-            for sub_v in self.subscriptions.all():
-                if not sub_v.payment.writen_off:
-                    money += sub_v.payment.amount
+            subscriptionList = self.subscriptions.all()
+            totalMoney = sum(list(map(moneyCount , subscriptionList)))
+            
         # Count single visits
         if self.single_visits.all():
-            for single_v in self.single_visits.all():
-                if not single_v.payment.writen_off:
-                    money += single_v.payment.amount
-        # Count item purchases
+            singleVisitsList = self.single_visits.all()
+            totalMoney = totalMoney + sum(list(map(moneyCount , singleVisitsList)))
+            
+        # Count item purchases    
         if self.item_purchases.all():
-            for item_p in self.item_purchases.all():
-                if not item_p.payment.writen_off:
-                    money += item_p.payment.amount
+            itemPurchasesList = self.single_visits.all()
+            totalMoney = totalMoney + sum(list(map(moneyCount , itemPurchasesList)))
+
         return money
+
 
     class Meta:
         verbose_name = 'Instructor'
@@ -84,15 +72,25 @@ class Instructor(UserProfile):
         return "%s %s" % (self.last_name, self.first_name, )
 
 
+
+
 class Member(UserProfile):
     # Count class visit stats for the member
     def visits_total(self):
+        # reduction method is a library written in C, and using reduction would significantly reduce the 
+        # time of execution since its a library written in lower level language
+        def visitorsRedux(sub1 , sub2):
+            return (sub1.subscription_visits.all().count() + sub2.subscription_visits.all().count())
+
         vis = 0
         if self.subscriptions.all():
-            for sub in self.subscriptions.all():
-                vis += sub.subscription_visits.all().count()
+            vis = reduce(visitorRedux, self.subscriptions.all())
+                
+                
         if self.single_visits.all():
             vis += self.single_visits.all().count()
+            
+        
         return vis
 
     class Meta:
@@ -307,26 +305,37 @@ class Group(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+
     def revenue(self):
+        """Performing reduction on each operation"""
+        def avgPriceSumRedux(sub_v1 , sub_v2):
+            return ((sub_v1.subscription.payment.amount / sub_v2.subscription.subscription_category.number_of_visits))
+        
+        def paymentAmountReduce(single_v1 , single_v2):
+            return (single_v1.payment.amount + single_v2.payment.amount)
         # Get average price of subscription visit by dividing
         # its price by number of visits to get average
         money = 0
-        for sub_v in self.subscription_visits.all():
-            money += (sub_v.subscription.payment.amount /
-                      sub_v.subscription.subscription_category.number_of_visits)
-        for single_v in self.single_visits.all():
-            money += single_v.payment.amount
+        
+        """Substituted both for loops for reduction"""
+        money = reduce(avgPriceSumRedux , self.subscription_visits.all())
+        
+        money = money + reduce(paymentAmountReduce , self.single_visits.all())
+            
         return money
 
+
     def visits_total(self):
-        vis = 0
-
-        for sub_v in self.subscription_visits.all():
-            vis += 1
-
-        for single_v in self.single_visits.all():
-            vis += 1
-        return vis
+        subscriptionVisits = 0
+        singleVisits = 0
+        
+        #To reduce the number of for loops, I replaced them with a simple built-in count function
+        subscriptionVisits = len(self.subscription_visits.all())
+        
+        singleVisits = len(self.single_visits.all())
+ 
+        return (subscriptionVisits + singleVisits)
 
     class Meta:
         verbose_name = 'Group'
@@ -387,11 +396,14 @@ class Subscription(models.Model):
     registration_date = models.DateField()
 
     def expiration_date(self):
-        from datetime import datetime, timedelta
+        def daysRedux(ext1 , ext2):
+            return (ext1.days + ext2.days)
+        
         days = self.subscription_category.validity_in_days
+        """Performed Reduction method, to reduce loop time"""
         if self.subscription_extensions.all():
-            for ext in self.subscription_extensions.all():
-                days += ext.days
+            days = reduce(daysRedux, self.subscription_extensions.all())
+
         return self.registration_date + timedelta(days=days)
 
     def has_extension(self):
