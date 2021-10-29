@@ -55,24 +55,6 @@ class UserProfile(models.Model):
 
 
 class Instructor(UserProfile):
-    def revenue(self):
-        money = 0
-        # Count subs
-        if self.subscriptions.all():
-            for sub_v in self.subscriptions.all():
-                if not sub_v.payment.writen_off:
-                    money += sub_v.payment.amount
-        # Count single visits
-        if self.single_visits.all():
-            for single_v in self.single_visits.all():
-                if not single_v.payment.writen_off:
-                    money += single_v.payment.amount
-        # Count item purchases
-        if self.item_purchases.all():
-            for item_p in self.item_purchases.all():
-                if not item_p.payment.writen_off:
-                    money += item_p.payment.amount
-        return money
 
     class Meta:
         verbose_name = 'Instructor'
@@ -85,14 +67,6 @@ class Instructor(UserProfile):
 
 class Member(UserProfile):
     # Count class visit stats for the member
-    def visits_total(self):
-        vis = 0
-        if self.subscriptions.all():
-            for sub in self.subscriptions.all():
-                vis += sub.subscription_visits.all().count()
-        if self.single_visits.all():
-            vis += self.single_visits.all().count()
-        return vis
 
     class Meta:
         verbose_name = 'Member'
@@ -306,27 +280,6 @@ class Group(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def revenue(self):
-        # Get average price of subscription visit by dividing
-        # its price by number of visits to get average
-        money = 0
-        for sub_v in self.subscription_visits.all():
-            money += (sub_v.subscription.payment.amount /
-                      sub_v.subscription.subscription_category.number_of_visits)
-        for single_v in self.single_visits.all():
-            money += single_v.payment.amount
-        return money
-
-    def visits_total(self):
-        vis = 0
-
-        for sub_v in self.subscription_visits.all():
-            vis += 1
-
-        for single_v in self.single_visits.all():
-            vis += 1
-        return vis
-
     class Meta:
         verbose_name = 'Group'
         verbose_name_plural = 'Groups'
@@ -428,18 +381,6 @@ class Subscription(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def visits_total(self):
-        return self.subscription_category.number_of_visits
-
-    def visits_made(self):
-        return self.subscription_visits.all().count()
-
-    def visits_remaining(self):
-        return (
-            self.subscription_category.number_of_visits -
-            self.subscription_visits.all().count()
-        )
-
     class Meta:
         verbose_name = 'Subscription'
         verbose_name_plural = 'Subscriptions'
@@ -540,13 +481,9 @@ class SingleVisit(models.Model):
         # unique=True,
     )
 
-    def date(self):
-        return self.group.date
-
     class Meta:
         verbose_name = 'Single Visit'
         verbose_name_plural = 'Single Visits'
-        ordering = ('-group__date',)
 
     def __str__(self):
         return "%s" % (self.payment)

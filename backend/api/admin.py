@@ -52,8 +52,6 @@ class Instructor(admin.ModelAdmin):
         'first_name'
     )
 
-    readonly_fields = ['revenue']
-
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
@@ -63,7 +61,6 @@ class MemberAdmin(admin.ModelAdmin):
         'first_name',
         'mobile_number',
         'email',
-        'visits_total',
         'id'
     )
 
@@ -182,8 +179,6 @@ class GroupAdmin(admin.ModelAdmin):
     list_display = (
         'date',
         'name',
-        'visits_total',
-        'revenue',
         'category',
         'instructor',
         'id',
@@ -209,7 +204,7 @@ class GroupAdmin(admin.ModelAdmin):
         '-date',
     )
 
-    readonly_fields = ['visits_total', 'google_cal_id']
+    readonly_fields = ['google_cal_id']
 
 
 @admin.register(SubscriptionCategory)
@@ -237,9 +232,6 @@ class SubscriptionAdmin(admin.ModelAdmin):
         'member',
         'registration_date',
         'has_extension',
-        'visits_made',
-        'visits_remaining',
-        'visits_total',
         'id',
     )
 
@@ -249,9 +241,6 @@ class SubscriptionAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = [
-        'visits_made',
-        'visits_remaining',
-        'visits_total',
         'expiration_date'
     ]
 
@@ -294,7 +283,6 @@ class SingleVisitAdmin(admin.ModelAdmin):
     list_per_page = 100
     list_display = (
         'member',
-        'date',
         'group',
         'id',
     )
@@ -311,8 +299,6 @@ class SingleVisitAdmin(admin.ModelAdmin):
     list_editable = [
         'group',
     ]
-
-    readonly_fields = ['date']
 
 
 @admin.register(ItemCategory)
