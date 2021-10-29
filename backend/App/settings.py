@@ -194,11 +194,16 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 # USER SETTINGS (modify at your own wish)
 
 USER_SETTINGS = {
-    'CURRENCY_SYMBOL': '₽'
+    'CURRENCY_SYMBOL': env('CURRENCY_SYMBOL')
 }
 
 GOOGLE_CALENDAR_ID = env('GOOGLE_CALENDAR_ID')
