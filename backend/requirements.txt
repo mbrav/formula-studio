@@ -9,5 +9,5 @@ djangorestframework
 google-api-python-client
 google-auth-oauthlib
 gunicorn
-psycopg2
+# psycopg2
 # Pillow
