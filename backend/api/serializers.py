@@ -2,7 +2,15 @@ from rest_framework import serializers
 from .models import *
 
 
-class GroupSerializer(serializers.ModelSerializer):
+class BasicGroupSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Group
+        exclude = [
+        ]
+
+
+class FullGroupSerializer(BasicGroupSerializer):
 
     revenue = serializers.SerializerMethodField(
         method_name='get_revenue')
@@ -40,7 +48,15 @@ class GroupSerializer(serializers.ModelSerializer):
         ]
 
 
-class InstructorSerializer(serializers.ModelSerializer):
+class BasicInstructorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Instructor
+        exclude = [
+        ]
+
+
+class FullInstructorSerializer(BasicInstructorSerializer):
     revenue = serializers.SerializerMethodField(
         method_name='get_revenue')
 
@@ -66,7 +82,15 @@ class InstructorSerializer(serializers.ModelSerializer):
         ]
 
 
-class MemberSerializer(serializers.ModelSerializer):
+class BasicMemberSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Member
+        exclude = [
+        ]
+
+
+class FullMemberSerializer(serializers.ModelSerializer):
 
     revenue = serializers.SerializerMethodField(
         method_name='get_revenue')
@@ -105,7 +129,7 @@ class MemberSerializer(serializers.ModelSerializer):
         ]
 
 
-class SignupSerializer(serializers.ModelSerializer):
+class BasicSignupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Signup
@@ -113,7 +137,7 @@ class SignupSerializer(serializers.ModelSerializer):
         ]
 
 
-class PaymentSerializer(serializers.ModelSerializer):
+class BasicPaymentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payment
@@ -121,7 +145,7 @@ class PaymentSerializer(serializers.ModelSerializer):
         ]
 
 
-class SubscriptionSerializer(serializers.ModelSerializer):
+class BasicSubscriptionSerializer(serializers.ModelSerializer):
 
     visits_total = serializers.SerializerMethodField(
         method_name='get_visits_total')
@@ -149,7 +173,7 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         ]
 
 
-class SubscriptionVisitSerializer(serializers.ModelSerializer):
+class BasicSubscriptionVisitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubscriptionVisit
@@ -157,7 +181,7 @@ class SubscriptionVisitSerializer(serializers.ModelSerializer):
         ]
 
 
-class SingleVisitSerializer(serializers.ModelSerializer):
+class BasicSingleVisitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SingleVisit
@@ -165,7 +189,7 @@ class SingleVisitSerializer(serializers.ModelSerializer):
         ]
 
 
-class ItemPurchaseSerializer(serializers.ModelSerializer):
+class BasicItemPurchaseSerializer(serializers.ModelSerializer):
 
     item_category = serializers.SlugRelatedField(
         slug_field="name",

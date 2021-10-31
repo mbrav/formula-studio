@@ -1,8 +1,6 @@
-from rest_framework import viewsets, generics, filters, status
+from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import DjangoModelPermissions
-from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .models import *
 from .serializers import *
 
@@ -16,7 +14,11 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     filter_backends = (filters.SearchFilter,)
     queryset = Group.objects.all()
-    serializer_class = GroupSerializer
+
+    def get_serializer_class(self):
+        if self.request.user.is_staff:
+            return FullGroupSerializer
+        return BasicGroupSerializer
 
 
 class InstructorViewSet(viewsets.ModelViewSet):
@@ -30,7 +32,7 @@ class InstructorViewSet(viewsets.ModelViewSet):
 
     filter_backends = (filters.SearchFilter,)
     queryset = Instructor.objects.all()
-    serializer_class = InstructorSerializer
+    serializer_class = BasicInstructorSerializer
 
 
 class MemberViewSet(viewsets.ModelViewSet):
@@ -44,7 +46,7 @@ class MemberViewSet(viewsets.ModelViewSet):
 
     filter_backends = (filters.SearchFilter,)
     queryset = Member.objects.all()
-    serializer_class = MemberSerializer
+    serializer_class = BasicMemberSerializer
 
 
 class SignupViewSet(viewsets.ModelViewSet):
@@ -58,7 +60,7 @@ class SignupViewSet(viewsets.ModelViewSet):
 
     filter_backends = (filters.SearchFilter,)
     queryset = Signup.objects.all()
-    serializer_class = SignupSerializer
+    serializer_class = BasicSignupSerializer
 
     # Process signup with a set of lookups with available info
     # Necessary for implementating signups without login functionality
@@ -181,7 +183,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
     filter_backends = (filters.SearchFilter,)
     queryset = Payment.objects.all()
-    serializer_class = PaymentSerializer
+    serializer_class = BasicPaymentSerializer
 
 
 class SubscriptionViewSet(viewsets.ModelViewSet):
@@ -193,7 +195,7 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
 
     filter_backends = (filters.SearchFilter,)
     queryset = Subscription.objects.all()
-    serializer_class = SubscriptionSerializer
+    serializer_class = BasicSubscriptionSerializer
 
 
 class SubscriptionVisitViewSet(viewsets.ModelViewSet):
@@ -205,7 +207,7 @@ class SubscriptionVisitViewSet(viewsets.ModelViewSet):
 
     filter_backends = (filters.SearchFilter,)
     queryset = SubscriptionVisit.objects.all()
-    serializer_class = SubscriptionVisitSerializer
+    serializer_class = BasicSubscriptionVisitSerializer
 
 
 class SingleVisitViewSet(viewsets.ModelViewSet):
@@ -217,7 +219,7 @@ class SingleVisitViewSet(viewsets.ModelViewSet):
 
     filter_backends = (filters.SearchFilter,)
     queryset = SingleVisit.objects.all()
-    serializer_class = SingleVisitSerializer
+    serializer_class = BasicSingleVisitSerializer
 
 
 class ItemPurchaseViewSet(viewsets.ModelViewSet):
@@ -229,4 +231,4 @@ class ItemPurchaseViewSet(viewsets.ModelViewSet):
 
     filter_backends = (filters.SearchFilter,)
     queryset = ItemPurchase.objects.all()
-    serializer_class = ItemPurchaseSerializer
+    serializer_class = BasicItemPurchaseSerializer
