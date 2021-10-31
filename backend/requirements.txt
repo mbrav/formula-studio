@@ -11,3 +11,6 @@ google-auth-oauthlib
 gunicorn
 # psycopg2
 # Pillow
+
+#dev
+coverage

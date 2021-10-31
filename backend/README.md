@@ -65,6 +65,20 @@ To start the worker that executes schedules the database:
 celery -A App beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
 ```
 
+## Coverage notes
+
+Create coverage file:
+
+-   `coverage run --source='App,api,formula_studio' manage.py test -v 2`
+
+Create report:
+
+-   `coverage report`
+
+Coverage html report:
+
+-   `coverage html`
+
 ## Development
 
 This project is in still in alpha phase of development and goals will be fully established before the beta release.

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import *
+from formula_studio.models import *
 
 
 class BasicGroupSerializer(serializers.ModelSerializer):

@@ -18,7 +18,7 @@
 		}
 	},
 	{
-		"model": "api.userprofile",
+		"model": "formula_studio.userprofile",
 		"pk": 1,
 		"fields": {
 			"first_name": "default",
@@ -31,7 +31,7 @@
 		}
 	},
 	{
-		"model": "api.userprofile",
+		"model": "formula_studio.userprofile",
 		"pk": 2,
 		"fields": {
 			"first_name": "default",
@@ -43,10 +43,10 @@
 			"updated_at": "2021-01-01T14:59:24.462Z"
 		}
 	},
-	{ "model": "api.instructor", "pk": 1, "fields": {} },
-	{ "model": "api.member", "pk": 2, "fields": {} },
+	{ "model": "formula_studio.instructor", "pk": 1, "fields": {} },
+	{ "model": "formula_studio.member", "pk": 2, "fields": {} },
 	{
-		"model": "api.groupcategory",
+		"model": "formula_studio.groupcategory",
 		"pk": 1,
 		"fields": {
 			"name": "default",
@@ -56,7 +56,7 @@
 		}
 	},
 	{
-		"model": "api.group",
+		"model": "formula_studio.group",
 		"pk": 1,
 		"fields": {
 			"name": "default",
@@ -69,7 +69,7 @@
 		}
 	},
 	{
-		"model": "api.itemcategory",
+		"model": "formula_studio.itemcategory",
 		"pk": 1,
 		"fields": {
 			"name": "default",
@@ -99,7 +99,7 @@
 		"pk": 1,
 		"fields": {
 			"name": "Update Calendar Events",
-			"task": "api.tasks.update_cal_events",
+			"task": "formula_studio.tasks.update_cal_events",
 			"interval": 1,
 			"crontab": null,
 			"solar": null,
@@ -127,7 +127,7 @@
 		"pk": 2,
 		"fields": {
 			"name": "Get New Calendar Events",
-			"task": "api.tasks.create_cal_events",
+			"task": "formula_studio.tasks.create_cal_events",
 			"interval": 2,
 			"crontab": null,
 			"solar": null,

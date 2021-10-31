@@ -85,9 +85,9 @@ backend/celerybeat-schedule
 
 # Jupyter notebook, scripts and tests #
 jupyter-notes/
-backend/api/tests/credentials.json
-backend/api/tests/token.json
-backend/api/tests/event-list.txt
+backend/formula_studio/tests/credentials.json
+backend/formula_studio/tests/token.json
+backend/formula_studio/tests/event-list.txt
 
 # Node #
 node_modules/
