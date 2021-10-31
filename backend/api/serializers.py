@@ -2,6 +2,14 @@ from rest_framework import serializers
 from formula_studio.models import *
 
 
+class BasicGroupCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = GroupCategory
+        exclude = [
+        ]
+
+
 class BasicGroupSerializer(serializers.ModelSerializer):
 
     class Meta:

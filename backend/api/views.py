@@ -5,6 +5,13 @@ from formula_studio.models import *
 from .serializers import *
 
 
+class GroupCategoryViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    serializer_class = BasicGroupCategorySerializer
+    queryset = GroupCategory.objects.all()
+
+
 class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -13,7 +20,21 @@ class GroupViewSet(viewsets.ModelViewSet):
     ]
 
     filter_backends = (filters.SearchFilter,)
-    queryset = Group.objects.all()
+
+    def get_queryset(self, *args, **kwargs):
+        user_id = self.kwargs.get('user_id')
+        cat_id = self.kwargs.get('cat_id')
+
+        if user_id:
+            queryset = Group.objects.filter(instructor_id=user_id)
+            return queryset
+
+        if cat_id:
+            queryset = Group.objects.filter(category_id=cat_id)
+            return queryset
+
+        queryset = Group.objects.all()
+        return queryset
 
     def get_serializer_class(self):
         if self.request.user.is_staff:
@@ -59,7 +80,6 @@ class SignupViewSet(viewsets.ModelViewSet):
     ]
 
     filter_backends = (filters.SearchFilter,)
-    queryset = Signup.objects.all()
     serializer_class = BasicSignupSerializer
 
     # Process signup with a set of lookups with available info
@@ -172,6 +192,14 @@ class SignupViewSet(viewsets.ModelViewSet):
             except (TypeError, KeyError):
                 return {}
 
+    def get_queryset(self, *args, **kwargs):
+        group_id = self.kwargs.get('group_id')
+        if group_id:
+            queryset = Signup.objects.filter(group_id=group_id)
+        else:
+            queryset = Signup.objects.all()
+        return queryset
+
 
 class PaymentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -206,8 +234,15 @@ class SubscriptionVisitViewSet(viewsets.ModelViewSet):
     ]
 
     filter_backends = (filters.SearchFilter,)
-    queryset = SubscriptionVisit.objects.all()
     serializer_class = BasicSubscriptionVisitSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        sub_id = self.kwargs.get('sub_id')
+        if sub_id:
+            queryset = SubscriptionVisit.objects.filter(subscription_id=sub_id)
+        else:
+            queryset = SubscriptionVisit.objects.all()
+        return queryset
 
 
 class SingleVisitViewSet(viewsets.ModelViewSet):
