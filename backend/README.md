@@ -79,6 +79,17 @@ Coverage html report:
 
 -   `coverage html`
 
+## Dump fixtures 
+
+To dump data: 
+
+- `python manage.py dumpdata formula_studio --indent 4 > formula_studio/fixtures/formula_studio.json`
+
+To load data: 
+
+- `python manage.py loaddata formula_studio/fixtures/model_name.json --app formula_studio`
+
+
 ## Development
 
 This project is in still in alpha phase of development and goals will be fully established before the beta release.

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from formula_studio.models import *
 
 
@@ -27,17 +28,18 @@ class FullGroupSerializer(BasicGroupSerializer):
 
     def get_revenue(self, obj):
         """Calculate revenue stats for Group"""
-        money = 0
+
+        money_sum = 0
         for sub_v in obj.subscription_visits.all():
             # Get average price of subscription visit by dividing
             # its price by number of visits to get average
             if not sub_v.subscription.payment.writen_off:
-                money += (sub_v.subscription.payment.amount /
-                          sub_v.subscription.subscription_category.number_of_visits)
+                money_sum += (sub_v.subscription.payment.amount /
+                              sub_v.subscription.subscription_category.number_of_visits)
         for single_v in obj.single_visits.all():
             if not single_v.payment.writen_off:
-                money += single_v.payment.amount
-        return money
+                money_sum += single_v.payment.amount
+        return money_sum
 
     def get_visits_total(self, obj):
         """Count class visit stats for Group"""
@@ -70,18 +72,19 @@ class FullInstructorSerializer(BasicInstructorSerializer):
 
     def get_revenue(self, obj):
         """Calculate revenue stats for Instructor"""
-        money = 0
+
+        money_sum = 0
         for group in obj.groups.all():
             # Count subs
             for sub_v in group.subscription_visits.all():
                 if not sub_v.subscription.payment.writen_off:
-                    money += (sub_v.subscription.payment.amount /
-                              sub_v.subscription.subscription_category.number_of_visits)
+                    money_sum += (sub_v.subscription.payment.amount /
+                                  sub_v.subscription.subscription_category.number_of_visits)
             # Count single visits
             for single_v in group.single_visits.all():
                 if not single_v.payment.writen_off:
-                    money += single_v.payment.amount
-        return money
+                    money_sum += single_v.payment.amount
+        return money_sum
 
     class Meta:
         model = Instructor
@@ -107,17 +110,17 @@ class FullMemberSerializer(serializers.ModelSerializer):
 
     def get_revenue(self, obj):
         """Calculate revenue stats for Member"""
-        money = 0
+        money_sum = 0
         for sub in obj.subscriptions.all():
             if not sub.payment.writen_off:
                 for sub_v in sub.subscription_visits.all():
-                    money += (sub_v.subscription.payment.amount /
-                              sub_v.subscription.subscription_category.number_of_visits)
+                    money_sum += (sub_v.subscription.payment.amount /
+                                  sub_v.subscription.subscription_category.number_of_visits)
         # Count single visits
         for single_v in obj.single_visits.all():
             if not single_v.payment.writen_off:
-                money += single_v.payment.amount
-        return money
+                money_sum += single_v.payment.amount
+        return money_sum
 
     def get_visits_total(self, obj):
         """Count class visit stats for the Member"""

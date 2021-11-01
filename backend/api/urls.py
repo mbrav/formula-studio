@@ -1,7 +1,8 @@
-from django.urls import path, include
+from django.urls import include, path
+from rest_framework import routers
+
 from . import views
 from .views import *
-from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register('group-categories', GroupCategoryViewSet,

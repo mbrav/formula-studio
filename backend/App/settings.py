@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-import environ
-from pathlib import Path
 import os
+from pathlib import Path
+
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,8 +30,7 @@ environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = env.bool('DEBUG')
-DEBUG = True
+DEBUG = env.bool('DEBUG')
 
 # For Docker and local dev
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split()
@@ -150,10 +150,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
         'rest_framework.permissions.AllowAny',
     ),
-    # 'DEFAULT_RENDERER_CLASSES': (
-    #     'rest_framework.renderers.JSONRenderer',
-    #     'rest_framework.renderers.BrowsableAPIRenderer',
-    # )
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
 }
 
 # Password validation

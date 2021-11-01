@@ -1,10 +1,12 @@
 from datetime import timedelta
+
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-# Create your models here.
 
 
 class UserProfile(models.Model):
+
     first_name = models.CharField(
         ('First Name'),
         max_length=50,
@@ -77,20 +79,11 @@ class Member(UserProfile):
         return "%s %s - #%s" % (self.last_name, self.first_name, self.id)
 
 # A lose version for keep track of signups
-# Best for integrating with an externa form field
+# Best for integrating with an external form field
 # that submits new signups throguth an API call
 
 
 class Signup(models.Model):
-
-    # Best way to add autosave
-    # https://stackoverflow.com/questions/1737017/django-auto-now-and-auto-now-add
-    def save(self, *args, **kwargs):
-        ''' On save, update timestamps '''
-        if not self.id:
-            self.date = timezone.now()
-        # self.modified = timezone.now()
-        return super(Signup, self).save(*args, **kwargs)
 
     first_name = models.CharField(
         ('First Name'),
@@ -160,6 +153,15 @@ class Signup(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    # Best way to add autosave
+    # https://stackoverflow.com/questions/1737017/django-auto-now-and-auto-now-add
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        if not self.id:
+            self.date = timezone.now()
+        # self.modified = timezone.now()
+        return super(Signup, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name = 'Signup'
         verbose_name_plural = 'Signups'
@@ -167,6 +169,7 @@ class Signup(models.Model):
 
 
 class Payment(models.Model):
+
     PAYMENT_PAID = (
         ('0', 'Pending'),
         ('1', 'Paid'),
@@ -230,7 +233,9 @@ class Payment(models.Model):
 
 
 class GroupCategory(models.Model):
+
     name = models.CharField(max_length=60)
+
     description = models.TextField(
         ('Description'),
         blank=True,
@@ -252,6 +257,7 @@ class GroupCategory(models.Model):
 
 
 class Group(models.Model):
+
     name = models.CharField(max_length=100)
     date = models.DateTimeField()
 
@@ -338,19 +344,6 @@ class SubscriptionCategory(models.Model):
 class Subscription(models.Model):
     registration_date = models.DateField()
 
-    def expiration_date(self):
-        days = self.subscription_category.validity_in_days
-        if self.subscription_extensions.all():
-            for ext in self.subscription_extensions.all():
-                days += ext.days
-        return self.registration_date + timedelta(days=days)
-
-    def has_extension(self):
-        if self.subscription_extensions.all():
-            return True
-        else:
-            return False
-
     description = models.CharField(
         ('Description'),
         max_length=300,
@@ -380,6 +373,19 @@ class Subscription(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def expiration_date(self):
+        days = self.subscription_category.validity_in_days
+        if self.subscription_extensions.all():
+            for ext in self.subscription_extensions.all():
+                days += ext.days
+        return self.registration_date + timedelta(days=days)
+
+    def has_extension(self):
+        if self.subscription_extensions.all():
+            return True
+        else:
+            return False
 
     class Meta:
         verbose_name = 'Subscription'
@@ -455,15 +461,13 @@ class SubscriptionVisit(models.Model):
 
 
 class SingleVisit(models.Model):
+
     payment = models.ForeignKey(
         Payment,
         related_name='single_visit',
         on_delete=models.CASCADE,
         help_text='Payment to which the single visit is registered to',
     )
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     group = models.ForeignKey(
         Group,
@@ -480,6 +484,9 @@ class SingleVisit(models.Model):
         help_text='Member to which the single visit is registered to',
         # unique=True,
     )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Single Visit'
@@ -517,8 +524,6 @@ class ItemCategory(models.Model):
 
 
 class ItemPurchase(models.Model):
-    def date(self):
-        return self.payment.date
 
     item_category = models.ForeignKey(
         ItemCategory,
@@ -544,6 +549,9 @@ class ItemPurchase(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def date(self):
+        return self.payment.date
 
     class Meta:
         verbose_name = 'Item Purchase'

@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import Instructor, Member, Signup, Payment, GroupCategory, Group, SubscriptionCategory, Subscription, SubscriptionExtension, SubscriptionVisit, SingleVisit, ItemCategory, ItemPurchase
+
+from .models import (Group, GroupCategory, Instructor, ItemCategory,
+                     ItemPurchase, Member, Payment, Signup, SingleVisit,
+                     Subscription, SubscriptionCategory, SubscriptionExtension,
+                     SubscriptionVisit)
 
 admin.site.site_header = "Formula Studio"
 admin.site.site_title = "Formula Studio"

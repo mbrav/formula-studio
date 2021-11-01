@@ -1,15 +1,16 @@
-from django.test import TestCase, LiveServerTestCase
-from formula_studio.models import Group, GroupCategory, Instructor
-from django.conf import settings
-
 import datetime
-from dateutil.relativedelta import relativedelta
-import pytz
 import os.path
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
+
+import pytz
+from dateutil.relativedelta import relativedelta
+from django.conf import settings
+from django.test import LiveServerTestCase, TestCase
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+
+from formula_studio.models import Group, GroupCategory, Instructor
 
 local_timezone = pytz.timezone(settings.TIME_ZONE)
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
