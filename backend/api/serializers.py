@@ -3,23 +3,23 @@ from rest_framework import serializers
 from formula_studio.models import *
 
 
-class BasicGroupCategorySerializer(serializers.ModelSerializer):
+class BasicEventCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = GroupCategory
+        model = EventCategory
         exclude = [
         ]
 
 
-class BasicGroupSerializer(serializers.ModelSerializer):
+class BasicScheduleEventSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Group
+        model = ScheduleEvent
         exclude = [
         ]
 
 
-class FullGroupSerializer(BasicGroupSerializer):
+class FullScheduleEventSerializer(BasicScheduleEventSerializer):
 
     revenue = serializers.SerializerMethodField(
         method_name='get_revenue')
@@ -27,7 +27,7 @@ class FullGroupSerializer(BasicGroupSerializer):
         method_name='get_visits_total')
 
     def get_revenue(self, obj):
-        """Calculate revenue stats for Group"""
+        """Calculate revenue stats for ScheduleEvent"""
 
         money_sum = 0
         for sub_v in obj.subscription_visits.all():
@@ -42,7 +42,7 @@ class FullGroupSerializer(BasicGroupSerializer):
         return money_sum
 
     def get_visits_total(self, obj):
-        """Count class visit stats for Group"""
+        """Count class visit stats for ScheduleEvent"""
 
         visits = 0
         for sub_v in obj.subscription_visits.all():
@@ -52,7 +52,7 @@ class FullGroupSerializer(BasicGroupSerializer):
         return visits
 
     class Meta:
-        model = Group
+        model = ScheduleEvent
         read_only_fields = ('revenue', 'visits')
         exclude = [
         ]

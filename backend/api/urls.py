@@ -5,17 +5,17 @@ from . import views
 from .views import *
 
 router = routers.DefaultRouter()
-router.register('group-categories', GroupCategoryViewSet,
-                basename='group_categories')
-router.register(r'group-categories/(?P<cat_id>\d+)/',
-                GroupViewSet, basename='group_category')
-router.register('groups', GroupViewSet, basename='groups')
-router.register(r'groups/(?P<group_id>\d+)/signups',
-                SignupViewSet, basename='group_signups')
+router.register('class-categories', EventCategoryViewSet,
+                basename='class_categories')
+router.register(r'class-categories/(?P<cat_id>\d+)/',
+                ScheduleEventViewSet, basename='class_category')
+router.register('classes', ScheduleEventViewSet, basename='classes')
+router.register(r'classes/(?P<class_id>\d+)/signups',
+                SignupViewSet, basename='class_signups')
 
 router.register('instructors', InstructorViewSet, basename='instructors')
-router.register(r'instructors/(?P<user_id>\d+)/groups',
-                GroupViewSet, basename='instructor_groups')
+router.register(r'instructors/(?P<user_id>\d+)/classes',
+                ScheduleEventViewSet, basename='instructor_classes')
 
 router.register('members', MemberViewSet, basename='members')
 router.register('signups', SignupViewSet, basename='signups')

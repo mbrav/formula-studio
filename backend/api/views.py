@@ -8,14 +8,14 @@ from formula_studio.models import *
 from .serializers import *
 
 
-class GroupCategoryViewSet(viewsets.ModelViewSet):
+class EventCategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    serializer_class = BasicGroupCategorySerializer
-    queryset = GroupCategory.objects.all()
+    serializer_class = BasicEventCategorySerializer
+    queryset = EventCategory.objects.all()
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class ScheduleEventViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     search_fields = [
@@ -29,20 +29,20 @@ class GroupViewSet(viewsets.ModelViewSet):
         cat_id = self.kwargs.get('cat_id')
 
         if user_id:
-            queryset = Group.objects.filter(instructor_id=user_id)
+            queryset = ScheduleEvent.objects.filter(instructor_id=user_id)
             return queryset
 
         if cat_id:
-            queryset = Group.objects.filter(category_id=cat_id)
+            queryset = ScheduleEvent.objects.filter(category_id=cat_id)
             return queryset
 
-        queryset = Group.objects.all()
+        queryset = ScheduleEvent.objects.all()
         return queryset
 
     def get_serializer_class(self):
         if self.request.user.is_staff:
-            return FullGroupSerializer
-        return BasicGroupSerializer
+            return FullScheduleEventSerializer
+        return BasicScheduleEventSerializer
 
 
 class InstructorViewSet(viewsets.ModelViewSet):
@@ -98,8 +98,8 @@ class SignupViewSet(viewsets.ModelViewSet):
         # check if google calendar id was profvided, if not, retruns False
         cal_id_provided = request.POST.get('group_google_cal_id', False)
         if cal_id_provided != False:
-            if Group.objects.filter(google_cal_id=request.POST['group_google_cal_id']).exists():
-                group = Group.objects.filter(
+            if ScheduleEvent.objects.filter(google_cal_id=request.POST['group_google_cal_id']).exists():
+                group = ScheduleEvent.objects.filter(
                     google_cal_id=request.POST['group_google_cal_id'])
                 group_name = group[0].name
                 request.POST['group'] = group[0].id

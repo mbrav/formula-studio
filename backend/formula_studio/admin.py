@@ -1,9 +1,11 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
-from .models import (Group, GroupCategory, Instructor, ItemCategory,
-                     ItemPurchase, Member, Payment, Signup, SingleVisit,
+from .models import (EventCategory, Instructor, ItemCategory, ItemPurchase,
+                     Member, Payment, ScheduleEvent, Signup, SingleVisit,
                      Subscription, SubscriptionCategory, SubscriptionExtension,
                      SubscriptionVisit)
+from .models import User
 
 admin.site.site_header = "Formula Studio"
 admin.site.site_title = "Formula Studio"
@@ -16,6 +18,8 @@ admin.site.index_title = "The best CMS ever written!"
 # class MemberInline(admin.StackedInline):
 #     model = Member
 #     max_num=1
+
+admin.site.register(User, UserAdmin)
 
 
 class SingleVisitInline(admin.TabularInline):
@@ -32,8 +36,6 @@ class ItemPurchaseInline(admin.TabularInline):
     model = ItemPurchase
     max_num = 3
 
-
-# Register your models here.
 
 @admin.register(Instructor)
 class Instructor(admin.ModelAdmin):
@@ -73,11 +75,6 @@ class MemberAdmin(admin.ModelAdmin):
         'first_name'
     )
 
-    # list_filter = ('status', 'created', 'publish', 'author')
-    # prepopulated_fields = {'slug': ('title',)}
-    # raw_id_fields = ('author',)
-    # date_hierarchy = 'publish'
-
     ordering = (
         'last_name',
         'first_name',
@@ -91,7 +88,7 @@ class SignupAdmin(admin.ModelAdmin):
         'created_at',
         'last_name',
         'first_name',
-        'group',
+        'schedule_event',
         'single_visit',
         'subscription_visit',
         'id'
@@ -100,7 +97,7 @@ class SignupAdmin(admin.ModelAdmin):
     search_fields = (
         'last_name',
         'first_name',
-        'group',
+        'schedule_event',
     )
 
     list_editable = [
@@ -108,17 +105,12 @@ class SignupAdmin(admin.ModelAdmin):
         'subscription_visit'
     ]
 
-    # list_filter = ('status', 'created', 'publish', 'author')
-    # prepopulated_fields = {'slug': ('title',)}
-    # raw_id_fields = ('author',)
-    # date_hierarchy = 'publish'
-
     ordering = (
         '-created_at',
     )
 
     readonly_fields = ['last_name', 'first_name',
-                       'mobile_number', 'email', 'group_google_cal_id']
+                       'mobile_number', 'email', 'event_google_cal_id']
 
 
 @admin.register(Payment)
@@ -157,12 +149,11 @@ class PaymentAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(GroupCategory)
-class GroupCategoryAdmin(admin.ModelAdmin):
+@admin.register(EventCategory)
+class EventCategoryAdmin(admin.ModelAdmin):
     list_per_page = 50
     list_display = (
         'name',
-        'number_of_groups',
         'id',
     )
 
@@ -174,11 +165,9 @@ class GroupCategoryAdmin(admin.ModelAdmin):
         'name',
     )
 
-    readonly_fields = ['number_of_groups']
 
-
-@admin.register(Group)
-class GroupAdmin(admin.ModelAdmin):
+@admin.register(ScheduleEvent)
+class ScheduleEventAdmin(admin.ModelAdmin):
     list_per_page = 50
     list_display = (
         'date',
@@ -254,7 +243,6 @@ class SubscriptionAdmin(admin.ModelAdmin):
 @admin.register(SubscriptionExtension)
 class SubscriptionExtensionAdmin(admin.ModelAdmin):
     list_per_page = 50
-    # date_hierarchy = 'date'
     list_display = (
         'date',
         'subscription',
@@ -278,7 +266,7 @@ class SubscriptionVisitAdmin(admin.ModelAdmin):
 
     ordering = (
         '-id',
-        'group',
+        'subscription',
     )
 
 
@@ -287,21 +275,21 @@ class SingleVisitAdmin(admin.ModelAdmin):
     list_per_page = 100
     list_display = (
         'member',
-        'group',
+        'schedule_event',
         'id',
     )
 
     ordering = (
         '-id',
-        'group',
+        'schedule_event',
     )
 
     search_fields = (
-        'group',
+        'schedule_event',
     )
 
     list_editable = [
-        'group',
+        'schedule_event',
     ]
 
 

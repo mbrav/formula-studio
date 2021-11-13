@@ -1,21 +1,11 @@
 from datetime import timedelta
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 
 
-class UserProfile(models.Model):
-
-    first_name = models.CharField(
-        ('First Name'),
-        max_length=50,
-    )
-
-    last_name = models.CharField(
-        ('Last Name'),
-        max_length=50,
-    )
+class User(AbstractUser):
 
     mobile_number = models.CharField(
         ('Mobile Number'),
@@ -24,8 +14,8 @@ class UserProfile(models.Model):
     )
 
     email = models.EmailField(
-        null=True,
-        blank=True,
+        ('Email address'),
+        unique=True,
     )
 
     description = models.TextField(
@@ -46,17 +36,16 @@ class UserProfile(models.Model):
     #     blank=True,
     # )
 
+    # USERNAME_FIELD = 'email'
+    # REQUIRED_FIELDS = []
+
     class Meta:
         verbose_name = 'User Profile'
         verbose_name_plural = 'User Profiles'
         ordering = ('last_name', 'first_name')
-        indexes = [
-            models.Index(fields=['last_name', 'first_name']),
-            models.Index(fields=['first_name'], name='first_name_idx'),
-        ]
 
 
-class Instructor(UserProfile):
+class Instructor(User):
 
     class Meta:
         verbose_name = 'Instructor'
@@ -67,7 +56,7 @@ class Instructor(UserProfile):
         return "%s %s" % (self.last_name, self.first_name, )
 
 
-class Member(UserProfile):
+class Member(User):
     # Count class visit stats for the member
 
     class Meta:
@@ -134,18 +123,17 @@ class Signup(models.Model):
         null=True,
     )
 
-    group = models.ForeignKey(
-        'Group',
+    schedule_event = models.ForeignKey(
+        'ScheduleEvent',
         on_delete=models.CASCADE,
         related_name='signups',
-        help_text='Group to which to assign this signup',
+        help_text='Class to which to assign this signup',
         blank=True,
         null=True,
-        # unique=True,
     )
 
-    group_google_cal_id = models.CharField(
-        ('Group Google Calendar ID'),
+    event_google_cal_id = models.CharField(
+        ('Class Google Calendar ID'),
         max_length=50,
         blank=True,
     )
@@ -232,7 +220,7 @@ class Payment(models.Model):
 # TODO: ADD ENCASHMENT MODEL
 
 
-class GroupCategory(models.Model):
+class EventCategory(models.Model):
 
     name = models.CharField(max_length=60)
 
@@ -245,18 +233,18 @@ class GroupCategory(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'Group Category'
-        verbose_name_plural = 'Group Categories'
+        verbose_name = 'Class Category'
+        verbose_name_plural = 'Class Categories'
         ordering = ('name',)
 
-    def number_of_groups(self):
-        return self.group.all().count()
+    def number_of_classes(self):
+        return self.schedule_event.all().count()
 
     def __str__(self):
         return "%s" % (self.name)
 
 
-class Group(models.Model):
+class ScheduleEvent(models.Model):
 
     name = models.CharField(max_length=100)
     date = models.DateTimeField()
@@ -270,16 +258,16 @@ class Group(models.Model):
 
     instructor = models.ForeignKey(
         Instructor,
-        related_name='groups',
+        related_name='schedule_event',
         on_delete=models.CASCADE,
-        help_text='Groups that the instructor leads',
+        help_text='Classes that the instructor leads',
     )
 
     category = models.ForeignKey(
-        GroupCategory,
-        related_name='group',
+        EventCategory,
+        related_name='schedule_event',
         on_delete=models.CASCADE,
-        help_text='Category of the group',
+        help_text='Category of the class',
         # unique=True,
     )
 
@@ -287,8 +275,8 @@ class Group(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'Group'
-        verbose_name_plural = 'Groups'
+        verbose_name = 'Class'
+        verbose_name_plural = 'classes'
         ordering = ('-date',)
 
     def __str__(self):
@@ -430,8 +418,8 @@ class SubscriptionExtension(models.Model):
 
 class SubscriptionVisit(models.Model):
 
-    group = models.ForeignKey(
-        'Group',
+    schedule_event = models.ForeignKey(
+        ScheduleEvent,
         related_name='subscription_visits',
         on_delete=models.CASCADE,
         # unique=True,
@@ -451,13 +439,13 @@ class SubscriptionVisit(models.Model):
     class Meta:
         verbose_name = 'Subscription Visit'
         verbose_name_plural = 'subscription Visits'
-        ordering = ('-group__date',)
+        ordering = ('-schedule_event__date',)
 
     def date(self):
-        return self.group.date
+        return self.schedule_event.date
 
     def __str__(self):
-        return "%s" % (self.group)
+        return "%s" % (self.schedule_event)
 
 
 class SingleVisit(models.Model):
@@ -469,11 +457,11 @@ class SingleVisit(models.Model):
         help_text='Payment to which the single visit is registered to',
     )
 
-    group = models.ForeignKey(
-        Group,
+    schedule_event = models.ForeignKey(
+        ScheduleEvent,
         related_name='single_visits',
         on_delete=models.CASCADE,
-        help_text='Group to which the single visit is registered to',
+        help_text='Class to which the single visit is registered to',
         # unique=True,
     )
 
