@@ -48,12 +48,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Apps
+    'App',
     'formula_studio',
     'api',
 
     # Third-party
-    'django_celery_beat',
-    'django_celery_results',
     'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',
@@ -123,19 +122,6 @@ DATABASES = {
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'App', 'fixtures'),
 ]
-
-# Celery settings
-
-BROKER_USER = env('BROKER_USER')
-BROKER_PASSWORD = env('BROKER_PASSWORD')
-BROKER_HOST = env('BROKER_HOST')
-BROKER_PORT = env('BROKER_PORT')
-
-CELERY_BROKER_URL = f'amqp://{BROKER_USER}:{BROKER_PASSWORD}@{BROKER_HOST}:{BROKER_PORT}//'
-CELERY_TIMEZONE = env('TIME_ZONE')
-CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_RESULT_BACKEND = 'django-db'
 
 # REST config
 

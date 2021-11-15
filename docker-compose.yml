@@ -1,22 +1,6 @@
 version: "3"
 
 services:
-    rabbitmq:
-        container_name: formula-studio-rabbitmq
-        image: rabbitmq:management-alpine
-        restart: "on-failure"
-        ports:
-            - "${BROKER_PORT}:5672"
-            - "15672:15672"
-        volumes:
-            - ./docker/data/rabbitmq/:/var/lib/rabbitmq/
-            - ./docker/log/rabbitmq/:/var/log/rabbitmq/
-        environment:
-            - RABBITMQ_DEFAULT_USER=${BROKER_USER}
-            - RABBITMQ_DEFAULT_PASS=${BROKER_PASSWORD}
-        networks:
-            - main
-
     postgres:
         container_name: formula-studio-postgres
         image: postgres:alpine
@@ -74,36 +58,6 @@ services:
         depends_on:
             - app
             - postgres
-        networks:
-            - main
-
-    celery_worker:
-        command: sh -c "celery -A App worker --concurrency=2"
-        container_name: formula-studio-celery_worker
-        restart: "on-failure"
-        depends_on:
-            - app
-            - postgres
-            - rabbitmq
-        deploy:
-            replicas: 1
-            restart_policy:
-                condition: on-failure
-        hostname: celery_worker
-        image: app-image
-        networks:
-            - main
-
-    celery_beat:
-        command: sh -c "celery -A App beat --scheduler django_celery_beat.schedulers:DatabaseScheduler"
-        container_name: formula-studio-celery_beat
-        restart: "on-failure"
-        depends_on:
-            - app
-            - postgres
-            - rabbitmq
-        hostname: celery_beat
-        image: app-image
         networks:
             - main
 

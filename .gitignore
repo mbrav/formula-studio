@@ -81,13 +81,12 @@ models.pdf
 *.backup
 rabbitmq/
 *.sqlite3
-backend/celerybeat-schedule
 
-# Jupyter notebook, scripts and tests #
+
+# Jupyter notebooks and scripts #
 jupyter-notes/
-backend/formula_studio/tests/credentials.json
-backend/formula_studio/tests/token.json
-backend/formula_studio/tests/event-list.txt
+backend/App/management/commands/auth/*
+backend/App/management/commands/data/*
 
 # Node #
 node_modules/

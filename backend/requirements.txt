@@ -1,7 +1,4 @@
-celery
 Django
-django-celery-beat
-django-celery-results
 django-cors-headers
 django-environ
 django-extensions
@@ -11,6 +8,3 @@ google-auth-oauthlib
 gunicorn
 # psycopg2
 # Pillow
-
-#dev
-coverage
