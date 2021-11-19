@@ -4,8 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 from .models import (EventCategory, Instructor, ItemCategory, ItemPurchase,
                      Member, Payment, ScheduleEvent, Signup, SingleVisit,
                      Subscription, SubscriptionCategory, SubscriptionExtension,
-                     SubscriptionVisit)
-from .models import User
+                     SubscriptionVisit, User)
 
 admin.site.site_header = "Formula Studio"
 admin.site.site_title = "Formula Studio"

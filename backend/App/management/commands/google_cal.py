@@ -1,19 +1,28 @@
-import datetime
-import os.path
+import os
+from datetime import datetime, timedelta
+from pathlib import Path
 
 import pytz
-from dateutil.relativedelta import relativedelta
 from django.conf import settings
+from django.core.management.base import BaseCommand
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
-from api.models import Group, GroupCategory, Instructor
+from formula_studio.models import EventCategory, Instructor, ScheduleEvent
 
 local_timezone = pytz.timezone(settings.TIME_ZONE)
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
-base_test_dir = 'api/tests/'
+
+# Find the project base directory
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FILE_PATH = os.path.abspath(__file__)
+# Specify number of directories to go up from current file
+PATH_UP = 3
+BASE_DIR = str(Path(FILE_PATH).parents[PATH_UP])
+auth_path = '/App/management/commands/auth/'
+data_path = '/App/management/commands/data/'
 
 
 def get_events():
@@ -24,25 +33,25 @@ def get_events():
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists(base_test_dir + 'token.json'):
+    if os.path.exists(BASE_DIR + auth_path + 'token.json'):
         creds = Credentials.from_authorized_user_file(
-            base_test_dir + 'token.json', SCOPES)
+            BASE_DIR + auth_path + 'token.json', SCOPES)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                base_test_dir + 'credentials.json', SCOPES)
+                BASE_DIR + auth_path + 'credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open(base_test_dir + 'token.json', 'w') as token:
+        with open(BASE_DIR + auth_path + 'token.json', 'w') as token:
             token.write(creds.to_json())
 
     service = build('calendar', 'v3', credentials=creds)
 
     # Call the Calendar API
-    now = datetime.datetime.now() + relativedelta(months=-1)
+    now = datetime.now() - timedelta(days=30)
     now = now.isoformat() + 'Z'  # 'Z' indicates UTC time
     print('Fetching events')
 
@@ -60,7 +69,7 @@ def get_events():
 
 def save_events_to_file():
     events = get_events()
-    file = open(base_test_dir + 'event-list.csv', 'w')
+    file = open(BASE_DIR + data_path + 'event-list.csv', 'w')
     for event in events:
         id = event['id']
         start = event['start'].get('dateTime', event['start'].get('date'))
@@ -71,24 +80,24 @@ def save_events_to_file():
 
 def create_events():
     events = get_events()
-    instruct = Instructor.objects.get(pk=1)
-    group_category = GroupCategory.objects.get(pk=1)
+    instruct = Instructor.objects.get(pk=2)
+    event_category = EventCategory.objects.get(pk=1)
 
     created_events = 0
     for event in events:
         id = event['id']
-        if not Group.objects.filter(google_cal_id=id):
+        if not ScheduleEvent.objects.filter(google_cal_id=id):
             event_date = event['start'].get('dateTime')
             print("Event does not exist, creating: ",
                   event['summary'], event_date)
-            new_group = Group(
+            new_event = ScheduleEvent(
                 google_cal_id=id,
                 name=event['summary'],
                 date=event_date,
-                category=group_category,
+                category=event_category,
                 instructor=instruct
             )
-            new_group.save()
+            new_event.save()
             created_events += 1
     msg = 'Created' + str(create_events) + 'events.'
     return(msg)
@@ -99,26 +108,61 @@ def update_events():
     updated_events = 0
     for event in events:
         id = event['id']
-        group_db = Group.objects.get(google_cal_id=id)
-        event_date = datetime.datetime.fromisoformat(
+        event_db = ScheduleEvent.objects.get(google_cal_id=id)
+        event_date = datetime.fromisoformat(
             event['start'].get('dateTime', event['start'].get('date')))
 
         # Django stores dates in UTC when USE_TZ = True in settings
         # Hence conversion is necessary, but when saving, Django handles things automatically
         # https://stackoverflow.com/a/14714819
-        group_db_local_date = group_db.date.replace(
+        event_db_local_date = event_db.date.replace(
             tzinfo=pytz.utc).astimezone(local_timezone)
 
-        if group_db_local_date != event_date:
+        if event_db_local_date != event_date:
             print("Event time change, updating",
-                  group_db_local_date, "to", event_date)
-            group_db.date = event_date
-            group_db.save()
+                  event_db_local_date, "to", event_date)
+            event_db.date = event_date
+            event_db.save()
 
-        if group_db.name != event['summary']:
+        if event_db.name != event['summary']:
             print("Event name change, updating",
-                  group_db.name, "to", event['summary'])
-            group_db.name = event['summary']
-            group_db.save()
+                  event_db.name, "to", event['summary'])
+            event_db.name = event['summary']
+            event_db.save()
     msg = 'Updated ' + str(updated_events) + ' events.'
     return(msg)
+
+
+class Command(BaseCommand):
+    """Google Cal Command"""
+
+    def add_arguments(self, parser):
+        """Optional arguments"""
+        parser.add_argument('-g', '--get', action='store_true',
+                            help='Get Events and create Google auth creds if necessary', )
+        parser.add_argument('-s', '--save', action='store_true',
+                            help='Save Events to file', )
+        parser.add_argument('-c', '--create', action='store_true',
+                            help='Create Events in db', )
+        parser.add_argument('-u', '--update', action='store_true',
+                            help='Update Events in db', )
+
+    def handle(self, *args, **kwargs):
+        """Handle the command"""
+
+        get = kwargs['get']
+        save = kwargs['save']
+        create = kwargs['create']
+        update = kwargs['update']
+        if get:
+            get_events()
+        if save:
+            save_events_to_file()
+        if create:
+            create_events()
+        if update:
+            update_events()
+
+        if (get or save or create or update) is not True:
+            create_events()
+            update_events()
