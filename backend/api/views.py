@@ -1,4 +1,5 @@
 from rest_framework import filters, status, viewsets
+from rest_framework.decorators import action
 from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
 from rest_framework.response import Response
@@ -23,6 +24,12 @@ class ScheduleEventViewSet(viewsets.ModelViewSet):
     ]
 
     filter_backends = (filters.SearchFilter,)
+
+    @action(detail=True, methods=['get'])
+    def stats(self, request):
+        obj = self.get_object()
+        serializer = self.get_serializer(obj)
+        return Response(serializer.data)
 
     def get_queryset(self, *args, **kwargs):
         user_id = self.kwargs.get('user_id')

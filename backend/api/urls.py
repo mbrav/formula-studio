@@ -1,13 +1,18 @@
 from django.urls import include, path
+from django.conf.urls import url
 from rest_framework import routers
+from rest_framework_swagger.views import get_swagger_view
 
 from . import views
 from .views import *
 
+schema_view = get_swagger_view(title='Formula Studio API')
+
+
 router = routers.DefaultRouter()
 router.register('class-categories', EventCategoryViewSet,
                 basename='class_categories')
-router.register(r'class-categories/(?P<cat_id>\d+)/',
+router.register(r'class-categories/(?P<cat_id>\d+)',
                 ScheduleEventViewSet, basename='class_category')
 router.register('classes', ScheduleEventViewSet, basename='classes')
 router.register(r'classes/(?P<class_id>\d+)/signups',
@@ -30,6 +35,7 @@ router.register('purchases', ItemPurchaseViewSet, basename='purchases')
 
 urlpatterns = [
     path('', include(router.urls)),
+    url(r'docs/', schema_view, name='swagger-ui'),
 ]
 
 # DEBUG
